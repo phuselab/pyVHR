@@ -1,10 +1,9 @@
-![pyVHR](https://github.com/phuselab/VHR/blob/master/img/pyVHR-logo.png)
+![pyVHR](https://github.com/phuselab/pyVHR/blob/master/img/pyVHR-logo.png)
 
 ---
 
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/jacebrowning/minilog.svg)](https://scrutinizer-ci.com/g/jacebrowning/minilog/?branch=develop)
-[![PyPI Version](https://img.shields.io/pypi/v/minilog.svg)](https://pypi.org/project/minilog)
-[![PyPI License](https://img.shields.io/pypi/l/minilog.svg)](https://pypi.org/project/minilog) 
+![GitHub last commit](https://img.shields.io/github/last-commit/phuselab/pyVHR)
+[![GitHub license](https://img.shields.io/github/license/phuselab/pyVHR)](https://github.com/phuselab/pyVHR/blob/master/LICENSE)
 
 ## Description
 
@@ -20,6 +19,7 @@ pyVHR allows to easily handle rPPGmethods  and  data,  while  simplifying  the  
 
 Eight well-known rPPG methods, namely  *ICA*,  *PCA*, *GREEN,CHROM*, *POS*, *SSR*, *LGI*, *PBV*, are evaluated through extensive experiments across five public video datasets,  i.e. *PURE*, *LGI*, *USBC*, *MAHNOB* and *COHFACE*, and subsequent nonparametric statistical analysis.  
 
+![pyVHR](img/frameworkVHR.png)
 
 ## Installation
 
@@ -37,26 +37,18 @@ $ python setup.py install
 
 ## Usage
 
-To user this framework .... :
+The `notebooks` folder contains three different Jupyter notebooks:
 
-```python
-import pyvhr 
+**Basic usage**
 
-TODO
+**Extend the framework**
 
-```
-
-with this package you can simply:
-
-```python
-TODO
-```
-
-It will produce the exact same standard library `logging` records behind the scenes.
+**Statistical analysis**  
+Includes statistical analysis and the results presented in the paper (see [Reference](#reference)) applying all the available methods on six different datasets.  
 
 ## Methods
 
-The framework contains the implementation of the most common methods for remote-PPG measurement. 
+The framework contains the implementation of the most common methods for remote-PPG measurement, and are located in the `methods` folder.  
 Currently implemented methods with reference publications are:
 
 **Green**
@@ -85,8 +77,7 @@ Currently implemented methods with reference publications are:
 
 ## Datasets
 
-Interfaces for six different datasets are provided in the `datasets` folder. Once the datasets are obtained, the respective files must be edited to match the correct path.
-
+Interfaces for six different datasets are provided in the `datasets` folder. Once the datasets are obtained, the respective files must be edited to match the correct path.  
 Currently supported datasets are:
 
 **COHFACE**
@@ -107,9 +98,6 @@ Currently supported datasets are:
 **UBFC2**
 > https://sites.google.com/view/ybenezeth/ubfcrppg
 
-## Statistical analysis
-
-A Jupyter Notebook that includes statistical analysis of the results obtained applying all the available methods on six different datasets can be found in the `notebooks` folder. 
 
 ## Reference
 
