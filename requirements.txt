@@ -14,7 +14,7 @@ idna==2.8
 ipaddr==2.2.0
 ipywidgets==7.5.1
 lockfile==0.12.2
-matplotlib==3.2.2
+matplotlib==3.2.0
 msgpack==0.6.2
 mtcnn==0.1.0
 numpy==1.19.1
@@ -38,3 +38,4 @@ six==1.14.0
 statsmodels==0.11.1
 urllib3==1.25.8
 webencodings==0.5.1
+opencv-python
