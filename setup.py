@@ -16,5 +16,5 @@ setuptools.setup(
     url="https://github.com/phuselab/pyVHR",
     packages=setuptools.find_packages(),
     python_requires='>=3.6',
-#    install_requires=reqs
+    install_requires=reqs
 )
