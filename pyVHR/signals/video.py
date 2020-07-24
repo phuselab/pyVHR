@@ -219,11 +219,11 @@ class Video:
             
     def printROIInfo(self):
         print('      ROI type: ' + self.typeROI)
-        if self.typeROI is 'rect':
+        if self.typeROI == 'rect':
             print('   Rect coords: ' + str(self.rectCoords))
-        elif self.typeROI is 'skin_fix':
+        elif self.typeROI == 'skin_fix':
             print('   Skin thresh: ' + str(self.skinThresh_fix))
-        elif self.typeROI is 'skin_adapt':
+        elif self.typeROI == 'skin_adapt':
             print('   Skin thresh: ' + str(self.skinThresh_adapt))
 
     def showVideo(self):
@@ -240,7 +240,7 @@ class Video:
             else:
                 face = self.processedFaces[idx]
 
-            if self.typeROI is 'rect':
+            if self.typeROI == 'rect':
                 plt.imshow(face, interpolation='nearest')
                 
                 ax = plt.gca()                
@@ -250,7 +250,7 @@ class Video:
                             coord[2],coord[3],linewidth=1,edgecolor='y',facecolor='none')
                     ax.add_patch(rect)
 
-            elif self.typeROI is 'skin_fix':
+            elif self.typeROI == 'skin_fix':
                 lower = np.array([0, self.skinThresh_fix[0], self.skinThresh_fix[1]], dtype = "uint8")
                 upper = np.array([20, 255, 255], dtype = "uint8")
                 converted = cv2.cvtColor(face, cv2.COLOR_RGB2HSV)
@@ -258,7 +258,7 @@ class Video:
                 skinFace = cv2.bitwise_and(face, face, mask=skinMask)                
                 plt.imshow(skinFace, interpolation='nearest')
                 
-            elif self.typeROI is 'skin_adapt':     
+            elif self.typeROI == 'skin_adapt':     
                 sd = SkinDetect(strength=self.skinThresh_adapt)
                 sd.compute_stats(face)
                 skinFace = sd.get_skin(face, filt_kern_size=7, verbose=False, plot=False)     
@@ -603,7 +603,7 @@ class Video:
 
         for roi in rectRegions:
 
-            if roi is 'forehead':
+            if roi == 'forehead':
                 if self.detector == 'dlib':
                     x_f = int(w * .34)
                     y_f = int(h * .05)
@@ -618,7 +618,7 @@ class Video:
 
                 coords.append([x_f, y_f, w_f, h_f])
 
-            elif roi is 'lcheek':
+            elif roi == 'lcheek':
                 if self.detector == 'dlib':
                     x_c = int(w * .22)
                     y_c = int(h * .40)
@@ -633,7 +633,7 @@ class Video:
 
                 coords.append([x_c, y_c, w_c, h_c])
 
-            elif roi is 'rcheek':
+            elif roi == 'rcheek':
                 if self.detector == 'dlib':
                     x_c = int(w * .64)
                     y_c = int(h * .40)
@@ -648,7 +648,7 @@ class Video:
 
                 coords.append([x_c, y_c, w_c, h_c])
 
-            elif roi is 'nose':
+            elif roi == 'nose':
                 if self.detector == 'dlib':
                     x_c = int(w * .40)
                     y_c = int(h * .35)
