@@ -35,12 +35,18 @@ $ python setup.py install
 
 The `notebooks` folder contains three different Jupyter notebooks:
 
-**Basic usage**
+**Basic usage**  
+Shows the basic steps to process video for heart rate estimation trough remote PPG methods.  
+[Notebook](#here)
 
-**Extend the framework**
+**Extend the framework**  
+This notebook shows how to extend the framework with additional datasets and methods.  
+[Notebook](#here)
 
 **Statistical analysis**  
 Includes statistical analysis and the results presented in the paper (see [Reference](#reference)) applying all the available methods on six different datasets.  
+[Notebook](#here)
+
 
 ## Methods
 
