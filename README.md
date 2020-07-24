@@ -1,25 +1,23 @@
-![pyVHR](https://github.com/phuselab/VHR/blob/master/img/pyVHR-logo.png)
+![pyVHR](https://raw.githubusercontent.com/phuselab/pyVHR/master/img/pyVHR-logo.png)
 
 ---
 
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/jacebrowning/minilog.svg)](https://scrutinizer-ci.com/g/jacebrowning/minilog/?branch=develop)
-[![PyPI Version](https://img.shields.io/pypi/v/minilog.svg)](https://pypi.org/project/minilog)
-[![PyPI License](https://img.shields.io/pypi/l/minilog.svg)](https://pypi.org/project/minilog) 
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyvhr)
+![PyPI](https://img.shields.io/pypi/v/pyvhr)
+![GitHub last commit](https://img.shields.io/github/last-commit/phuselab/pyVHR)
+[![GitHub license](https://img.shields.io/github/license/phuselab/pyVHR)](https://github.com/phuselab/pyVHR/blob/master/LICENSE)
 
 ## Description
 
-**Package pyVHR** (short for Python tool for Virtual Heart Rate) is a comprehensive framework for studying methods of pulse rate estimation relying on remote photoplethysmography (rPPG). The methodological rationale behind the framework is that in order to study, develop and compare new rPPG methods in a principled and reproducible way, the following conditions should be met:
-- a structured pipeline to monitor rPPG algorithms' input, output, and main control parameters
-- the availability and the use of multiple datasets
-- a sound statistical assessment of methods' performance.
-
+**Package pyVHR** (short for Python framework for Virtual Heart Rate) is a comprehensive framework for studying methods of pulse rate estimation relying on remote photoplethysmography (rPPG). The methodological rationale behind the framework is that in order to study, develop and compare new rPPG methods in a principled and reproducible way, the following conditions should be met: *i)* a structured pipeline to monitor rPPG algorithms' input, output, and main control parameters; *ii)* the availability and the use of multiple datasets; *iii)* a sound statistical assessment of methods' performance.
 pyVHR allows to easily handle rPPGmethods  and  data,  while  simplifying  the  statistical  assessment. Its main features lie in the following.
-- **Analysis-oriented**. It  constitutes  a  platform  for  experi-ment design, involving an arbitrary number of methods ap-plied to multiple video datasets. It provides a systemic end-to-end  pipeline,  allowing  to  assess  different  rPPG  algo-rithms, by easily setting parameters and meta-parameters.
-- **Openness**. It comprises both method and dataset factory,so to easily extend the pool of elements to be evaluatedwith newly developed rPPG methods and any kind of videodatasets.
-- **Robust assessment**. The   outcomes   are   arranged   intostructured data ready for in-depth analyses. Performance comparison is carried out based on robust non-parametricstatistical tests.
+- **Analysis-oriented**. It  constitutes  a  platform  for  experiment design, involving an arbitrary number of methods applied to multiple video datasets. It provides a systemic end-to-end  pipeline,  allowing  to  assess  different  rPPG  algorithms, by easily setting parameters and meta-parameters.
+- **Openness**. It comprises both method and dataset factory, so to easily extend the pool of elements to be evaluatedwith newly developed rPPG methods and any kind of videodatasets.
+- **Robust assessment**. The outcomes are arranged intostructured data ready for in-depth analyses. Performance comparison is carried out based on robust nonparametric statistical tests.
 
 Eight well-known rPPG methods, namely  *ICA*,  *PCA*, *GREEN,CHROM*, *POS*, *SSR*, *LGI*, *PBV*, are evaluated through extensive experiments across five public video datasets,  i.e. *PURE*, *LGI*, *USBC*, *MAHNOB* and *COHFACE*, and subsequent nonparametric statistical analysis.  
 
+![pyVHR](https://raw.githubusercontent.com/phuselab/pyVHR/master/img/frameworkVHR.png)
 
 ## Installation
 
@@ -37,26 +35,24 @@ $ python setup.py install
 
 ## Usage
 
-To user this framework .... :
+The `notebooks` folder contains three different Jupyter notebooks:
 
-```python
-import pyvhr 
+**Basic usage**  
+Shows the basic steps to process video for heart rate estimation trough remote PPG methods.  
+[Notebook](#here)
 
-TODO
+**Extend the framework**  
+This notebook shows how to extend the framework with additional datasets and methods.  
+[Notebook](#here)
 
-```
+**Statistical analysis**  
+Includes statistical analysis and the results presented in the paper (see [Reference](#reference)) applying all the available methods on six different datasets.  
+[Notebook](#here)
 
-with this package you can simply:
-
-```python
-TODO
-```
-
-It will produce the exact same standard library `logging` records behind the scenes.
 
 ## Methods
 
-The framework contains the implementation of the most common methods for remote-PPG measurement. 
+The framework contains the implementation of the most common methods for remote-PPG measurement, and are located in the `methods` folder.  
 Currently implemented methods with reference publications are:
 
 **Green**
@@ -85,8 +81,7 @@ Currently implemented methods with reference publications are:
 
 ## Datasets
 
-Interfaces for six different datasets are provided in the `datasets` folder. Once the datasets are obtained, the respective files must be edited to match the correct path.
-
+Interfaces for six different datasets are provided in the `datasets` folder. Once the datasets are obtained, the respective files must be edited to match the correct path.  
 Currently supported datasets are:
 
 **COHFACE**
@@ -107,9 +102,6 @@ Currently supported datasets are:
 **UBFC2**
 > https://sites.google.com/view/ybenezeth/ubfcrppg
 
-## Statistical analysis
-
-A Jupyter Notebook that includes statistical analysis of the results obtained applying all the available methods on six different datasets can be found in the `notebooks` folder. 
 
 ## Reference
 
