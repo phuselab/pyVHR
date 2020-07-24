@@ -2,6 +2,8 @@
 
 ---
 
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyvhr)
+![PyPI](https://img.shields.io/pypi/v/pyvhr)
 ![GitHub last commit](https://img.shields.io/github/last-commit/phuselab/pyVHR)
 [![GitHub license](https://img.shields.io/github/license/phuselab/pyVHR)](https://github.com/phuselab/pyVHR/blob/master/LICENSE)
 
