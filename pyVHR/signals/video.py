@@ -602,7 +602,7 @@ class Video:
         coords = []
 
         for roi in rectRegions:
-
+            print(self.detector)
             if roi is 'forehead':
                 if self.detector == 'dlib':
                     x_f = int(w * .34)
