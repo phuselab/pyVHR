@@ -1,4 +1,4 @@
-![pyVHR](https://github.com/phuselab/pyVHR/blob/master/img/pyVHR-logo.png)
+![pyVHR](https://raw.githubusercontent.com/phuselab/pyVHR/master/img/pyVHR-logo.png)
 
 ---
 
@@ -19,7 +19,7 @@ pyVHR allows to easily handle rPPGmethods  and  data,  while  simplifying  the  
 
 Eight well-known rPPG methods, namely  *ICA*,  *PCA*, *GREEN,CHROM*, *POS*, *SSR*, *LGI*, *PBV*, are evaluated through extensive experiments across five public video datasets,  i.e. *PURE*, *LGI*, *USBC*, *MAHNOB* and *COHFACE*, and subsequent nonparametric statistical analysis.  
 
-![pyVHR](img/frameworkVHR.png)
+![pyVHR](https://raw.githubusercontent.com/phuselab/pyVHR/master/img/frameworkVHR.png)
 
 ## Installation
 
