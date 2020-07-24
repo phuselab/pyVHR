@@ -7,8 +7,7 @@
 
 ## Description
 
-**Package pyVHR** (short for Python tool for Virtual Heart Rate) is a comprehensive framework for studying methods of pulse rate estimation relying on remote photoplethysmography (rPPG). The methodological rationale behind the framework is that in order to study, develop and compare new rPPG methods in a principled and reproducible way, the following conditions should be met: i) a structured pipeline to monitor rPPG algorithms' input, output, and main control parameters; ii) the availability and the use of multiple datasets; iii) a sound statistical assessment of methods' performance.
-
+**Package pyVHR** (short for Python tool for Virtual Heart Rate) is a comprehensive framework for studying methods of pulse rate estimation relying on remote photoplethysmography (rPPG). The methodological rationale behind the framework is that in order to study, develop and compare new rPPG methods in a principled and reproducible way, the following conditions should be met: *i)* a structured pipeline to monitor rPPG algorithms' input, output, and main control parameters; *ii)* the availability and the use of multiple datasets; *iii)* a sound statistical assessment of methods' performance.
 pyVHR allows to easily handle rPPGmethods  and  data,  while  simplifying  the  statistical  assessment. Its main features lie in the following.
 - **Analysis-oriented**. It  constitutes  a  platform  for  experi-ment design, involving an arbitrary number of methods ap-plied to multiple video datasets. It provides a systemic end-to-end  pipeline,  allowing  to  assess  different  rPPG  algo-rithms, by easily setting parameters and meta-parameters.
 - **Openness**. It comprises both method and dataset factory,so to easily extend the pool of elements to be evaluatedwith newly developed rPPG methods and any kind of videodatasets.
