@@ -39,15 +39,15 @@ The `notebooks` folder contains three different Jupyter notebooks:
 
 **Basic usage**  
 Shows the basic steps to process video for heart rate estimation trough remote PPG methods.  
-[Notebook](#here)
+[[Source](https://github.com/phuselab/pyVHR/blob/master/notebooks/basic_demo.ipynb)] [[Demo](https://nbviewer.jupyter.org/github/phuselab/pyVHR/blob/master/notebooks/basic_demo.ipynb)]
 
 **Extend the framework**  
 This notebook shows how to extend the framework with additional datasets and methods.  
-[Notebook](#here)
+[[Source](https://github.com/phuselab/pyVHR/blob/master/notebooks/factory_demo.ipynb)] [[Demo](https://nbviewer.jupyter.org/github/phuselab/pyVHR/blob/master/notebooks/factory_demo.ipynb)]
 
 **Statistical analysis**  
 Includes statistical analysis and the results presented in the paper (see [Reference](#reference)) applying all the available methods on six different datasets.  
-[Notebook](#here)
+[[Source](https://github.com/phuselab/pyVHR/blob/master/notebooks/test_demo.ipynb)] [[Demo](https://nbviewer.jupyter.org/github/phuselab/pyVHR/blob/master/notebooks/test_demo.ipynb)]
 
 
 ## Methods
