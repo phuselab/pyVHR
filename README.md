@@ -21,7 +21,13 @@ Eight well-known rPPG methods, namely  *ICA*,  *PCA*, *GREEN,CHROM*, *POS*, *SSR
 
 ## Installation
 
-Install this library directly into an activated virtual environment:
+Install the dependency first:
+
+```text
+$ pip install numpy
+```
+
+then, install the library directly into an activated virtual environment:
 
 ```text
 $ pip install pyvhr
