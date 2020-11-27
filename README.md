@@ -3,9 +3,14 @@
 ---
 
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyvhr)
-![PyPI](https://img.shields.io/pypi/v/pyvhr)
+[![PyPI](https://img.shields.io/pypi/v/pyvhr)](https://pypi.org/project/pyVHR/)
 ![GitHub last commit](https://img.shields.io/github/last-commit/phuselab/pyVHR)
 [![GitHub license](https://img.shields.io/github/license/phuselab/pyVHR)](https://github.com/phuselab/pyVHR/blob/master/LICENSE)
+
+**Paper**  
+G. Boccignone, D. Conte, V. Cuculo, A. D’Amelio, G. Grossi and R. Lanzarotti, "An Open Framework for Remote-PPG Methods and their Assessment," in *IEEE Access*, doi: 10.1109/ACCESS.2020.3040936.
+
+https://ieeexplore.ieee.org/document/9272290
 
 ## Description
 
