@@ -120,7 +120,7 @@ If you use this code, please cite the paper:
   year = {2020},
   publisher = {Institute of Electrical and Electronics Engineers ({IEEE})},
   pages = {1--1},
-  author = {Giuseppe Boccignone and Donatello Conte and Vittorio Cuculo and Alessandro DrAmelio and Giuliano Grossi and Raffaella Lanzarotti},
+  author = {Giuseppe Boccignone and Donatello Conte and Vittorio Cuculo and Alessandro D’Amelio and Giuliano Grossi and Raffaella Lanzarotti},
   title = {An Open Framework for Remote-{PPG} Methods and their Assessment},
   journal = {{IEEE} Access}
 }
