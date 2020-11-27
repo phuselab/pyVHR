@@ -114,7 +114,15 @@ Currently supported datasets are:
 If you use this code, please cite the paper:
 
 ```
-@reference{
+@article{Boccignone2020,
+  doi = {10.1109/access.2020.3040936},
+  url = {https://doi.org/10.1109/access.2020.3040936},
+  year = {2020},
+  publisher = {Institute of Electrical and Electronics Engineers ({IEEE})},
+  pages = {1--1},
+  author = {Giuseppe Boccignone and Donatello Conte and Vittorio Cuculo and Alessandro DrAmelio and Giuliano Grossi and Raffaella Lanzarotti},
+  title = {An Open Framework for Remote-{PPG} Methods and their Assessment},
+  journal = {{IEEE} Access}
 }
 ```
 
