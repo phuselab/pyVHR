@@ -18,8 +18,6 @@ class MAHNOB(Dataset):
         |...
     """
     name = 'MAHNOB'
-    videodataDIR = '/var/data/VHR/Mahnob/'
-    SIGdataDIR = '/var/data/VHR/Mahnob/'
     signalGT = 'ECG'     # GT signal type
     numLevels = 2        # depth of the filesystem collecting video and BVP files
     numSubjects = 40     # number of subjects

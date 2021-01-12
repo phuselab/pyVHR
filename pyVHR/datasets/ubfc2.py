@@ -15,8 +15,6 @@ class UBFC2(Dataset):
         |       |-- vid.avi
     """
     name = 'UBFC2'
-    videodataDIR = '/var/data/VHR/UBFC/DATASET_2/'
-    SIGdataDIR = '/var/data/VHR/UBFC/DATASET_2/'
     signalGT = 'BVP'     # GT signal type
     numLevels = 2        # depth of the filesystem collecting video and BVP files
     numSubjects = 26     # number of subjects

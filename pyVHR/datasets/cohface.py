@@ -24,8 +24,6 @@ class COHFACE(Dataset):
         |...
     """
     name = 'COHFACE'
-    videodataDIR = '/var/data/VHR/cohface/data/'
-    SIGdataDIR = '/var/data/VHR/cohface/data/'
     signalGT = 'BVP'         # GT signal type
     numLevels = 2            # depth of the filesystem collecting video and BVP files
     numSubjects = 40         # number of subjects

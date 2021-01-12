@@ -1,5 +1,6 @@
 import os
-import dlib, skvideo.io
+import dlib, skvideo
+import skvideo.io
 import numpy as np
 import cv2
 import re
@@ -487,6 +488,8 @@ class Video:
             #from utils.FaceAligner import FaceAligner
             detector = MTCNN()
 
+            print("\nPerforming face detection...")
+
             h0 = None
             w0 = None
             crop = np.zeros([2,2,2])
@@ -546,6 +549,7 @@ class Video:
 
             old_detection = detection
             for i in range(skipped_frames,self.numFrames):
+                #print('\tFrame ' + str(i) + ' of ' + str(self.numFrames))
                 frame = video[i,:,:,:]
 
                 new_detection = detector.detect_faces(frame)
@@ -583,7 +587,8 @@ class Video:
                 self.faces[i,:,:,:] = crop.astype('uint8')
                 old_detection = new_detection
         
-                if self.verb: printutils.printProgressBar(i, self.numFrames, prefix = 'Processing:', suffix = 'Complete', length = 50)
+                #if self.verb: 
+                printutils.printProgressBar(i, self.numFrames, prefix = 'Processing:', suffix = 'Complete', length = 50)
         else:
 
             raise ValueError('Unrecognized Face detection method. Please use "dlib" or "mtcnn"')

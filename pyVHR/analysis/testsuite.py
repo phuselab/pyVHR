@@ -33,7 +33,8 @@ class TestSuite():
             self.__verbose('a')
             
         # -- dataset & cfg params
-        dataset = datasetFactory(self.videodict['dataset'])
+        #dataset = datasetFactory(self.videodict['dataset'])
+        dataset = datasetFactory(self.videodict['dataset'], videodataDIR=self.videodict['videodataDIR'], BVPdataDIR=self.videodict['BVPdataDIR'])
         
         # -- catch data (object)
         res = TestResult()

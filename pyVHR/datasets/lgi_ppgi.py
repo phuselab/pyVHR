@@ -6,7 +6,7 @@ from pyVHR.signals.bvp import BVPsignal
 
 class LGI_PPGI(Dataset):
     """
-    Alex dataset structure:
+    LGI-PPGI dataset structure:
     -----------------
         datasetDIR/
         |
@@ -19,8 +19,6 @@ class LGI_PPGI(Dataset):
             |-- videoFile1.avi
     """
     name = 'LGI_PPGI'
-    videodataDIR = '/var/data/VHR/LGI-PPGI/'
-    BVPdataDIR = '/var/data/VHR/LGI-PPGI/'
     signalGT = 'BVP'          # GT signal type
     numLevels = 2             # depth of the filesystem collecting video and BVP files
     numSubjects = 4           # number of subjects

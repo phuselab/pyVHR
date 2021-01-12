@@ -22,7 +22,6 @@ pandas==1.0.5
 pep517==0.8.2
 plotly==4.8.2
 progress==1.5
-pybdf==0.2.5
 pyparsing==2.4.6
 pytoml==0.1.21
 requests==2.22.0
@@ -37,3 +36,7 @@ statsmodels==0.11.1
 urllib3==1.25.8
 webencodings==0.5.1
 opencv-python
+tensorflow==2.2
+tables==3.6.1
+orange3==3.27.1
+pybdf==0.2.5

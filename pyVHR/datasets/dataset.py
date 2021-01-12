@@ -2,13 +2,15 @@ from abc import ABCMeta, abstractmethod
 import os
 from importlib import import_module
 
-def datasetFactory(datasetName, *args, **kwargs):
+#def datasetFactory(datasetName, *args, **kwargs):
+def datasetFactory(datasetName, videodataDIR, BVPdataDIR):
     try:
         moduleName = datasetName.lower()
         className = datasetName.upper()
         datasetModule = import_module('pyVHR.datasets.' + moduleName) #, package='pyVHR')
         classOBJ = getattr(datasetModule, className)
-        obj = classOBJ(*args, **kwargs)
+        #obj = classOBJ(*args, **kwargs)
+        obj = classOBJ(videodataDIR, BVPdataDIR)
 
     except (AttributeError, ModuleNotFoundError):
         raise ImportError('{} is not part of pyVHR dataset collection!'.format(datasetName))
@@ -19,11 +21,13 @@ class Dataset(metaclass=ABCMeta):
     """
     Manage datasets (parent class for new datasets)
     """
-    def __init__(self):
+    def __init__(self, videodataDIR=None, BVPdataDIR=None):
         # -- load filenames
         self.videoFilenames = []  # list of all video filenames
         self.sigFilenames = []    # list of all Sig filenames
         self.numVideos = 0        # num of videos in the dataset
+        self.videodataDIR = videodataDIR
+        self.BVPdataDIR = BVPdataDIR
         self.loadFilenames()
 
     def loadFilenames(self):
