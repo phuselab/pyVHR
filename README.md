@@ -70,7 +70,7 @@ Currently implemented methods with reference publications are:
 > Verkruysse, W., Svaasand, L. O., & Nelson, J. S. (2008). Remote plethysmographic imaging using ambient light. Optics express, 16(26), 21434-21445.
 
 **CHROM**
-> Benezeth, Y., Li, P., Macwan, R., Nakamura, K., Gomez, R., & Yang, F. (2018, March). Remote heart rate variability for emotional state monitoring. In 2018 IEEE EMBS International Conference on Biomedical & Health Informatics (BHI) (pp. 153-156). IEEE.
+> De Haan, G., & Jeanne, V. (2013). Robust pulse rate from chrominance-based rPPG. IEEE Transactions on Biomedical Engineering, 60(10), 2878-2886.
 
 **ICA**
 > Poh, M. Z., McDuff, D. J., & Picard, R. W. (2010). Non-contact, automated cardiac pulse measurements using video imaging and blind source separation. Optics express, 18(10), 10762-10774.
