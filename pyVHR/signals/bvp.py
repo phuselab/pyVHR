@@ -213,7 +213,6 @@ class BVPsignal:
                        
         fig.show()
 
-
     def findPeaks(self, distance=None, height=None):
         
         # -- take the first channel
