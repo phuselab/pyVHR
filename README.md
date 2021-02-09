@@ -3,9 +3,14 @@
 ---
 
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyvhr)
-![PyPI](https://img.shields.io/pypi/v/pyvhr)
+[![PyPI](https://img.shields.io/pypi/v/pyvhr)](https://pypi.org/project/pyVHR/)
 ![GitHub last commit](https://img.shields.io/github/last-commit/phuselab/pyVHR)
 [![GitHub license](https://img.shields.io/github/license/phuselab/pyVHR)](https://github.com/phuselab/pyVHR/blob/master/LICENSE)
+
+**Paper**  
+G. Boccignone, D. Conte, V. Cuculo, A. D’Amelio, G. Grossi and R. Lanzarotti, "An Open Framework for Remote-PPG Methods and their Assessment," in *IEEE Access*, doi: 10.1109/ACCESS.2020.3040936.
+
+https://ieeexplore.ieee.org/document/9272290
 
 ## Description
 
@@ -21,7 +26,13 @@ Eight well-known rPPG methods, namely  *ICA*,  *PCA*, *GREEN,CHROM*, *POS*, *SSR
 
 ## Installation
 
-Install this library directly into an activated virtual environment:
+Install the dependency first:
+
+```text
+$ pip install numpy
+```
+
+then, install the library directly into an activated virtual environment:
 
 ```text
 $ pip install pyvhr
@@ -39,15 +50,15 @@ The `notebooks` folder contains three different Jupyter notebooks:
 
 **Basic usage**  
 Shows the basic steps to process video for heart rate estimation trough remote PPG methods.  
-[Notebook](#here)
+[[Source](https://github.com/phuselab/pyVHR/blob/master/notebooks/basic_demo.ipynb)] [[Demo](https://nbviewer.jupyter.org/github/phuselab/pyVHR/blob/master/notebooks/basic_demo.ipynb)]
 
 **Extend the framework**  
 This notebook shows how to extend the framework with additional datasets and methods.  
-[Notebook](#here)
+[[Source](https://github.com/phuselab/pyVHR/blob/master/notebooks/factory_demo.ipynb)] [[Demo](https://nbviewer.jupyter.org/github/phuselab/pyVHR/blob/master/notebooks/factory_demo.ipynb)]
 
 **Statistical analysis**  
 Includes statistical analysis and the results presented in the paper (see [Reference](#reference)) applying all the available methods on six different datasets.  
-[Notebook](#here)
+[[Source](https://github.com/phuselab/pyVHR/blob/master/notebooks/test_demo.ipynb)] [[Demo](https://nbviewer.jupyter.org/github/phuselab/pyVHR/blob/master/notebooks/test_demo.ipynb)]
 
 
 ## Methods
@@ -59,7 +70,7 @@ Currently implemented methods with reference publications are:
 > Verkruysse, W., Svaasand, L. O., & Nelson, J. S. (2008). Remote plethysmographic imaging using ambient light. Optics express, 16(26), 21434-21445.
 
 **CHROM**
-> Benezeth, Y., Li, P., Macwan, R., Nakamura, K., Gomez, R., & Yang, F. (2018, March). Remote heart rate variability for emotional state monitoring. In 2018 IEEE EMBS International Conference on Biomedical & Health Informatics (BHI) (pp. 153-156). IEEE.
+> De Haan, G., & Jeanne, V. (2013). Robust pulse rate from chrominance-based rPPG. IEEE Transactions on Biomedical Engineering, 60(10), 2878-2886.
 
 **ICA**
 > Poh, M. Z., McDuff, D. J., & Picard, R. W. (2010). Non-contact, automated cardiac pulse measurements using video imaging and blind source separation. Optics express, 18(10), 10762-10774.
@@ -108,7 +119,15 @@ Currently supported datasets are:
 If you use this code, please cite the paper:
 
 ```
-@reference{
+@article{Boccignone2020,
+  doi = {10.1109/access.2020.3040936},
+  url = {https://doi.org/10.1109/access.2020.3040936},
+  year = {2020},
+  publisher = {Institute of Electrical and Electronics Engineers ({IEEE})},
+  pages = {1--1},
+  author = {Giuseppe Boccignone and Donatello Conte and Vittorio Cuculo and Alessandro D’Amelio and Giuliano Grossi and Raffaella Lanzarotti},
+  title = {An Open Framework for Remote-{PPG} Methods and their Assessment},
+  journal = {{IEEE} Access}
 }
 ```
 

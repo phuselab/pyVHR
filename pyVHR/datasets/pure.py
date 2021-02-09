@@ -6,7 +6,7 @@ from pyVHR.signals.bvp import BVPsignal
 
 class PURE(Dataset):
     """
-    Cohface dataset structure:
+    PURE dataset structure:
     -----------------
         datasetDIR/
         |
@@ -25,8 +25,6 @@ class PURE(Dataset):
         |...
     """
     name = 'PURE'
-    videodataDIR = '/var/data/VHR/PURE/'
-    SIGdataDIR = '/var/data/VHR/PURE/'
     signalGT = 'BVP'      # GT signal type
     numLevels = 1         # depth of the filesystem collecting video and BVP files
     numSubjects = 10      # number of subjects
