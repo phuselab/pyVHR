@@ -113,14 +113,12 @@ Currently supported datasets are:
 
 ## Reference
 
-G. Boccignone, D. Conte, V. Cuculo, A. D’Amelio, G. Grossi and R. Lanzarotti, "An Open Framework for Remote-PPG Methods and their Assessment," in *IEEE Access*, doi: 10.1109/ACCESS.2020.3040936.
-
-https://ieeexplore.ieee.org/document/9272290
+G. Boccignone, D. Conte, V. Cuculo, A. D’Amelio, G. Grossi and R. Lanzarotti, "An Open Framework for Remote-PPG Methods and their Assessment," in *IEEE Access*, doi: [10.1109/ACCESS.2020.3040936](https://ieeexplore.ieee.org/document/9272290).
 
 To cite the paper:
 
 ```
-@article{Boccignone2020,
+@article{pyVHR2020,
   doi = {10.1109/access.2020.3040936},
   url = {https://doi.org/10.1109/access.2020.3040936},
   year = {2020},
