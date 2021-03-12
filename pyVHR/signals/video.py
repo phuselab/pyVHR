@@ -1,15 +1,17 @@
 import os
-import dlib, skvideo
-import skvideo.io
-import numpy as np
-import cv2
 import re
 import warnings
+
+import dlib
 import matplotlib.pyplot as plt
+import skvideo
+import skvideo.io
 from matplotlib import patches
+
 from .pyramid import *
 from ..utils import printutils
 from ..utils.SkinDetect import SkinDetect
+
 
 class Video:
     """
@@ -24,26 +26,28 @@ class Video:
 
     def __init__(self, filename, verb=0):
         self.filename = filename
-        self.faces = np.array([])       # empty array of cropped faces (RGB)
+        self.faces = np.array([])        # empty array of cropped faces (RGB)
         self.processedFaces = np.array([])
         self.faceSignal = np.array([])   # empty array of face signals (RGB) after roi/skin extraction
         
         self.verb = verb
-        self.cropSize = [150,150]       # param for cropping
-        self.typeROI = 'rect'           # type of rois between ['rect', 'skin']
+        self.cropSize = [150, 150]       # param for cropping
+        self.typeROI = 'rect'            # type of rois between ['rect', 'skin']
         self.detector = 'mtcnn'
-        
+        self.time_vid_start = 0
+
         self.doEVM = False
         self.EVMalpha = 20
         self.EVMlevels = 3
         self.EVMlow = .8
         self.EVMhigh = 4
 
-        self.rectCoords = [[0,0, self.cropSize[0], self.cropSize[1]]]  # default 'rect' roi coordinates
-        self.skinThresh_fix = [40, 80]# default min values of Sauturation and Value (HSV) for 'skin' roi
+
+        self.rectCoords = [[0, 0, self.cropSize[0], self.cropSize[1]]]  # default 'rect' roi coordinates
+        self.skinThresh_fix = [40, 80]  # default min values of Sauturation and Value (HSV) for 'skin' roi
         self.skinThresh_adapt = 0.2
 
-    def getCroppedFaces(self, detector='mtcnn', extractor='skvideo'):
+    def getCroppedFaces(self, detector='mtcnn', extractor='skvideo', fps=30):
         """ Time is in seconds"""
 
         # -- check if cropped faces already exists on disk
@@ -93,14 +97,14 @@ class Video:
                     video = skvideo.io.vread(self.filename)
                  
             # else if the video signal is stored as single frames
-            else:    #elif os.path.isdir(self.filename):
+            else:    # elif os.path.isdir(self.filename):
                 # -- load frames on a ndarray
                 self.path = path
                 video = self.__loadFrames()
                 self.numFrames = len(video)
                 self.height = video[0].shape[0]
                 self.width = video[0].shape[1]
-                self.frameRate = 30  ###### <<<<----- TO SET MANUALLY ####
+                self.frameRate = fps  ###### <<<<----- TO SET MANUALLY ####
                 self.duration = self.numFrames/self.frameRate
                 self.codec = 'raw'
 
@@ -187,15 +191,15 @@ class Video:
             mean_rgb = 0
 
             for roi in self.faceSignal[i]:
-                idx = roi!=0
-                idx2 = np.logical_and(np.logical_and(idx[:,:,0], idx[:,:,1]), idx[:,:,2])
+                idx = roi != 0
+                idx2 = np.logical_and(np.logical_and(idx[:, :, 0], idx[:, :, 1]), idx[:, :, 2])
                 roi = roi[idx2]
-                if len(roi)==0:
+                if len(roi) == 0:
                     mean_rgb += 0
                 else:
                     mean_rgb += np.mean(roi, axis=0)
                 
-            rgb[:,i] = mean_rgb/n_roi
+            rgb[:, i] = mean_rgb/n_roi
         return rgb
     
     def printVideoInfo(self):
@@ -311,10 +315,10 @@ class Video:
         self.faceSignal = []
         
         cp = self.cropSize
-        skinFace = np.zeros([cp[0],cp[1],3], dtype='uint8')
+        skinFace = np.zeros([cp[0], cp[1], 3], dtype='uint8')
 
         # -- loop on frames
-        for i,r in enumerate(frameSubset):
+        for i, r in enumerate(frameSubset):
             face = self.processedFaces[r]
 
             if self.typeROI == 'skin_fix':        
@@ -341,7 +345,7 @@ class Video:
     def __extractFace(self, video, method, t_downsample_rate=2):
 
         # -- save on GPU
-        #self.facesGPU = cp.asarray(self.faces)  # move the data to the current device.
+        # self.facesGPU = cp.asarray(self.faces)  # move the data to the current device.
 
         if method == 'dlib':
             # -- dlib detector
@@ -356,9 +360,9 @@ class Video:
 
             # -- loop on frames
             cp = self.cropSize
-            self.faces = np.zeros([self.numFrames,cp[0],cp[1],3], dtype='uint8')
+            self.faces = np.zeros([self.numFrames, cp[0], cp[1], 3], dtype='uint8')
             for i in range(self.numFrames):
-                frame = video[i,:,:,:]
+                frame = video[i, :, :, :]
                 # -- Detect face using dlib
                 self.numFaces = 0
                 facesRect = detector(frame, 0)
@@ -374,27 +378,27 @@ class Video:
                     # -- extract cropped faces
                     shape = predictor(frame, rect)
                     f = dlib.get_face_chip(frame, shape, size=self.cropSize[0], padding=self.facePadding)
-                    self.faces[i,:,:,:] = f.astype('uint8')
+                    self.faces[i, :, :, :] = f.astype('uint8')
 
-                if self.verb: printutils.printProgressBar(i, self.numFrames, prefix = 'Processing:', suffix = 'Complete', length = 50)
+                if self.verb: printutils.printProgressBar(i, self.numFrames, prefix='Processing:', suffix='Complete', length=50)
 
                 else:
                     print("No face detected at frame %s",i)
 
         elif method == 'mtcnn_kalman':
-            #mtcnn detector
+            # mtcnn detector
             from mtcnn import MTCNN
             detector = MTCNN()
 
             h0 = None
             w0 = None
-            crop = np.zeros([2,2,2])
+            crop = np.zeros([2, 2, 2])
             skipped_frames = 0
             
             while crop.shape[:2] != (h0,w0):
                 if skipped_frames > 0:
                     print("\nWARNING! Strange Face Crop... Skipping frame " + str(skipped_frames) + '...')
-                frame = video[skipped_frames,:,:,:]
+                frame = video[skipped_frames, :, :, :]
                 detection = detector.detect_faces(frame)
                 
                 if len(detection) > 1:
@@ -425,13 +429,13 @@ class Video:
                     print("\tVideo now starts at " + str(self.time_vid_start) + " seconds\n")
             
             self.faces = np.zeros([self.numFrames, self.cropSize[0], self.cropSize[1], 3], dtype='uint8')
-            self.faces[0,:,:,:] = crop
+            self.faces[0, :, :, :] = crop
 
             #set the initial tracking window
-            state = np.array([int(x0+w0/2),int(y0+h0/2),0,0], dtype='float64') # initial position
+            state = np.array([int(x0+w0/2), int(y0+h0/2), 0, 0], dtype='float64') # initial position
 
             #Setting up Kalman Filter
-            kalman = cv2.KalmanFilter(4,2,0)
+            kalman = cv2.KalmanFilter(4, 2, 0)
             kalman.transitionMatrix = np.array([[1., 0., .1, 0.],
                                                 [0., 1., 0., .1],
                                                 [0., 0., 1., 0.],
@@ -443,8 +447,8 @@ class Video:
             kalman.statePost = state
             measurement = np.array([int(x0+w0/2), int(y0+h0/2)], dtype='float64')
 
-            for i in range(skipped_frames,self.numFrames):
-                frame = video[i,:,:,:]
+            for i in range(skipped_frames, self.numFrames):
+                frame = video[i, :, :, :]
 
                 if i%t_downsample_rate == 0:
                     detection = detector.detect_faces(frame)
@@ -473,32 +477,32 @@ class Video:
                 else:
                     [cx0, cy0, wn, hn] = prediction.astype(int)
 
-                #Cropping with new bounding box
+                # Cropping with new bounding box
                 crop = frame[int(cy0-h0/2):int(cy0+h0/2), int(cx0-w0/2):int(cx0+w0/2), :]
 
                 if crop.shape[:2] != self.faces.shape[1:3]:
                     print("WARNING! Strange face crop: video frame " + str(i) +" probably does not contain the whole face... Reshaping Crop\n")
                     crop = cv2.resize(crop, (self.faces.shape[2], self.faces.shape[1]))
 
-                self.faces[i,:,:,:] = crop.astype('uint8')
+                self.faces[i, :, :, :] = crop.astype('uint8')
 
         elif method == 'mtcnn':
-            #mtcnn detector
+            # mtcnn detector
             from mtcnn import MTCNN
-            #from utils.FaceAligner import FaceAligner
+            # from utils.FaceAligner import FaceAligner
             detector = MTCNN()
 
             print("\nPerforming face detection...")
 
             h0 = None
             w0 = None
-            crop = np.zeros([2,2,2])
+            crop = np.zeros([2, 2, 2])
             skipped_frames = 0
             
-            while crop.shape[:2] != (h0,w0):
+            while crop.shape[:2] != (h0, w0):
                 if skipped_frames > 0:
                     print("\nWARNING! Strange Face Crop... Skipping frame " + str(skipped_frames) + '...')
-                frame = video[skipped_frames,:,:,:]
+                frame = video[skipped_frames, :, :, :]
                 detection = detector.detect_faces(frame)
 
                 if len(detection) == 0:
@@ -526,13 +530,13 @@ class Video:
                 barycenter = (np.array(nose) + np.array(r_eye) + np.array(l_eye)) / 3.
                 cy0 = barycenter[1]
                 cx0 = barycenter[0]
-                #Cropping face
+                # Cropping face
                 crop = frame[int(cy0-h0/2):int(cy0+h0/2), int(cx0-w0/2):int(cx0+w0/2), :]
 
                 skipped_frames += 1
 
-            #fa = FaceAligner(desiredLeftEye=(0.3, 0.3),desiredFaceWidth=w0, desiredFaceHeight=h0)
-            #crop_align = fa.align(frame, r_eye, l_eye)
+            # fa = FaceAligner(desiredLeftEye=(0.3, 0.3),desiredFaceWidth=w0, desiredFaceHeight=h0)
+            # crop_align = fa.align(frame, r_eye, l_eye)
 
             self.cropSize = crop.shape[:2]
 
@@ -545,12 +549,12 @@ class Video:
                     print("\tVideo now starts at " + str(self.time_vid_start) + " seconds\n")
             
             self.faces = np.zeros([self.numFrames, self.cropSize[0], self.cropSize[1], 3], dtype='uint8')
-            self.faces[0,:,:,:] = crop
+            self.faces[0, :, :, :] = crop
 
             old_detection = detection
             for i in range(skipped_frames,self.numFrames):
-                #print('\tFrame ' + str(i) + ' of ' + str(self.numFrames))
-                frame = video[i,:,:,:]
+                # print('\tFrame ' + str(i) + ' of ' + str(self.numFrames))
+                frame = video[i, :, :, :]
 
                 new_detection = detector.detect_faces(frame)
                 areas = []
@@ -584,7 +588,7 @@ class Video:
                     print("WARNING! Strange face crop: video frame " + str(i) +" probably does not contain the whole face... Reshaping Crop\n")
                     crop = cv2.resize(crop, (self.faces.shape[2], self.faces.shape[1]))
 
-                self.faces[i,:,:,:] = crop.astype('uint8')
+                self.faces[i, :, :, :] = crop.astype('uint8')
                 old_detection = new_detection
         
                 #if self.verb: 
@@ -683,7 +687,7 @@ class Video:
     def __loadFrames(self):
         
         # -- delete the compressed if exists
-        cmpFile = os.path.join(self.path,self.filenameCompressed) 
+        cmpFile = os.path.join(self.path, self.filenameCompressed)
         if os.path.exists(cmpFile):
             os.remove(cmpFile)
         
@@ -691,8 +695,9 @@ class Video:
         f_names = self.__sort_nicely(os.listdir(self.path))
         frames = []
         for n in range(len(f_names)):
-            filename = os.path.join(self.path,f_names[n])    
-            frames.append(cv2.imread(filename)[:,:,::-1])
+            filename = os.path.join(self.path, f_names[n])
+            frames.append(cv2.imread(filename)[:, :, ::-1])
         
         frames = np.array(frames)
         return frames
+

@@ -7,7 +7,7 @@ colorama==0.4.3
 contextlib2==0.6.0
 distlib==0.3.0
 distro==1.4.0
-dlib==19.20.0
+dlib==19.21.1
 h5py==2.10.0
 html5lib==1.0.1
 idna==2.8
@@ -36,7 +36,7 @@ statsmodels==0.11.1
 urllib3==1.25.8
 webencodings==0.5.1
 opencv-python
-tensorflow==2.2
+tensorflow==2.2.0
 tables==3.6.1
 orange3==3.27.1
 pybdf==0.2.5
