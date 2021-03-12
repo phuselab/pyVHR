@@ -29,6 +29,7 @@ Eight well-known rPPG methods, namely  *ICA*,  *PCA*, *GREEN,CHROM*, *POS*, *SSR
 Install the dependency first:
 
 ```text
+$ apt-get install cmake gfortran
 $ pip install numpy
 ```
 
