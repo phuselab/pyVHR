@@ -72,7 +72,7 @@ plt.plot(time, BPM)
 plt.fill_between(time, BPM-uncertainty, BPM+uncertainty, alpha=0.2)
 plt.show()
 ```
-The full documentation of `run_on_video` method, with all the possible parameters, can be found here: [https://phuselab.github.io/pyVHR/](https://phuselab.github.io/pyVHR/)
+The full documentation of `run_on_video` method, with all the possible parameters, can be found here: [https://phuselab.github.io/pyVHR/](https://phuselab.github.io/pyVHR/pyVHR.analysis.html?highlight=run_on_video#pyVHR.analysis.pipeline.Pipeline.run_on_video)
 
 
 The `notebooks` folder contains useful Jupyter notebooks.
