@@ -56,7 +56,7 @@ class Pipeline():
                 - False - No post-filtering
             verb:
                - False - not verbose
-               - True - show the main steps  
+               - True - show the main steps
         """
         ldmks_list = [2, 3, 4, 5, 6, 8, 9, 10, 18, 21, 32, 35, 36, 43, 46, 47, 48, 50, 54, 58, 67, 68, 69, 71, 92, 93, 101, 103, 104, 108, 109, 116, 117, 118, 123, 132, 134, 135, 138, 139, 142, 148, 149, 150, 151, 152, 182, 187, 188, 193, 197, 201, 205, 206, 207, 210, 211, 212, 216, 234, 248, 251, 262, 265, 266, 273, 277, 278, 280, 284, 288, 297, 299, 322, 323, 330, 332, 333, 337, 338, 345, 346, 361, 363, 364, 367, 368, 371, 377, 379, 411, 412, 417, 421, 425, 426, 427, 430, 432, 436]
         assert os.path.isfile(videoFileName), "\nThe provided video file does not exists!"
@@ -72,13 +72,12 @@ class Pipeline():
             sig_processing.choose_cuda_device(0)
         
         # set skin extractor
-        target_device = 'GPU' if cuda else 'CPU'
         if roi_method == 'convexhull':
             sig_processing.set_skin_extractor(
-                SkinExtractionConvexHull(target_device))
+                SkinExtractionConvexHull())
         elif roi_method == 'faceparsing':
             sig_processing.set_skin_extractor(
-                SkinExtractionFaceParsing(target_device))
+                SkinExtractionFaceParsing())
         else:
             raise ValueError("Unknown 'roi_method'")
         
@@ -199,7 +198,7 @@ class Pipeline():
             verb:
                 - False - not verbose
                 - True - show the main steps
-               
+
                (use also combinations)
         """
         self.configFilename = configFilename
@@ -232,13 +231,12 @@ class Pipeline():
             sig_processing.display_cuda_device()
             sig_processing.choose_cuda_device(int(self.sigdict['cuda_device']))
         # set skin extractor
-        target_device = 'GPU' if eval(self.sigdict['cuda']) else 'CPU'
         if self.sigdict['skin_extractor'] == 'convexhull':
             sig_processing.set_skin_extractor(
-                SkinExtractionConvexHull(target_device))
+                SkinExtractionConvexHull())
         elif self.sigdict['skin_extractor'] == 'faceparsing':
             sig_processing.set_skin_extractor(
-                SkinExtractionFaceParsing(target_device))
+                SkinExtractionFaceParsing())
         # set patches
         if self.sigdict['approach'] == 'patches':
             ldmks_list = ast.literal_eval(
@@ -273,7 +271,6 @@ class Pipeline():
 
         # -- loop on videos
         for v in self.videoIdx:
-            # multi-method -> list []
 
             # -- verbose prints
             if verb:
@@ -294,7 +291,7 @@ class Pipeline():
             fps = get_fps(videoFileName)
 
             #Start chronometer
-            #start_time = time.time()
+            start_time = time.time()
 
             sig_processing.set_total_frames(
                 int(self.sigdict['tot_sec'])*fps)
@@ -413,8 +410,8 @@ class Pipeline():
                 # median BPM from multiple estimators BPM
                 median_bpmES, mad_bpmES = multi_est_BPM_median(bpmES)
 
-                #end_time = time.time()
-                #time_elapsed = [end_time - start_time]
+                end_time = time.time()
+                time_elapsed = [end_time - start_time]
 
                 # -- error metrics
                 RMSE, MAE, MAX, PCC, CCC = getErrors(

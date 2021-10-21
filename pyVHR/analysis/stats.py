@@ -11,7 +11,6 @@ from autorank import autorank, plot_stats, create_report
 from matplotlib.colors import ListedColormap
 from matplotlib.colorbar import ColorbarBase, Colorbar
 
-
 class StatAnalysis():
     """ 
     Statistic analyses for multiple datasets and multiple rPPG methods

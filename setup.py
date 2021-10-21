@@ -12,7 +12,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="pyVHR",
+    name="pyVHR-cpu",
     version="1.0.0",
     author="Vittorio Cuculo <vittorio.cuculo@unimi.it>, Donatello Conte <donatello.conte@univ-tours.fr>, Alessandro D'Amelio <alessandro.damelio@unimi.it>, Giuliano Grossi <giuliano.grossi@unimi.it>, Edoardo Mortara <edoardo.mortara@studenti.unimi.it>",
     author_email="",

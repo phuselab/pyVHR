@@ -7,8 +7,6 @@ from lmfit import Model
 from scipy.stats import iqr
 import numpy as np
 from scipy.signal import welch
-import cusignal
-import cupy
 
 """
 This module contains usefull methods used in pyVHR.BPM.BPM and
@@ -41,35 +39,6 @@ def Welch(bvps, fps, minHz=0.65, maxHz=4.0, nfft=2048):
     P = P.astype(np.float32)
     # -- freq subband (0.65 Hz - 4.0 Hz)
     band = np.argwhere((F > minHz) & (F < maxHz)).flatten()
-    Pfreqs = 60*F[band]
-    Power = P[:, band]
-    return Pfreqs, Power
-
-def Welch_cuda(bvps, fps, minHz=0.65, maxHz=4.0, nfft=2048):
-    """
-    This function computes Welch'method for spectral density estimation on CUDA GPU.
-
-    Args:
-        bvps(flaot32 cupy.ndarray): BVP signal as float32 Numpy.ndarray with shape [num_estimators, num_frames].
-        fps (cupy.float32): frames per seconds.
-        minHz (cupy.float32): frequency in Hz used to isolate a specific subband [minHz, maxHz] (esclusive).
-        maxHz (cupy.float32): frequency in Hz used to isolate a specific subband [minHz, maxHz] (esclusive).
-        nfft (cupy.int32): number of DFT points, specified as a positive integer.
-    Returns:
-        Sample frequencies as float32 cupy.ndarray, and Power spectral density or power spectrum as float32 cupy.ndarray.
-    """
-    _, n = bvps.shape
-    if n < 256:
-        seglength = n
-        overlap = int(0.8*n)  # fixed overlapping
-    else:
-        seglength = 256
-        overlap = 200
-    # -- periodogram by Welch
-    F, P = cusignal.welch(bvps, nperseg=seglength,
-                            noverlap=overlap, fs=fps, nfft=nfft)
-    # -- freq subband (0.65 Hz - 4.0 Hz)
-    band = cupy.argwhere((F > minHz) & (F < maxHz)).flatten()
     Pfreqs = 60*F[band]
     Power = P[:, band]
     return Pfreqs, Power

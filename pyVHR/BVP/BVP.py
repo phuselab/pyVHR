@@ -1,39 +1,10 @@
-import cupy
 import numpy as np
 import torch
-import sys
 
 """
 This module contains methods for trasforming an input signal
 in a BVP signal using a rPPG method (see pyVHR.BVP.methods).
 """
-
-def signals_to_bvps_cuda(sig, cupy_method, params={}):
-    """
-    Transform an input RGB signal in a BVP signal using a rPPG method (see pyVHR.BVP.methods).
-    This method must use cupy and executes on GPU. You can pass also non-RGB signal but the method used must handle its shape.
-
-    Args:
-        sig (float32 ndarray): RGB Signal as float32 ndarray with shape  [num_estimators, rgb_channels, num_frames].
-            You can pass also a generic signal but the method used must handle its shape and type.
-        cupy_method: a method that comply with the fucntion signature documented in pyVHR.BVP.methods. This method must use Cupy.
-        params (dict): dictionary of usefull parameters that will be passed to the method.
-    
-    Returns:
-        float32 ndarray: BVP signal as float32 ndarray with shape [num_estimators, num_frames].
-    """
-    if sig.shape[0] == 0:
-        return np.zeros((0, sig.shape[2]), dtype=sig.dtype)
-    gpu_sig = cupy.asarray(sig)
-    if len(params) > 0:
-        bvps = cupy_method(gpu_sig, **params)
-    else:
-        bvps = cupy_method(gpu_sig)
-    r_bvps = cupy.asnumpy(bvps)
-    gpu_sig = None
-    bvps = None
-    return r_bvps
-
 
 def signals_to_bvps_torch(sig, torch_method, params={}):
     """
@@ -97,7 +68,7 @@ def RGB_sig_to_BVP(windowed_sig, fps, device_type=None, method=None, params={}):
     Args:
         windowed_sig (list): RGB windowed signal as a list of length num_windows of np.ndarray with shape [num_estimators, rgb_channels, num_frames].
         fps (float): frames per seconds. You can pass also a generic signal but the method used must handle its shape and type.
-        device_type (str): the chosen rPPG method run on GPU ('cuda'), or CPU ('cpu', 'torch').
+        device_type (str): the chosen rPPG method run on CPU ('cpu', 'torch').
         method: a method that comply with the fucntion signature documented 
             in pyVHR.BVP.methods. This method must use Numpy if the 'device_type' is 'cpu', Torch if the 'device_type' is 'torch', and Cupy 
             if the 'device_type' is 'cuda'.
@@ -108,7 +79,7 @@ def RGB_sig_to_BVP(windowed_sig, fps, device_type=None, method=None, params={}):
         a list of lenght num_windows of BVP signals as np.ndarray with shape [num_estimators, num_frames];
         if no BVP can be found in a window, then the np.ndarray has num_estimators == 0.
     """
-    if device_type != 'cuda' and device_type != 'cpu' and device_type != 'torch':
+    if device_type != 'cpu' and device_type != 'torch':
         print("[ERROR]: invalid device_type!")
         return []
 
@@ -124,9 +95,6 @@ def RGB_sig_to_BVP(windowed_sig, fps, device_type=None, method=None, params={}):
                 copy_signal, method, params)
         elif device_type == 'torch':
             bvp = signals_to_bvps_torch(
-                copy_signal, method, params)
-        elif device_type == 'cuda':
-            bvp = signals_to_bvps_cuda(
                 copy_signal, method, params)
         bvps.append(bvp)
     return bvps

@@ -4,16 +4,13 @@ import PySimpleGUI as sg
 import threading
 import ast
 import pickle
-
+import time
 
 def GUI_MENU():
     col1 = [[sg.Text("Set Parameters:")],
             [sg.Text("Video file path, or device number:")],
             [sg.In("", key="-VideoFileName-"),
              sg.FileBrowse(target=("-VideoFileName-"))],
-            [sg.Text("Use CUDA:"),
-             sg.Radio("True", "RADIO1", default=True, key="-cudaTrue-"),
-             sg.Radio("False", "RADIO1", default=False, key="-cudaFalse-")],
             [sg.Text("Window Size:"),
              sg.In(str(Params.winSize), key="-winSize-", size=(5, 1))],
             [sg.Text("Stride:"),
@@ -226,8 +223,7 @@ def GUI_MENU():
                 Params.stride = int(
                     values['-stride-']) if int(values['-stride-']) > 0 else 1
             window['-stride-'].update(str(Params.stride))
-            Params.cuda = bool(values['-cudaTrue-']
-                               ) if bool(values['-cudaTrue-']) else False
+            Params.cuda = False
             if values['-fpsfixed-'].isnumeric():
                 Params.fps_fixed = int(
                     values['-fpsfixed-']) if int(values['-fpsfixed-']) > 0 else None
@@ -354,13 +350,13 @@ if __name__ == '__main__':
 
     # A rPPG method is a dictionary with the following structure:
     # {'method_func': method_name, 'device_type': 'device_name', 'params': {}}
-    # device_type can be: 'cpu', 'cuda', 'torch'.
+    # device_type can be: 'cpu', 'torch'.
 
     Params.pre_filter = [{'filter_func': BPfilter, 'params': {
         'minHz': 0.7, 'maxHz': 3.0, 'fps': 'adaptive', 'order': 6}}]
-
-    Params.method = {'method_func': cupy_CHROM,
-                     'device_type': 'cuda', 'params': {}}
+        
+    Params.method = {'method_func': cpu_CHROM,
+                     'device_type': 'cpu', 'params': {}}
 
     Params.post_filter = [{'filter_func': BPfilter, 'params': {
         'minHz': 0.7, 'maxHz': 3.0, 'fps': 'adaptive', 'order': 6}}]

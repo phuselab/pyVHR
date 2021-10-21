@@ -10,7 +10,7 @@ class Params:
     tot_sec = 0
     winSize = 6
     stride = 1
-    cuda = True
+    cuda = False
     skin_extractor = 'convexhull'  # or faceparsing
     approach = 'patches'  # or holistic
     patches = 'squares'  # or rects
@@ -41,8 +41,8 @@ class Params:
 
     # BVP method
     # dictionary of {method_func, device_type, params}
-    method = {'method_func': cupy_CHROM,
-              'device_type': 'cuda', 'params': {}}
+    method = {'method_func': cpu_CHROM,
+              'device_type': 'cpu', 'params': {}}
 
     # Post filtering
     # dictionary of {filter_func, params}
@@ -51,7 +51,7 @@ class Params:
 
     # BPM params
     minHz = 0.7
-    maxHz = 3.0
+    maxHz = 4.0
     # WELCH: CPU, GPU
     # PSD_CLUSTERING: CPU, GPU
     # USE psd_clustering only with patches!

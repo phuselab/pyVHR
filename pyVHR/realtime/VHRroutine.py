@@ -1,4 +1,5 @@
 from threading import Thread
+import time
 from time import sleep
 from pyVHR.realtime.params import Params
 from pyVHR.realtime.video_capture import VideoCapture
@@ -19,6 +20,7 @@ import PySimpleGUI as sg
 import numpy as np
 import plotly.graph_objects as go
 import queue
+import statistics
 
 
 class SharedData:
@@ -68,11 +70,10 @@ def VHRroutine(sharedData):
                       Params.font_color[1], Params.font_color[2]], dtype=np.uint8)
 
     skin_ex = None
-    target_device = 'GPU' if Params.cuda else 'CPU'
     if Params.skin_extractor == 'convexhull':
-        skin_ex = SkinExtractionConvexHull(target_device)
+        skin_ex = SkinExtractionConvexHull()
     elif Params.skin_extractor == 'faceparsing':
-        skin_ex = SkinExtractionFaceParsing(target_device)
+        skin_ex = SkinExtractionFaceParsing()
 
     mp_drawing = mp.solutions.drawing_utils
     mp_face_mesh = mp.solutions.face_mesh
@@ -183,7 +184,7 @@ def VHRroutine(sharedData):
                             rects_dims = np.array(Params.rects_dims)
                             annotated_image = draw_rects(
                                 annotated_image, np.array(magic_ldmks[:, 1]),
-                                np.array(magic_ldmks[:, 0]), rects_dims[:,0],rects_dims[:,1] , color)
+                                np.array(magic_ldmks[:, 0]), rects_dims[:, 0], rects_dims[:, 1], color)
                     # visualize patches
                     sharedData.q_patches_image.put(annotated_image)
             else:
@@ -220,9 +221,6 @@ def VHRroutine(sharedData):
                     elif Params.method['device_type'] == 'torch':
                         bvp = signals_to_bvps_torch(
                             copy_sig, Params.method['method_func'], Params.method['params'])
-                    elif Params.method['device_type'] == 'cuda':
-                        bvp = signals_to_bvps_cuda(
-                            copy_sig, Params.method['method_func'], Params.method['params'])
 
                     ### Post_filtering ###
                     for filt in Params.pre_filter:
@@ -238,28 +236,15 @@ def VHRroutine(sharedData):
                             bvp = np.squeeze(bvp, axis=1)
 
                     ### BPM ###
-                    if Params.cuda:
-                        bvp_device = cupy.asarray(bvp)
-                        if BPM_obj == None:
-                            BPM_obj = BPMcuda(bvp_device, fps,
-                                              minHz=Params.minHz, maxHz=Params.maxHz)
-                        else:
-                            BPM_obj.data = bvp_device
-                        if Params.BPM_extraction_type == "welch":
-                            bpm = BPM_obj.BVP_to_BPM()
-                            bpm = cupy.asnumpy(bpm)
-                        elif Params.BPM_extraction_type == "psd_clustering":
-                            bpm = BPM_obj.BVP_to_BPM_PSD_clustering()
+                    if BPM_obj == None:
+                        BPM_obj = BPM(bvp, fps, minHz=Params.minHz,
+                                        maxHz=Params.maxHz)
                     else:
-                        if BPM_obj == None:
-                            BPM_obj = BPM(bvp, fps, minHz=Params.minHz,
-                                          maxHz=Params.maxHz)
-                        else:
-                            BPM_obj.data = bvp
-                        if Params.BPM_extraction_type == "welch":
-                            bpm = BPM_obj.BVP_to_BPM()
-                        elif Params.BPM_extraction_type == "psd_clustering":
-                            bpm = BPM_obj.BVP_to_BPM_PSD_clustering()
+                        BPM_obj.data = bvp
+                    if Params.BPM_extraction_type == "welch":
+                        bpm = BPM_obj.BVP_to_BPM()
+                    elif Params.BPM_extraction_type == "psd_clustering":
+                        bpm = BPM_obj.BVP_to_BPM_PSD_clustering()
                     if Params.approach == 'patches':  # Median of multi BPMs
                         if len(bpm.shape) > 0 and bpm.shape[0] == 0:
                             bpm = np.float32(0.0)

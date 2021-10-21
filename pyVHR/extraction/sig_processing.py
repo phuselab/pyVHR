@@ -4,7 +4,6 @@ import numpy as np
 from pyVHR.extraction.utils import *
 from pyVHR.extraction.skin_extraction_methods import *
 from pyVHR.extraction.sig_extraction_methods import *
-from pyVHR.utils.cuda_utils import *
 
 """
 This module defines classes or methods used for Signal extraction and processing.
@@ -24,7 +23,7 @@ class SignalProcessing():
         # Common parameters #
         self.tot_frames = None
         self.visualize_skin_collection = []
-        self.skin_extractor = SkinExtractionConvexHull('CPU')
+        self.skin_extractor = SkinExtractionConvexHull()
         # Patches parameters #
         high_prio_ldmk_id, mid_prio_ldmk_id = get_magic_landmarks()
         self.ldmks = high_prio_ldmk_id + mid_prio_ldmk_id
@@ -38,22 +37,6 @@ class SignalProcessing():
         self.font_color = (255, 0, 0, 255)
         self.visualize_skin_collection = []
         self.visualize_landmarks_collection = []
-
-    def choose_cuda_device(self, n):
-        """
-        Choose a CUDA device.
-
-        Args:  
-            n (int): number of a CUDA device.
-
-        """
-        select_cuda_device(n)
-
-    def display_cuda_device(self):
-        """
-        Display your CUDA devices.
-        """
-        cuda_info()
 
     def set_total_frames(self, n):
         """

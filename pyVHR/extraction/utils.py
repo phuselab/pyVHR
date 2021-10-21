@@ -1,13 +1,6 @@
 from numba import prange, njit
 import numpy as np
 import cv2
-import time
-import mediapipe as mp
-from numba import prange, njit
-import os
-import numpy as np
-import matplotlib.pyplot as plt
-import statistics
 
 def get_magic_landmarks():
     """ returns high_priority and mid_priority list of landmarks identification number """

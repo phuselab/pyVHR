@@ -1,7 +1,6 @@
 import configparser
 import ast
 from numpy.lib.arraysetops import isin
-import cv2
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
@@ -254,29 +253,20 @@ class MultiMethodSuite():
 
                 bpmES = None
                 if str(self.bpmdict['type']) == 'welch':
-                    if bool(self.sigdict['cuda']):
-                        bpmES = BVP_to_BPM_cuda(bvp_element, fps, minHz=float(
-                            self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
-                    else:
-                        bpmES = BVP_to_BPM(bvp_element, fps, minHz=float(
-                            self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
+                    bpmES = BVP_to_BPM(bvp_element, fps, minHz=float(
+                        self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
                 elif str(self.bpmdict['type']) == 'psd_clustering':
-                    if bool(self.sigdict['cuda']):
-                        bpmES = BVP_to_BPM_PSD_clustering_cuda(bvp_element, fps, minHz=float(
-                            self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
-                    else:
-                        bpmES = BVP_to_BPM_PSD_clustering(bvp_element, fps, minHz=float(
-                            self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
+                    bpmES = BVP_to_BPM_PSD_clustering(bvp_element, fps, minHz=float(
+                        self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
                 if bpmES is None:
                     print("[ERROR] BPM extraction error; check cfg params!")
                     continue
                 # median BPM from multiple estimators BPM
                 # this doesn't affect holistic approach
-                #median_bpmES = multi_est_BPM_median(bpmES)
-                median_bpmES, mad_bpmES = multi_est_BPM_median(bpmES)
+                median_bpmES = multi_est_BPM_median(bpmES)
 
                 # -- error metrics
-                RMSE, MAE, MAX, PCC, CCC = getErrors(median_bpmES, bpmGT, timesES, timesGT)
+                RMSE, MAE, MAX, PCC = getErrors(median_bpmES, bpmGT, timesES, timesGT)
 
                 # -- save results
                 method_name = methods_collection[i]

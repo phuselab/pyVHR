@@ -1,9 +1,5 @@
-import cupy
-import math
-import time
 import numpy as np
 import torch
-import os
 from sklearn.decomposition import PCA
 from pyVHR.BVP.utils import jadeR
 
@@ -15,7 +11,7 @@ rPPG METHOD SIGNATURE
 An rPPG method must accept theese parameters:
     > signal -> RGB signal as float32 ndarray with shape [num_estimators, rgb_channels, num_frames], or a custom signal.
     > **kargs [OPTIONAL] -> usefull parameters passed to the filter method.
-It must return a BVP signal as float32 ndarray with shape [num_estimators, num_frames].
+It must return a BVP signal as float32 ndarray.
 """
 
 
@@ -38,23 +34,6 @@ def cpu_CHROM(signal):
     alpha = (sX/sY).reshape(-1, 1)
     alpha = np.repeat(alpha, Xcomp.shape[1], 1)
     bvp = Xcomp - np.multiply(alpha, Ycomp)
-    return bvp
-
-
-def cupy_CHROM(signal):
-    """
-    CHROM method on GPU using Cupy.
-
-    De Haan, G., & Jeanne, V. (2013). Robust pulse rate from chrominance-based rPPG. IEEE Transactions on Biomedical Engineering, 60(10), 2878-2886.
-    """
-    X = signal
-    Xcomp = 3*X[:, 0] - 2*X[:, 1]
-    Ycomp = (1.5*X[:, 0])+X[:, 1]-(1.5*X[:, 2])
-    sX = cupy.std(Xcomp, axis=1)
-    sY = cupy.std(Ycomp, axis=1)
-    alpha = (sX/sY).reshape(-1, 1)
-    alpha = cupy.repeat(alpha, Xcomp.shape[1], 1)
-    bvp = Xcomp - cupy.multiply(alpha, Ycomp)
     return bvp
 
 
@@ -137,54 +116,6 @@ def cpu_POS(signal, **kargs):
         Hnm = Hn - np.expand_dims(np.mean(Hn, axis=1), axis=1)
         # Overlap-adding (8)
         H[:, m:(n + 1)] = np.add(H[:, m:(n + 1)], Hnm)
-
-    return H
-
-
-def cupy_POS(signal, **kargs):
-    """
-    POS method on GPU using Cupy.
-
-    The dictionary parameters are: {'fps':float}.
-
-    Wang, W., den Brinker, A. C., Stuijk, S., & de Haan, G. (2016). Algorithmic principles of remote PPG. IEEE Transactions on Biomedical Engineering, 64(7), 1479-1491. 
-    """
-    # Run the pos algorithm on the RGB color signal c with sliding window length wlen
-    # Recommended value for wlen is 32 for a 20 fps camera (1.6 s)
-    X = signal
-    fps = cupy.float32(kargs['fps'])
-    e, c, f = X.shape            # e = #estimators, c = 3 rgb ch., f = #frames
-    w = int(1.6 * fps)   # window length
-
-    # stack e times fixed mat P
-    P = cupy.array([[0, 1, -1], [-2, 1, 1]])
-    Q = cupy.stack([P for _ in range(e)], axis=0)
-
-    # Initialize (1)
-    H = cupy.zeros((e, f))
-    for n in cupy.arange(w, f):
-        # Start index of sliding window (4)
-        m = n - w + 1
-        # Temporal normalization (5)
-        Cn = X[:, :, m:(n + 1)]
-        M = 1.0 / (cupy.mean(Cn, axis=2))
-        M = cupy.expand_dims(M, axis=2)  # shape [e, c, w]
-        Cn = cupy.multiply(M, Cn)
-
-        # Projection (6)
-        S = cupy.dot(Q, Cn)
-        S = S[0, :, :, :]
-        S = cupy.swapaxes(S, 0, 1)    # remove 3-th dim
-
-        # Tuning (7)
-        S1 = S[:, 0, :]
-        S2 = S[:, 1, :]
-        alpha = cupy.std(S1, axis=1) / (cupy.std(S2, axis=1))
-        alpha = cupy.expand_dims(alpha, axis=1)
-        Hn = cupy.add(S1, alpha * S2)
-        Hnm = Hn - cupy.expand_dims(cupy.mean(Hn, axis=1), axis=1)
-        # Overlap-adding (8)
-        H[:, m:(n + 1)] = cupy.add(H[:, m:(n + 1)], Hnm)
 
     return H
 
