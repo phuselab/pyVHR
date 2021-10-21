@@ -1,0 +1,61 @@
+pyVHR.resources.faceparsing.modules package
+===========================================
+
+Submodules
+----------
+
+pyVHR.resources.faceparsing.modules.bn module
+---------------------------------------------
+
+.. automodule:: pyVHR.resources.faceparsing.modules.bn
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyVHR.resources.faceparsing.modules.deeplab module
+--------------------------------------------------
+
+.. automodule:: pyVHR.resources.faceparsing.modules.deeplab
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyVHR.resources.faceparsing.modules.dense module
+------------------------------------------------
+
+.. automodule:: pyVHR.resources.faceparsing.modules.dense
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyVHR.resources.faceparsing.modules.functions module
+----------------------------------------------------
+
+.. automodule:: pyVHR.resources.faceparsing.modules.functions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyVHR.resources.faceparsing.modules.misc module
+-----------------------------------------------
+
+.. automodule:: pyVHR.resources.faceparsing.modules.misc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyVHR.resources.faceparsing.modules.residual module
+---------------------------------------------------
+
+.. automodule:: pyVHR.resources.faceparsing.modules.residual
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pyVHR.resources.faceparsing.modules
+   :members:
+   :undoc-members:
+   :show-inheritance:

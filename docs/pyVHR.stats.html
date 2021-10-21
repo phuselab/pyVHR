@@ -1,0 +1,652 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>pyVHR.stats package &#8212; pyVHR 1.0 documentation</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/blank.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="index.html">
+<p class="title">pyVHR</p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.BPM.html">
+   pyVHR.BPM package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.BVP.html">
+   pyVHR.BVP package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.analysis.html">
+   pyVHR.analysis package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pyVHR.datasets.html">
+   pyVHR.datasets package
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyVHR.datasets.utils.html">
+     pyVHR.datasets.utils package
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.extraction.html">
+   pyVHR.extraction package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.plot.html">
+   pyVHR.plot package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.realtime.html">
+   pyVHR.realtime package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pyVHR.resources.html">
+   pyVHR.resources package
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="pyVHR.resources.faceparsing.html">
+     pyVHR.resources.faceparsing package
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pyVHR.resources.faceparsing.modules.html">
+       pyVHR.resources.faceparsing.modules package
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyVHR.resources.img.html">
+     pyVHR.resources.img package
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   pyVHR.stats package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.utils.html">
+   pyVHR.utils package
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pyvhr-stats-multi-dataset-analysis-split-module">
+   pyVHR.stats.multi_dataset_analysis_SPLIT module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.stats.nonparametric_tests">
+   pyVHR.stats.nonparametric_tests module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pyvhr-stats-single-dataset-analysis-module">
+   pyVHR.stats.single_dataset_analysis module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.stats">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <section id="pyvhr-stats-package">
+<h1>pyVHR.stats package<a class="headerlink" href="#pyvhr-stats-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="pyvhr-stats-multi-dataset-analysis-split-module">
+<h2>pyVHR.stats.multi_dataset_analysis_SPLIT module<a class="headerlink" href="#pyvhr-stats-multi-dataset-analysis-split-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-pyVHR.stats.nonparametric_tests">
+<span id="pyvhr-stats-nonparametric-tests-module"></span><h2>pyVHR.stats.nonparametric_tests module<a class="headerlink" href="#module-pyVHR.stats.nonparametric_tests" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.stats.nonparametric_tests.binomial_sign_test">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.stats.nonparametric_tests.</span></span><span class="sig-name descname"><span class="pre">binomial_sign_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVHR.stats.nonparametric_tests.binomial_sign_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a binomial sign test for two dependent samples.
+Tests the hypothesis that the two dependent samples represent two different populations.</p>
+<dl class="simple">
+<dt>sample1, sample2: array_like</dt><dd><p>The sample measurements for each group.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>B-value<span class="classifier">float</span></dt><dd><p>The computed B-value of the test.</p>
+</dd>
+<dt>p-value<span class="classifier">float</span></dt><dd><p>The associated p-value from the B-distribution.</p>
+</dd>
+</dl>
+<p>D.J. Sheskin, Handbook of parametric and nonparametric statistical procedures. crc Press, 2003, Test 19: The Binomial Sign Test for Two Dependent Samples</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.stats.nonparametric_tests.bonferroni_dunn_test">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.stats.nonparametric_tests.</span></span><span class="sig-name descname"><span class="pre">bonferroni_dunn_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVHR.stats.nonparametric_tests.bonferroni_dunn_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Bonferroni-Dunn post-hoc test using the pivot quantities obtained by a ranking test.
+Tests the hypothesis that the ranking of the control method is different to each of the other methods.</p>
+<dl class="simple">
+<dt>pivots<span class="classifier">dictionary_like</span></dt><dd><p>A dictionary with format ‘groupname’:’pivotal quantity’</p>
+</dd>
+<dt>control<span class="classifier">string optional</span></dt><dd><p>The name of the control method (one vs all), default None (all vs all)</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Comparions<span class="classifier">array-like</span></dt><dd><p>Strings identifier of each comparison with format ‘group_i vs group_j’</p>
+</dd>
+<dt>Z-values<span class="classifier">array-like</span></dt><dd><p>The computed Z-value statistic for each comparison.</p>
+</dd>
+<dt>p-values<span class="classifier">array-like</span></dt><dd><p>The associated p-value from the Z-distribution wich depends on the index of the comparison</p>
+</dd>
+<dt>Adjusted p-values<span class="classifier">array-like</span></dt><dd><p>The associated adjusted p-values wich can be compared with a significance level</p>
+</dd>
+</dl>
+<p>O.J. Dunn, Multiple comparisons among means, Journal of the American Statistical Association 56 (1961) 52–64.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.stats.nonparametric_tests.finner_multitest">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.stats.nonparametric_tests.</span></span><span class="sig-name descname"><span class="pre">finner_multitest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVHR.stats.nonparametric_tests.finner_multitest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Finner post-hoc test using the pivot quantities obtained by a ranking test.
+Tests the hypothesis that the ranking of each pair of groups are different.</p>
+<dl class="simple">
+<dt>pivots<span class="classifier">dictionary_like</span></dt><dd><p>A dictionary with format ‘groupname’:’pivotal quantity’</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Comparions<span class="classifier">array-like</span></dt><dd><p>Strings identifier of each comparison with format ‘group_i vs group_j’</p>
+</dd>
+<dt>Z-values<span class="classifier">array-like</span></dt><dd><p>The computed Z-value statistic for each comparison.</p>
+</dd>
+<dt>p-values<span class="classifier">array-like</span></dt><dd><p>The associated p-value from the Z-distribution wich depends on the index of the comparison</p>
+</dd>
+<dt>Adjusted p-values<span class="classifier">array-like</span></dt><dd><p>The associated adjusted p-values wich can be compared with a significance level</p>
+</dd>
+</dl>
+<ol class="upperalpha simple" start="8">
+<li><p>Finner, On a monotonicity problem in step-down multiple test procedures, Journal of the American Statistical Association 88 (1993) 920–923.</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.stats.nonparametric_tests.finner_test">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.stats.nonparametric_tests.</span></span><span class="sig-name descname"><span class="pre">finner_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVHR.stats.nonparametric_tests.finner_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Finner post-hoc test using the pivot quantities obtained by a ranking test.
+Tests the hypothesis that the ranking of the control method is different to each of the other methods.</p>
+<dl class="simple">
+<dt>pivots<span class="classifier">dictionary_like</span></dt><dd><p>A dictionary with format ‘groupname’:’pivotal quantity’</p>
+</dd>
+<dt>control<span class="classifier">string optional</span></dt><dd><p>The name of the control method,  default the group with minimum ranking</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Comparions<span class="classifier">array-like</span></dt><dd><p>Strings identifier of each comparison with format ‘group_i vs group_j’</p>
+</dd>
+<dt>Z-values<span class="classifier">array-like</span></dt><dd><p>The computed Z-value statistic for each comparison.</p>
+</dd>
+<dt>p-values<span class="classifier">array-like</span></dt><dd><p>The associated p-value from the Z-distribution wich depends on the index of the comparison</p>
+</dd>
+<dt>Adjusted p-values<span class="classifier">array-like</span></dt><dd><p>The associated adjusted p-values wich can be compared with a significance level</p>
+</dd>
+</dl>
+<ol class="upperalpha simple" start="8">
+<li><p>Finner, On a monotonicity problem in step-down multiple test procedures, Journal of the American Statistical Association 88 (1993) 920–923.</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.stats.nonparametric_tests.friedman_aligned_ranks_test">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.stats.nonparametric_tests.</span></span><span class="sig-name descname"><span class="pre">friedman_aligned_ranks_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVHR.stats.nonparametric_tests.friedman_aligned_ranks_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Friedman aligned ranks ranking test.
+Tests the hypothesis that in a set of k dependent samples groups 
+(where k &gt;= 2) at least two of the groups represent populations 
+with different median values.
+The difference with a friedman test is that it uses the median of 
+each group to construct the ranking, which is useful when the number 
+of samples is low.</p>
+<dl class="simple">
+<dt>sample1, sample2, …<span class="classifier">array_like</span></dt><dd><p>The sample measurements for each group.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Chi2-value<span class="classifier">float</span></dt><dd><p>The computed Chi2-value of the test.</p>
+</dd>
+<dt>p-value<span class="classifier">float</span></dt><dd><p>The associated p-value from the Chi2-distribution.</p>
+</dd>
+<dt>rankings<span class="classifier">array_like</span></dt><dd><p>The ranking for each group.</p>
+</dd>
+<dt>pivots<span class="classifier">array_like</span></dt><dd><p>The pivotal quantities for each group.</p>
+</dd>
+</dl>
+<blockquote>
+<div><p>J.L. Hodges, E.L. Lehmann, Ranks methods for combination of independent 
+experiments in analysis of variance, Annals of Mathematical Statistics 33 (1962) 482–497.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.stats.nonparametric_tests.friedman_test">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.stats.nonparametric_tests.</span></span><span class="sig-name descname"><span class="pre">friedman_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVHR.stats.nonparametric_tests.friedman_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Friedman ranking test.
+Tests the hypothesis that in a set of k dependent samples groups (where k &gt;= 2) 
+at least two of the groups represent populations with different median values.</p>
+<dl class="simple">
+<dt>sample1, sample2, …<span class="classifier">array_like</span></dt><dd><p>The sample measurements for each group.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>F-value<span class="classifier">float</span></dt><dd><p>The computed F-value of the test.</p>
+</dd>
+<dt>p-value<span class="classifier">float</span></dt><dd><p>The associated p-value from the F-distribution.</p>
+</dd>
+<dt>rankings<span class="classifier">array_like</span></dt><dd><p>The ranking for each group.</p>
+</dd>
+<dt>pivots<span class="classifier">array_like</span></dt><dd><p>The pivotal quantities for each group.</p>
+</dd>
+</dl>
+<p>M. Friedman, The use of ranks to avoid the assumption of normality implicit in the 
+analysis of variance, Journal of the American Statistical Association 32 (1937) 674–701.
+D.J. Sheskin, Handbook of parametric and nonparametric statistical procedures. 
+crc Press, 2003, Test 25: The Friedman Two-Way Analysis of Variance by Ranks</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.stats.nonparametric_tests.hochberg_multitest">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.stats.nonparametric_tests.</span></span><span class="sig-name descname"><span class="pre">hochberg_multitest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVHR.stats.nonparametric_tests.hochberg_multitest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Hochberg post-hoc test using the pivot quantities obtained by a ranking test.
+Tests the hypothesis that the ranking of each pair of groups are different.</p>
+<dl class="simple">
+<dt>pivots<span class="classifier">dictionary_like</span></dt><dd><p>A dictionary with format ‘groupname’:’pivotal quantity’</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Comparions<span class="classifier">array-like</span></dt><dd><p>Strings identifier of each comparison with format ‘group_i vs group_j’</p>
+</dd>
+<dt>Z-values<span class="classifier">array-like</span></dt><dd><p>The computed Z-value statistic for each comparison.</p>
+</dd>
+<dt>p-values<span class="classifier">array-like</span></dt><dd><p>The associated p-value from the Z-distribution wich depends on the index of the comparison</p>
+</dd>
+<dt>Adjusted p-values<span class="classifier">array-like</span></dt><dd><p>The associated adjusted p-values wich can be compared with a significance level</p>
+</dd>
+</dl>
+<ol class="upperalpha simple" start="25">
+<li><p>Hochberg, A sharper Bonferroni procedure for multiple tests of significance, Biometrika 75 (1988) 800–803.</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.stats.nonparametric_tests.hochberg_test">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.stats.nonparametric_tests.</span></span><span class="sig-name descname"><span class="pre">hochberg_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVHR.stats.nonparametric_tests.hochberg_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Hochberg post-hoc test using the pivot quantities obtained by a ranking test.
+Tests the hypothesis that the ranking of the control method is different to each of the other methods.</p>
+<dl class="simple">
+<dt>pivots<span class="classifier">dictionary_like</span></dt><dd><p>A dictionary with format ‘groupname’:’pivotal quantity’</p>
+</dd>
+<dt>control<span class="classifier">string optional</span></dt><dd><p>The name of the control method,  default the group with minimum ranking</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Comparions<span class="classifier">array-like</span></dt><dd><p>Strings identifier of each comparison with format ‘group_i vs group_j’</p>
+</dd>
+<dt>Z-values<span class="classifier">array-like</span></dt><dd><p>The computed Z-value statistic for each comparison.</p>
+</dd>
+<dt>p-values<span class="classifier">array-like</span></dt><dd><p>The associated p-value from the Z-distribution wich depends on the index of the comparison</p>
+</dd>
+<dt>Adjusted p-values<span class="classifier">array-like</span></dt><dd><p>The associated adjusted p-values wich can be compared with a significance level</p>
+</dd>
+</dl>
+<ol class="upperalpha simple" start="25">
+<li><p>Hochberg, A sharper Bonferroni procedure for multiple tests of significance, Biometrika 75 (1988) 800–803.</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.stats.nonparametric_tests.holm_multitest">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.stats.nonparametric_tests.</span></span><span class="sig-name descname"><span class="pre">holm_multitest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVHR.stats.nonparametric_tests.holm_multitest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Holm post-hoc test using the pivot quantities obtained by a ranking test.
+Tests the hypothesis that the ranking of each pair of groups are different.</p>
+<dl class="simple">
+<dt>pivots<span class="classifier">dictionary_like</span></dt><dd><p>A dictionary with format ‘groupname’:’pivotal quantity’</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Comparions<span class="classifier">array-like</span></dt><dd><p>Strings identifier of each comparison with format ‘group_i vs group_j’</p>
+</dd>
+<dt>Z-values<span class="classifier">array-like</span></dt><dd><p>The computed Z-value statistic for each comparison.</p>
+</dd>
+<dt>p-values<span class="classifier">array-like</span></dt><dd><p>The associated p-value from the Z-distribution wich depends on the index of the comparison</p>
+</dd>
+<dt>Adjusted p-values<span class="classifier">array-like</span></dt><dd><p>The associated adjusted p-values wich can be compared with a significance level</p>
+</dd>
+</dl>
+<p>O.J. S. Holm, A simple sequentially rejective multiple test procedure, Scandinavian Journal of Statistics 6 (1979) 65–70.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.stats.nonparametric_tests.holm_test">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.stats.nonparametric_tests.</span></span><span class="sig-name descname"><span class="pre">holm_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVHR.stats.nonparametric_tests.holm_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Holm post-hoc test using the pivot quantities obtained by a ranking test.
+Tests the hypothesis that the ranking of the control method is different to each of the other methods.</p>
+<dl class="simple">
+<dt>pivots<span class="classifier">dictionary_like</span></dt><dd><p>A dictionary with format ‘groupname’:’pivotal quantity’</p>
+</dd>
+<dt>control<span class="classifier">string optional</span></dt><dd><p>The name of the control method (one vs all), default None (all vs all)</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Comparions<span class="classifier">array-like</span></dt><dd><p>Strings identifier of each comparison with format ‘group_i vs group_j’</p>
+</dd>
+<dt>Z-values<span class="classifier">array-like</span></dt><dd><p>The computed Z-value statistic for each comparison.</p>
+</dd>
+<dt>p-values<span class="classifier">array-like</span></dt><dd><p>The associated p-value from the Z-distribution wich depends on the index of the comparison</p>
+</dd>
+<dt>Adjusted p-values<span class="classifier">array-like</span></dt><dd><p>The associated adjusted p-values wich can be compared with a significance level</p>
+</dd>
+</dl>
+<p>O.J. S. Holm, A simple sequentially rejective multiple test procedure, Scandinavian Journal of Statistics 6 (1979) 65–70.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.stats.nonparametric_tests.li_test">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.stats.nonparametric_tests.</span></span><span class="sig-name descname"><span class="pre">li_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVHR.stats.nonparametric_tests.li_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Li post-hoc test using the pivot quantities obtained by a ranking test.
+Tests the hypothesis that the ranking of the control method is different to each of the other methods.</p>
+<dl class="simple">
+<dt>pivots<span class="classifier">dictionary_like</span></dt><dd><p>A dictionary with format ‘groupname’:’pivotal quantity’</p>
+</dd>
+<dt>control<span class="classifier">string optional</span></dt><dd><p>The name of the control method,  default the group with minimum ranking</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Comparions<span class="classifier">array-like</span></dt><dd><p>Strings identifier of each comparison with format ‘group_i vs group_j’</p>
+</dd>
+<dt>Z-values<span class="classifier">array-like</span></dt><dd><p>The computed Z-value statistic for each comparison.</p>
+</dd>
+<dt>p-values<span class="classifier">array-like</span></dt><dd><p>The associated p-value from the Z-distribution wich depends on the index of the comparison</p>
+</dd>
+<dt>Adjusted p-values<span class="classifier">array-like</span></dt><dd><p>The associated adjusted p-values wich can be compared with a significance level</p>
+</dd>
+</dl>
+<ol class="upperalpha simple" start="10">
+<li><p>Li, A two-step rejection procedure for testing multiple hypotheses, Journal of Statistical Planning and Inference 138 (2008) 1521–1527.</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.stats.nonparametric_tests.nemenyi_multitest">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.stats.nonparametric_tests.</span></span><span class="sig-name descname"><span class="pre">nemenyi_multitest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVHR.stats.nonparametric_tests.nemenyi_multitest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Nemenyi post-hoc test using the pivot quantities obtained by a ranking test.
+Tests the hypothesis that the ranking of each pair of groups are different.</p>
+<dl class="simple">
+<dt>pivots<span class="classifier">dictionary_like</span></dt><dd><p>A dictionary with format ‘groupname’:’pivotal quantity’</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Comparions<span class="classifier">array-like</span></dt><dd><p>Strings identifier of each comparison with format ‘group_i vs group_j’</p>
+</dd>
+<dt>Z-values<span class="classifier">array-like</span></dt><dd><p>The computed Z-value statistic for each comparison.</p>
+</dd>
+<dt>p-values<span class="classifier">array-like</span></dt><dd><p>The associated p-value from the Z-distribution wich depends on the index of the comparison</p>
+</dd>
+<dt>Adjusted p-values<span class="classifier">array-like</span></dt><dd><p>The associated adjusted p-values wich can be compared with a significance level</p>
+</dd>
+</dl>
+<p>Bonferroni-Dunn: O.J. Dunn, Multiple comparisons among means, Journal of the American Statistical Association 56 (1961) 52–64.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.stats.nonparametric_tests.quade_test">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.stats.nonparametric_tests.</span></span><span class="sig-name descname"><span class="pre">quade_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVHR.stats.nonparametric_tests.quade_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Quade ranking test.
+Tests the hypothesis that in a set of k dependent samples groups (where k &gt;= 2) at least two of the groups represent populations with different median values.
+The difference with a friedman test is that it uses the median for each sample to wiehgt the ranking.</p>
+<dl class="simple">
+<dt>sample1, sample2, …<span class="classifier">array_like</span></dt><dd><p>The sample measurements for each group.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>F-value<span class="classifier">float</span></dt><dd><p>The computed F-value of the test.</p>
+</dd>
+<dt>p-value<span class="classifier">float</span></dt><dd><p>The associated p-value from the F-distribution.</p>
+</dd>
+<dt>rankings<span class="classifier">array_like</span></dt><dd><p>The ranking for each group.</p>
+</dd>
+<dt>pivots<span class="classifier">array_like</span></dt><dd><p>The pivotal quantities for each group.</p>
+</dd>
+</dl>
+<ol class="upperalpha simple" start="4">
+<li><p>Quade, Using weighted rankings in the analysis of complete blocks with additive block effects, Journal of the American Statistical Association 74 (1979) 680–683.</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.stats.nonparametric_tests.shaffer_multitest">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.stats.nonparametric_tests.</span></span><span class="sig-name descname"><span class="pre">shaffer_multitest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVHR.stats.nonparametric_tests.shaffer_multitest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Shaffer post-hoc test using the pivot quantities obtained by a ranking test.
+Tests the hypothesis that the ranking of each pair of groups are different.</p>
+<dl class="simple">
+<dt>pivots<span class="classifier">dictionary_like</span></dt><dd><p>A dictionary with format ‘groupname’:’pivotal quantity’</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Comparions<span class="classifier">array-like</span></dt><dd><p>Strings identifier of each comparison with format ‘group_i vs group_j’</p>
+</dd>
+<dt>Z-values<span class="classifier">array-like</span></dt><dd><p>The computed Z-value statistic for each comparison.</p>
+</dd>
+<dt>p-values<span class="classifier">array-like</span></dt><dd><p>The associated p-value from the Z-distribution wich depends on the index of the comparison</p>
+</dd>
+<dt>Adjusted p-values<span class="classifier">array-like</span></dt><dd><p>The associated adjusted p-values wich can be compared with a significance level</p>
+</dd>
+</dl>
+<ol class="upperalpha simple" start="10">
+<li><p>Li, A two-step rejection procedure for testing multiple hypotheses, Journal of Statistical Planning and Inference 138 (2008) 1521–1527.</p></li>
+</ol>
+</dd></dl>
+
+</section>
+<section id="pyvhr-stats-single-dataset-analysis-module">
+<h2>pyVHR.stats.single_dataset_analysis module<a class="headerlink" href="#pyvhr-stats-single-dataset-analysis-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-pyVHR.stats">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyVHR.stats" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, phuselab.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

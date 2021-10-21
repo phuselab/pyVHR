@@ -1,21 +1,30 @@
-
 import numpy as np
 import pybdf
 from biosppy.signals import ecg
 from pyVHR.datasets.dataset import Dataset
-from pyVHR.signals.ecg import ECGsignal
+from pyVHR.utils.ecg import ECGsignal
+
+"""
+In order to use this module you need a Fortran Compiler.
+
+For Linux you can use:
+    sudo apt-get install gfortran
+
+"""
 
 class MAHNOB(Dataset):
     """
-    Mahnob dataset structure:
-    -----------------
-        datasetDIR/
-        |
-        ||-- vidDIR1/
-        |   |-- videoFile.avi
-        |   |-- physioFile.bdf
-        |...
-        |...
+    Mahnob Dataset
+
+    .. Mahnob dataset structure:
+    .. -----------------
+    ..     datasetDIR/
+    ..     |
+    ..     ||-- vidDIR1/
+    ..     |   |-- videoFile.avi
+    ..     |   |-- physioFile.bdf
+    ..     |...
+    ..     |...
     """
     name = 'MAHNOB'
     signalGT = 'ECG'     # GT signal type
@@ -30,7 +39,10 @@ class MAHNOB(Dataset):
 
     def readSigfile(self, filename):
         """ Load ECG signal.
-            Return a 2-dim signal (t, bmp(t))
+
+            Returns:
+                a pyVHR.utils.ecg.ECGsignal object that can be used to extract ground truth BPM signal.
+            
         """
         bdfRec = pybdf.bdfRecording(filename)
         rec = bdfRec.getData(channels=[33])

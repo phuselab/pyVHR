@@ -1,0 +1,10 @@
+pyVHR.resources.img package
+===========================
+
+Module contents
+---------------
+
+.. automodule:: pyVHR.resources.img
+   :members:
+   :undoc-members:
+   :show-inheritance:

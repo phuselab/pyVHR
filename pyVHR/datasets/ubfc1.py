@@ -1,18 +1,21 @@
 import csv
 import numpy as np
 from pyVHR.datasets.dataset import Dataset
-from pyVHR.signals.bvp import BVPsignal
+from pyVHR.BPM.BPM import BVPsignal
+
 
 class UBFC1(Dataset):
     """
-    UBFC dataset structure:
-    -----------------
-        datasetDIR/
-        |   |-- SubjDIR1/
-        |       |-- vid.avi
-        |...
-        |   |-- SubjDIRM/
-        |       |-- vid.avi
+    UBFC1 Dataset
+
+    .. UBFC dataset structure:
+    .. -----------------
+    ..     datasetDIR/
+    ..     |   |-- SubjDIR1/
+    ..     |       |-- vid.avi
+    ..     |...
+    ..     |   |-- SubjDIRM/
+    ..     |       |-- vid.avi
     """
     name = 'UBFC1'
     signalGT = 'BVP'     # GT signal type
@@ -22,13 +25,16 @@ class UBFC1(Dataset):
     frameRate = 30       # vieo frame rate
     VIDEO_SUBSTRING = ''  # substring contained in the filename
     SIG_EXT = 'xmp'     # extension of the BVP files
-    SIG_SUBSTRING = '' # substring contained in the filename
-    SIG_SampleRate = 62 # sample rate of the BVP files
-    skinThresh = [40,60]  # thresholds for skin detection
+    SIG_SUBSTRING = ''  # substring contained in the filename
+    SIG_SampleRate = 62  # sample rate of the BVP files
+    skinThresh = [40, 60]  # thresholds for skin detection
 
     def readSigfile(self, filename):
-        """ Load BVP signal.
-            Must return a 1-dim (row array) signal
+        """ 
+        Load signal from file.
+        
+        Returns:
+            a :py:class:`pyVHR.BPM.BPM.BVPsignal` object that can be used to extract BPM signal from ground truth BVP signal.
         """
         gtTrace = []
         gtTime = []

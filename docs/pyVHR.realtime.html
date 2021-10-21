@@ -1,0 +1,512 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>pyVHR.realtime package &#8212; pyVHR 1.0 documentation</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/blank.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="index.html">
+<p class="title">pyVHR</p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.BPM.html">
+   pyVHR.BPM package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.BVP.html">
+   pyVHR.BVP package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.analysis.html">
+   pyVHR.analysis package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pyVHR.datasets.html">
+   pyVHR.datasets package
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyVHR.datasets.utils.html">
+     pyVHR.datasets.utils package
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.extraction.html">
+   pyVHR.extraction package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.plot.html">
+   pyVHR.plot package
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   pyVHR.realtime package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pyVHR.resources.html">
+   pyVHR.resources package
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="pyVHR.resources.faceparsing.html">
+     pyVHR.resources.faceparsing package
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pyVHR.resources.faceparsing.modules.html">
+       pyVHR.resources.faceparsing.modules package
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyVHR.resources.img.html">
+     pyVHR.resources.img package
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.utils.html">
+   pyVHR.utils package
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.realtime.GUI">
+   pyVHR.realtime.GUI module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.realtime.VHRroutine">
+   pyVHR.realtime.VHRroutine module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.realtime.params">
+   pyVHR.realtime.params module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.realtime.video_capture">
+   pyVHR.realtime.video_capture module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.realtime">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <section id="pyvhr-realtime-package">
+<h1>pyVHR.realtime package<a class="headerlink" href="#pyvhr-realtime-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-pyVHR.realtime.GUI">
+<span id="pyvhr-realtime-gui-module"></span><h2>pyVHR.realtime.GUI module<a class="headerlink" href="#module-pyVHR.realtime.GUI" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.realtime.GUI.GUI_MENU">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.realtime.GUI.</span></span><span class="sig-name descname"><span class="pre">GUI_MENU</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/realtime/GUI.html#GUI_MENU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.realtime.GUI.GUI_MENU" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyVHR.realtime.VHRroutine">
+<span id="pyvhr-realtime-vhrroutine-module"></span><h2>pyVHR.realtime.VHRroutine module<a class="headerlink" href="#module-pyVHR.realtime.VHRroutine" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.realtime.VHRroutine.SharedData">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.realtime.VHRroutine.</span></span><span class="sig-name descname"><span class="pre">SharedData</span></span><a class="reference internal" href="_modules/pyVHR/realtime/VHRroutine.html#SharedData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.realtime.VHRroutine.SharedData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.realtime.VHRroutine.VHRroutine">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.realtime.VHRroutine.</span></span><span class="sig-name descname"><span class="pre">VHRroutine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sharedData</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/realtime/VHRroutine.html#VHRroutine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.realtime.VHRroutine.VHRroutine" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyVHR.realtime.params">
+<span id="pyvhr-realtime-params-module"></span><h2>pyVHR.realtime.params module<a class="headerlink" href="#module-pyVHR.realtime.params" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.realtime.params.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="reference internal" href="_modules/pyVHR/realtime/params.html#Params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.realtime.params.Params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.BPM_extraction_type">
+<span class="sig-name descname"><span class="pre">BPM_extraction_type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'welch'</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.BPM_extraction_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.approach">
+<span class="sig-name descname"><span class="pre">approach</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'patches'</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.approach" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.color_high_threshold">
+<span class="sig-name descname"><span class="pre">color_high_threshold</span></span><em class="property"> <span class="pre">=</span> <span class="pre">230</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.color_high_threshold" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.color_low_threshold">
+<span class="sig-name descname"><span class="pre">color_low_threshold</span></span><em class="property"> <span class="pre">=</span> <span class="pre">75</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.color_low_threshold" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.cuda">
+<span class="sig-name descname"><span class="pre">cuda</span></span><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.cuda" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.fake_delay">
+<span class="sig-name descname"><span class="pre">fake_delay</span></span><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.fake_delay" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.font_color">
+<span class="sig-name descname"><span class="pre">font_color</span></span><em class="property"> <span class="pre">=</span> <span class="pre">(255,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">255)</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.font_color" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.font_size">
+<span class="sig-name descname"><span class="pre">font_size</span></span><em class="property"> <span class="pre">=</span> <span class="pre">0.3</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.font_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.fps_fixed">
+<span class="sig-name descname"><span class="pre">fps_fixed</span></span><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.fps_fixed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.landmarks_list">
+<span class="sig-name descname"><span class="pre">landmarks_list</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10,</span> <span class="pre">18,</span> <span class="pre">21,</span> <span class="pre">32,</span> <span class="pre">35,</span> <span class="pre">36,</span> <span class="pre">43,</span> <span class="pre">46,</span> <span class="pre">47,</span> <span class="pre">48,</span> <span class="pre">50,</span> <span class="pre">54,</span> <span class="pre">58,</span> <span class="pre">67,</span> <span class="pre">68,</span> <span class="pre">69,</span> <span class="pre">71,</span> <span class="pre">92,</span> <span class="pre">93,</span> <span class="pre">101,</span> <span class="pre">103,</span> <span class="pre">104,</span> <span class="pre">108,</span> <span class="pre">109,</span> <span class="pre">116,</span> <span class="pre">117,</span> <span class="pre">118,</span> <span class="pre">123,</span> <span class="pre">132,</span> <span class="pre">134,</span> <span class="pre">135,</span> <span class="pre">138,</span> <span class="pre">139,</span> <span class="pre">142,</span> <span class="pre">148,</span> <span class="pre">149,</span> <span class="pre">150,</span> <span class="pre">151,</span> <span class="pre">152,</span> <span class="pre">182,</span> <span class="pre">187,</span> <span class="pre">188,</span> <span class="pre">193,</span> <span class="pre">197,</span> <span class="pre">201,</span> <span class="pre">205,</span> <span class="pre">206,</span> <span class="pre">207,</span> <span class="pre">210,</span> <span class="pre">211,</span> <span class="pre">212,</span> <span class="pre">216,</span> <span class="pre">234,</span> <span class="pre">248,</span> <span class="pre">251,</span> <span class="pre">262,</span> <span class="pre">265,</span> <span class="pre">266,</span> <span class="pre">273,</span> <span class="pre">277,</span> <span class="pre">278,</span> <span class="pre">280,</span> <span class="pre">284,</span> <span class="pre">288,</span> <span class="pre">297,</span> <span class="pre">299,</span> <span class="pre">322,</span> <span class="pre">323,</span> <span class="pre">330,</span> <span class="pre">332,</span> <span class="pre">333,</span> <span class="pre">337,</span> <span class="pre">338,</span> <span class="pre">345,</span> <span class="pre">346,</span> <span class="pre">361,</span> <span class="pre">363,</span> <span class="pre">364,</span> <span class="pre">367,</span> <span class="pre">368,</span> <span class="pre">371,</span> <span class="pre">377,</span> <span class="pre">379,</span> <span class="pre">411,</span> <span class="pre">412,</span> <span class="pre">417,</span> <span class="pre">421,</span> <span class="pre">425,</span> <span class="pre">426,</span> <span class="pre">427,</span> <span class="pre">430,</span> <span class="pre">432,</span> <span class="pre">436]</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.landmarks_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.maxHz">
+<span class="sig-name descname"><span class="pre">maxHz</span></span><em class="property"> <span class="pre">=</span> <span class="pre">4.0</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.maxHz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.method">
+<span class="sig-name descname"><span class="pre">method</span></span><em class="property"> <span class="pre">=</span> <span class="pre">{'device_type':</span> <span class="pre">'cpu',</span> <span class="pre">'method_func':</span> <span class="pre">&lt;function</span> <span class="pre">cpu_CHROM&gt;,</span> <span class="pre">'params':</span> <span class="pre">{}}</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.method" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.minHz">
+<span class="sig-name descname"><span class="pre">minHz</span></span><em class="property"> <span class="pre">=</span> <span class="pre">0.7</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.minHz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.out_path">
+<span class="sig-name descname"><span class="pre">out_path</span></span><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.out_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.patches">
+<span class="sig-name descname"><span class="pre">patches</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'squares'</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.patches" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.post_filter">
+<span class="sig-name descname"><span class="pre">post_filter</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[{'filter_func':</span> <span class="pre">&lt;function</span> <span class="pre">BPfilter&gt;,</span> <span class="pre">'params':</span> <span class="pre">{'minHz':</span> <span class="pre">0.7,</span> <span class="pre">'maxHz':</span> <span class="pre">3.0,</span> <span class="pre">'fps':</span> <span class="pre">'adaptive',</span> <span class="pre">'order':</span> <span class="pre">6}}]</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.post_filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.pre_filter">
+<span class="sig-name descname"><span class="pre">pre_filter</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[{'filter_func':</span> <span class="pre">&lt;function</span> <span class="pre">BPfilter&gt;,</span> <span class="pre">'params':</span> <span class="pre">{'minHz':</span> <span class="pre">0.7,</span> <span class="pre">'maxHz':</span> <span class="pre">3.0,</span> <span class="pre">'fps':</span> <span class="pre">'adaptive',</span> <span class="pre">'order':</span> <span class="pre">6}}]</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.pre_filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.rects_dims">
+<span class="sig-name descname"><span class="pre">rects_dims</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[]</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.rects_dims" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.resize">
+<span class="sig-name descname"><span class="pre">resize</span></span><em class="property"> <span class="pre">=</span> <span class="pre">True</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.resize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.sig_color_high_threshold">
+<span class="sig-name descname"><span class="pre">sig_color_high_threshold</span></span><em class="property"> <span class="pre">=</span> <span class="pre">230</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.sig_color_high_threshold" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.sig_color_low_threshold">
+<span class="sig-name descname"><span class="pre">sig_color_low_threshold</span></span><em class="property"> <span class="pre">=</span> <span class="pre">75</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.sig_color_low_threshold" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.skin_color_high_threshold">
+<span class="sig-name descname"><span class="pre">skin_color_high_threshold</span></span><em class="property"> <span class="pre">=</span> <span class="pre">230</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.skin_color_high_threshold" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.skin_color_low_threshold">
+<span class="sig-name descname"><span class="pre">skin_color_low_threshold</span></span><em class="property"> <span class="pre">=</span> <span class="pre">75</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.skin_color_low_threshold" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.skin_extractor">
+<span class="sig-name descname"><span class="pre">skin_extractor</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'convexhull'</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.skin_extractor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.squares_dim">
+<span class="sig-name descname"><span class="pre">squares_dim</span></span><em class="property"> <span class="pre">=</span> <span class="pre">30.0</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.squares_dim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.stride">
+<span class="sig-name descname"><span class="pre">stride</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.stride" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.tot_sec">
+<span class="sig-name descname"><span class="pre">tot_sec</span></span><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.tot_sec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'mean'</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.videoFileName">
+<span class="sig-name descname"><span class="pre">videoFileName</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.videoFileName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.visualize_landmarks">
+<span class="sig-name descname"><span class="pre">visualize_landmarks</span></span><em class="property"> <span class="pre">=</span> <span class="pre">True</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.visualize_landmarks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.visualize_landmarks_number">
+<span class="sig-name descname"><span class="pre">visualize_landmarks_number</span></span><em class="property"> <span class="pre">=</span> <span class="pre">True</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.visualize_landmarks_number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.visualize_patches">
+<span class="sig-name descname"><span class="pre">visualize_patches</span></span><em class="property"> <span class="pre">=</span> <span class="pre">True</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.visualize_patches" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.visualize_skin">
+<span class="sig-name descname"><span class="pre">visualize_skin</span></span><em class="property"> <span class="pre">=</span> <span class="pre">True</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.visualize_skin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.realtime.params.Params.winSize">
+<span class="sig-name descname"><span class="pre">winSize</span></span><em class="property"> <span class="pre">=</span> <span class="pre">6</span></em><a class="headerlink" href="#pyVHR.realtime.params.Params.winSize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.realtime.video_capture">
+<span id="pyvhr-realtime-video-capture-module"></span><h2>pyVHR.realtime.video_capture module<a class="headerlink" href="#module-pyVHR.realtime.video_capture" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.realtime.video_capture.VideoCapture">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.realtime.video_capture.</span></span><span class="sig-name descname"><span class="pre">VideoCapture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sharedData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sleep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/realtime/video_capture.html#VideoCapture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.realtime.video_capture.VideoCapture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.realtime">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyVHR.realtime" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, phuselab.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

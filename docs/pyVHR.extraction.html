@@ -1,0 +1,886 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>pyVHR.extraction package &#8212; pyVHR 1.0 documentation</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/blank.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="index.html">
+<p class="title">pyVHR</p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.BPM.html">
+   pyVHR.BPM package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.BVP.html">
+   pyVHR.BVP package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.analysis.html">
+   pyVHR.analysis package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pyVHR.datasets.html">
+   pyVHR.datasets package
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyVHR.datasets.utils.html">
+     pyVHR.datasets.utils package
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   pyVHR.extraction package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.plot.html">
+   pyVHR.plot package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.realtime.html">
+   pyVHR.realtime package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pyVHR.resources.html">
+   pyVHR.resources package
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="pyVHR.resources.faceparsing.html">
+     pyVHR.resources.faceparsing package
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pyVHR.resources.faceparsing.modules.html">
+       pyVHR.resources.faceparsing.modules package
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyVHR.resources.img.html">
+     pyVHR.resources.img package
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.utils.html">
+   pyVHR.utils package
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.extraction.sig_extraction_methods">
+   pyVHR.extraction.sig_extraction_methods module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.extraction.sig_processing">
+   pyVHR.extraction.sig_processing module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.extraction.skin_extraction_methods">
+   pyVHR.extraction.skin_extraction_methods module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.extraction.utils">
+   pyVHR.extraction.utils module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.extraction">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <section id="pyvhr-extraction-package">
+<h1>pyVHR.extraction package<a class="headerlink" href="#pyvhr-extraction-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-pyVHR.extraction.sig_extraction_methods">
+<span id="pyvhr-extraction-sig-extraction-methods-module"></span><h2>pyVHR.extraction.sig_extraction_methods module<a class="headerlink" href="#module-pyVHR.extraction.sig_extraction_methods" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_extraction_methods.SignalProcessingParams">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.sig_extraction_methods.</span></span><span class="sig-name descname"><span class="pre">SignalProcessingParams</span></span><a class="reference internal" href="_modules/pyVHR/extraction/sig_extraction_methods.html#SignalProcessingParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_extraction_methods.SignalProcessingParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class contains usefull parameters used by this module.</p>
+<p>RGB_LOW_TH (numpy.int32): RGB low-threshold value.</p>
+<p>RGB_HIGH_TH (numpy.int32): RGB high-threshold value.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_extraction_methods.SignalProcessingParams.RGB_HIGH_TH">
+<span class="sig-name descname"><span class="pre">RGB_HIGH_TH</span></span><em class="property"> <span class="pre">=</span> <span class="pre">200</span></em><a class="headerlink" href="#pyVHR.extraction.sig_extraction_methods.SignalProcessingParams.RGB_HIGH_TH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_extraction_methods.SignalProcessingParams.RGB_LOW_TH">
+<span class="sig-name descname"><span class="pre">RGB_LOW_TH</span></span><em class="property"> <span class="pre">=</span> <span class="pre">55</span></em><a class="headerlink" href="#pyVHR.extraction.sig_extraction_methods.SignalProcessingParams.RGB_LOW_TH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_extraction_methods.holistic_mean">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.sig_extraction_methods.</span></span><span class="sig-name descname"><span class="pre">holistic_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">im</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RGB_LOW_TH</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RGB_HIGH_TH</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_extraction_methods.html#holistic_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_extraction_methods.holistic_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method computes the RGB-Mean Signal excluding ‘im’ pixels
+that are outside the RGB range [RGB_LOW_TH, RGB_HIGH_TH] (extremes are included).</p>
+<dl class="simple">
+<dt>Args: </dt><dd><p>im (uint8 ndarray): ndarray with shape [rows, columns, rgb_channels].
+RGB_LOW_TH (numpy.int32): RGB low threshold value.
+RGB_HIGH_TH (numpy.int32): RGB high threshold value.</p>
+</dd>
+<dt>Returns:</dt><dd><p>RGB-Mean Signal as float32 ndarray with shape [1,3], where 1 is the single estimator,
+and 3 are r-mean, g-mean and b-mean.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_extraction_methods.landmarks_mean">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.sig_extraction_methods.</span></span><span class="sig-name descname"><span class="pre">landmarks_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ldmks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">im</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">square</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RGB_LOW_TH</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RGB_HIGH_TH</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_extraction_methods.html#landmarks_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_extraction_methods.landmarks_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method computes the RGB-Mean Signal excluding ‘im’ pixels
+that are outside the RGB range [RGB_LOW_TH, RGB_HIGH_TH] (extremes are included).</p>
+<dl>
+<dt>Args: </dt><dd><dl class="simple">
+<dt>ldmks (float32 ndarray): landmakrs as ndarray with shape [num_landmarks, 5],</dt><dd><p>where the second dimension contains y-coord, x-coord, r-mean (value is not important), g-mean (value is not important), b-mean (value is not important).</p>
+</dd>
+</dl>
+<p>im (uint8 ndarray): ndarray with shape [rows, columns, rgb_channels].
+square (numpy.float32): side size of square patches.
+RGB_LOW_TH (numpy.int32): RGB low threshold value.
+RGB_HIGH_TH (numpy.int32): RGB high threshold value.</p>
+</dd>
+<dt>Returns:</dt><dd><p>RGB-Mean Signal as float32 ndarray with shape [num_landmarks, 5], where the second dimension contains y-coord, x-coord, r-mean, g-mean, b-mean.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_extraction_methods.landmarks_mean_custom_rect">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.sig_extraction_methods.</span></span><span class="sig-name descname"><span class="pre">landmarks_mean_custom_rect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ldmks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">im</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rects</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RGB_LOW_TH</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RGB_HIGH_TH</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_extraction_methods.html#landmarks_mean_custom_rect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_extraction_methods.landmarks_mean_custom_rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method computes the RGB-Mean Signal excluding ‘im’ pixels
+that are outside the RGB range [RGB_LOW_TH, RGB_HIGH_TH] (extremes are included).</p>
+<dl>
+<dt>Args: </dt><dd><dl class="simple">
+<dt>ldmks (float32 ndarray): landmakrs as ndarray with shape [num_landmarks, 5],</dt><dd><p>where the second dimension contains y-coord, x-coord, r-mean (value is not important), g-mean (value is not important), b-mean (value is not important).</p>
+</dd>
+</dl>
+<p>im (uint8 ndarray): ndarray with shape [rows, columns, rgb_channels].
+rects (float32 ndarray): positive float32 np.ndarray of shape [num_landmarks, 2]. If the list of used landmarks is [1,2,3]</p>
+<blockquote>
+<div><p>and rects_dim is [[10,20],[12,13],[40,40]] then the landmark number 2 will have a rectangular patch of xy-dimension 12x13.</p>
+</div></blockquote>
+<p>RGB_LOW_TH (numpy.int32): RGB low threshold value.
+RGB_HIGH_TH (numpy.int32): RGB high threshold value.</p>
+</dd>
+<dt>Returns:</dt><dd><p>RGB-Mean Signal as float32 ndarray with shape [num_landmarks, 5], where the second dimension contains y-coord, x-coord, r-mean, g-mean, b-mean.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_extraction_methods.landmarks_median">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.sig_extraction_methods.</span></span><span class="sig-name descname"><span class="pre">landmarks_median</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ldmks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">im</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">square</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RGB_LOW_TH</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RGB_HIGH_TH</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_extraction_methods.html#landmarks_median"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_extraction_methods.landmarks_median" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method computes the RGB-Median Signal excluding ‘im’ pixels
+that are outside the RGB range [RGB_LOW_TH, RGB_HIGH_TH] (extremes are included).</p>
+<dl>
+<dt>Args: </dt><dd><dl class="simple">
+<dt>ldmks (float32 ndarray): landmakrs as ndarray with shape [num_landmarks, 5],</dt><dd><p>where the second dimension contains y-coord, x-coord, r-mean (value is not important), g-mean (value is not important), b-mean (value is not important).</p>
+</dd>
+</dl>
+<p>im (uint8 ndarray): ndarray with shape [rows, columns, rgb_channels].
+square (numpy.float32): side size of square patches.
+RGB_LOW_TH (numpy.int32): RGB low threshold value.
+RGB_HIGH_TH (numpy.int32): RGB high threshold value.</p>
+</dd>
+<dt>Returns:</dt><dd><p>RGB-Median Signal as float32 ndarray with shape [num_landmarks, 5], where the second dimension contains y-coord, x-coord, r-mean, g-mean, b-mean.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_extraction_methods.landmarks_median_custom_rect">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.sig_extraction_methods.</span></span><span class="sig-name descname"><span class="pre">landmarks_median_custom_rect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ldmks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">im</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rects</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RGB_LOW_TH</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RGB_HIGH_TH</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_extraction_methods.html#landmarks_median_custom_rect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_extraction_methods.landmarks_median_custom_rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method computes the RGB-Median Signal excluding ‘im’ pixels
+that are outside the RGB range [RGB_LOW_TH, RGB_HIGH_TH] (extremes are included).</p>
+<dl>
+<dt>Args: </dt><dd><dl class="simple">
+<dt>ldmks (float32 ndarray): landmakrs as ndarray with shape [num_landmarks, 5],</dt><dd><p>where the second dimension contains y-coord, x-coord, r-mean (value is not important), g-mean (value is not important), b-mean (value is not important).</p>
+</dd>
+</dl>
+<p>im (uint8 ndarray): ndarray with shape [rows, columns, rgb_channels].
+rects (float32 ndarray): positive float32 np.ndarray of shape [num_landmarks, 2]. If the list of used landmarks is [1,2,3]</p>
+<blockquote>
+<div><p>and rects_dim is [[10,20],[12,13],[40,40]] then the landmark number 2 will have a rectangular patch of xy-dimension 12x13.</p>
+</div></blockquote>
+<p>RGB_LOW_TH (numpy.int32): RGB low threshold value.
+RGB_HIGH_TH (numpy.int32): RGB high threshold value.</p>
+</dd>
+<dt>Returns:</dt><dd><p>RGB-Median Signal as float32 ndarray with shape [num_landmarks, 5], where the second dimension contains y-coord, x-coord, r-mean, g-mean, b-mean.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.extraction.sig_processing">
+<span id="pyvhr-extraction-sig-processing-module"></span><h2>pyVHR.extraction.sig_processing module<a class="headerlink" href="#module-pyVHR.extraction.sig_processing" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_processing.SignalProcessing">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.sig_processing.</span></span><span class="sig-name descname"><span class="pre">SignalProcessing</span></span><a class="reference internal" href="_modules/pyVHR/extraction/sig_processing.html#SignalProcessing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_processing.SignalProcessing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class performs offline signal extraction with different methods:</p>
+<ul class="simple">
+<li><p>holistic.</p></li>
+<li><p>squared / rectangular patches.</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_processing.SignalProcessing.extract_holistic">
+<span class="sig-name descname"><span class="pre">extract_holistic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videoFileName</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_processing.html#SignalProcessing.extract_holistic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_processing.SignalProcessing.extract_holistic" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method compute the RGB-mean signal using the whole skin (holistic);</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>videoFileName (str): video file name or path.</p>
+</dd>
+<dt>Returns: </dt><dd><p>float32 ndarray: RGB signal as ndarray with shape [num_frames, 1, rgb_channels]. The second dimension is 1 because
+the whole skin is considered as one estimators.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_processing.SignalProcessing.extract_patches">
+<span class="sig-name descname"><span class="pre">extract_patches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videoFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig_extraction_method</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_processing.html#SignalProcessing.extract_patches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_processing.SignalProcessing.extract_patches" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method compute the RGB-mean signal using specific skin regions (patches).</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>videoFileName (str): video file name or path.
+region_type (str): patches types can be  “squares” or “rects”.
+sig_extraction_method (str): RGB signal can be computed with “mean” or “median”. We recommend to use mean.</p>
+</dd>
+<dt>Returns: </dt><dd><p>float32 ndarray: RGB signal as ndarray with shape [num_frames, num_patches, rgb_channels].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_processing.SignalProcessing.extract_raw_holistic">
+<span class="sig-name descname"><span class="pre">extract_raw_holistic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videoFileName</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_processing.html#SignalProcessing.extract_raw_holistic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_processing.SignalProcessing.extract_raw_holistic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locates the skin pixels in each frame. This method is intended for rPPG methods that use raw video signal.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>videoFileName (str): video file name or path.</p>
+</dd>
+<dt>Returns: </dt><dd><p>float32 ndarray: raw signal as float32 ndarray with shape [num_frames, rows, columns, rgb_channels].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_processing.SignalProcessing.get_visualize_patches">
+<span class="sig-name descname"><span class="pre">get_visualize_patches</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_processing.html#SignalProcessing.get_visualize_patches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_processing.SignalProcessing.get_visualize_patches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the ‘skin+patches’ images produced by the last processing. Remember to 
+set <a class="reference internal" href="#pyVHR.extraction.sig_processing.SignalProcessing.set_visualize_skin_and_landmarks" title="pyVHR.extraction.sig_processing.SignalProcessing.set_visualize_skin_and_landmarks"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyVHR.extraction.sig_processing.SignalProcessing.set_visualize_skin_and_landmarks()</span></code></a>
+correctly.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>list of ndarray: list of cv2 images; each image is a ndarray with shape [rows, columns, rgb_channels].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_processing.SignalProcessing.get_visualize_skin">
+<span class="sig-name descname"><span class="pre">get_visualize_skin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_processing.html#SignalProcessing.get_visualize_skin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_processing.SignalProcessing.get_visualize_skin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the skin images produced by the last processing. Remember to 
+set <a class="reference internal" href="#pyVHR.extraction.sig_processing.SignalProcessing.set_visualize_skin_and_landmarks" title="pyVHR.extraction.sig_processing.SignalProcessing.set_visualize_skin_and_landmarks"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyVHR.extraction.sig_processing.SignalProcessing.set_visualize_skin_and_landmarks()</span></code></a>
+correctly.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>list of ndarray: list of cv2 images; each image is a ndarray with shape [rows, columns, rgb_channels].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_processing.SignalProcessing.set_landmarks">
+<span class="sig-name descname"><span class="pre">set_landmarks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">landmarks_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_processing.html#SignalProcessing.set_landmarks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_processing.SignalProcessing.set_landmarks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the patches centers (landmarks) that will be used for signal processing. There are 468 facial points you can
+choose; for visualizing their identification number please use <a class="reference internal" href="pyVHR.plot.html#pyVHR.plot.visualize.visualize_landmarks_list" title="pyVHR.plot.visualize.visualize_landmarks_list"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyVHR.plot.visualize.visualize_landmarks_list()</span></code></a>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>landmarks_list (list): list of positive integers between 0 and 467 that identify patches centers (landmarks).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_processing.SignalProcessing.set_rect_patches_sides">
+<span class="sig-name descname"><span class="pre">set_rect_patches_sides</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rects_dim</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_processing.html#SignalProcessing.set_rect_patches_sides"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_processing.SignalProcessing.set_rect_patches_sides" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the dimension of each rectangular patch. There are 468 facial points you can
+choose; for visualizing their identification number please use <a class="reference internal" href="pyVHR.plot.html#pyVHR.plot.visualize.visualize_landmarks_list" title="pyVHR.plot.visualize.visualize_landmarks_list"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyVHR.plot.visualize.visualize_landmarks_list()</span></code></a>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>rects_dim (float32 ndarray): positive float32 np.ndarray of shape [num_landmarks, 2]. If the list of used landmarks is [1,2,3] </dt><dd><p>and rects_dim is [[10,20],[12,13],[40,40]] then the landmark number 2 will have a rectangular patch of xy-dimension 12x13.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_processing.SignalProcessing.set_skin_extractor">
+<span class="sig-name descname"><span class="pre">set_skin_extractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extractor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_processing.html#SignalProcessing.set_skin_extractor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_processing.SignalProcessing.set_skin_extractor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the skin extractor that will be used for skin extraction.</p>
+<dl class="simple">
+<dt>Args:  </dt><dd><p>extractor: instance of a skin_extraction class (see <a class="reference internal" href="#module-pyVHR.extraction.skin_extraction_methods" title="pyVHR.extraction.skin_extraction_methods"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyVHR.extraction.skin_extraction_methods</span></code></a>).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_processing.SignalProcessing.set_square_patches_side">
+<span class="sig-name descname"><span class="pre">set_square_patches_side</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">square_side</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_processing.html#SignalProcessing.set_square_patches_side"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_processing.SignalProcessing.set_square_patches_side" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the dimension of the square patches that will be used for signal processing. There are 468 facial points you can
+choose; for visualizing their identification number please use <a class="reference internal" href="pyVHR.plot.html#pyVHR.plot.visualize.visualize_landmarks_list" title="pyVHR.plot.visualize.visualize_landmarks_list"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyVHR.plot.visualize.visualize_landmarks_list()</span></code></a>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>square_side (float): positive float that defines the length of the square patches.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_processing.SignalProcessing.set_total_frames">
+<span class="sig-name descname"><span class="pre">set_total_frames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_processing.html#SignalProcessing.set_total_frames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_processing.SignalProcessing.set_total_frames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the total frames to be processed; if you want to process all the possible frames use n = 0.</p>
+<dl class="simple">
+<dt>Args:  </dt><dd><p>n (int): number of frames to be processed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.extraction.sig_processing.SignalProcessing.set_visualize_skin_and_landmarks">
+<span class="sig-name descname"><span class="pre">set_visualize_skin_and_landmarks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visualize_skin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visualize_landmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visualize_landmarks_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visualize_patch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/sig_processing.html#SignalProcessing.set_visualize_skin_and_landmarks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.sig_processing.SignalProcessing.set_visualize_skin_and_landmarks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set visualization parameters. You can retrieve visualization output with the 
+methods <a class="reference internal" href="#pyVHR.extraction.sig_processing.SignalProcessing.get_visualize_skin" title="pyVHR.extraction.sig_processing.SignalProcessing.get_visualize_skin"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyVHR.extraction.sig_processing.SignalProcessing.get_visualize_skin()</span></code></a> 
+and <a class="reference internal" href="#pyVHR.extraction.sig_processing.SignalProcessing.get_visualize_patches" title="pyVHR.extraction.sig_processing.SignalProcessing.get_visualize_patches"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyVHR.extraction.sig_processing.SignalProcessing.get_visualize_patches()</span></code></a></p>
+<dl class="simple">
+<dt>Args:  </dt><dd><p>visualize_skin (bool): The skin and the patches will be visualized.
+visualize_landmarks (bool): The landmarks (centers of patches) will be visualized.
+visualize_landmarks_number (bool): The landmarks number will be visualized.
+visualize_patch (bool): The patches outline will be visualized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.extraction.skin_extraction_methods">
+<span id="pyvhr-extraction-skin-extraction-methods-module"></span><h2>pyVHR.extraction.skin_extraction_methods module<a class="headerlink" href="#module-pyVHR.extraction.skin_extraction_methods" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.extraction.skin_extraction_methods.SkinExtractionConvexHull">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.skin_extraction_methods.</span></span><span class="sig-name descname"><span class="pre">SkinExtractionConvexHull</span></span><a class="reference internal" href="_modules/pyVHR/extraction/skin_extraction_methods.html#SkinExtractionConvexHull"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.skin_extraction_methods.SkinExtractionConvexHull" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class performs skin extraction on CPU/GPU using a Convex Hull segmentation obtained from facial landmarks.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.extraction.skin_extraction_methods.SkinExtractionConvexHull.extract_skin">
+<span class="sig-name descname"><span class="pre">extract_skin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ldmks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/skin_extraction_methods.html#SkinExtractionConvexHull.extract_skin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.skin_extraction_methods.SkinExtractionConvexHull.extract_skin" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method extract the skin from an image using Convex Hull segmentation.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>image (uint8 ndarray): ndarray with shape [rows, columns, rgb_channels].
+ldmks (float32 ndarray): landmarks used to create the Convex Hull; ldmks is a ndarray with shape [num_landmarks, xy_coordinates].</p>
+</dd>
+<dt>Returns:</dt><dd><p>Cropped skin-image and non-cropped skin-image; both are uint8 ndarray with shape [rows, columns, rgb_channels].</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.extraction.skin_extraction_methods.SkinExtractionFaceParsing">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.skin_extraction_methods.</span></span><span class="sig-name descname"><span class="pre">SkinExtractionFaceParsing</span></span><a class="reference internal" href="_modules/pyVHR/extraction/skin_extraction_methods.html#SkinExtractionFaceParsing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.skin_extraction_methods.SkinExtractionFaceParsing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class performs skin extraction on CPU/GPU using Face Parsing.
+<a class="reference external" href="https://github.com/zllrunning/face-parsing.PyTorch">https://github.com/zllrunning/face-parsing.PyTorch</a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.extraction.skin_extraction_methods.SkinExtractionFaceParsing.extract_skin">
+<span class="sig-name descname"><span class="pre">extract_skin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ldmks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/skin_extraction_methods.html#SkinExtractionFaceParsing.extract_skin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.skin_extraction_methods.SkinExtractionFaceParsing.extract_skin" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method extract the skin from an image using Face Parsing. 
+Landmarks (ldmks) are used to create a facial bounding box for cropping the face; this way
+the network used in Face Parsing is more accurate.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>image (uint8 ndarray): ndarray with shape [rows, columns, rgb_channels].
+ldmks (float32 ndarray): ndarray with shape [num_landmarks, xy_coordinates].</p>
+</dd>
+<dt>Returns:</dt><dd><p>Cropped skin-image and non-cropped skin-image; both are uint8 ndarray with shape [rows, columns, rgb_channels].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.extraction.skin_extraction_methods.SkinExtractionFaceParsing.extraction">
+<span class="sig-name descname"><span class="pre">extraction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">im</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nda_im</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/skin_extraction_methods.html#SkinExtractionFaceParsing.extraction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.skin_extraction_methods.SkinExtractionFaceParsing.extraction" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method performs skin extraction using Face Parsing.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>im (torch.Tensor): torch.Tensor with size [rows, columns, rgb_channels] 
+nda_im (uint8 ndarray): ndarray with shape [rows, columns, rgb_channels].</p>
+</dd>
+<dt>Returns:</dt><dd><p>skin-image as uint8 ndarray with shape [rows, columns, rgb_channels].</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.extraction.skin_extraction_methods.SkinProcessingParams">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.skin_extraction_methods.</span></span><span class="sig-name descname"><span class="pre">SkinProcessingParams</span></span><a class="reference internal" href="_modules/pyVHR/extraction/skin_extraction_methods.html#SkinProcessingParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.skin_extraction_methods.SkinProcessingParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class contains usefull parameters used by this module.</p>
+<p>RGB_LOW_TH (numpy.int32): RGB low-threshold value.</p>
+<p>RGB_HIGH_TH (numpy.int32): RGB high-threshold value.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.skin_extraction_methods.SkinProcessingParams.RGB_HIGH_TH">
+<span class="sig-name descname"><span class="pre">RGB_HIGH_TH</span></span><em class="property"> <span class="pre">=</span> <span class="pre">200</span></em><a class="headerlink" href="#pyVHR.extraction.skin_extraction_methods.SkinProcessingParams.RGB_HIGH_TH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.skin_extraction_methods.SkinProcessingParams.RGB_LOW_TH">
+<span class="sig-name descname"><span class="pre">RGB_LOW_TH</span></span><em class="property"> <span class="pre">=</span> <span class="pre">55</span></em><a class="headerlink" href="#pyVHR.extraction.skin_extraction_methods.SkinProcessingParams.RGB_LOW_TH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.extraction.skin_extraction_methods.bbox2_CPU">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.skin_extraction_methods.</span></span><span class="sig-name descname"><span class="pre">bbox2_CPU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/skin_extraction_methods.html#bbox2_CPU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.skin_extraction_methods.bbox2_CPU" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Args:</dt><dd><p>img (ndarray): ndarray with shape [rows, columns, rgb_channels].</p>
+</dd>
+<dt>Returns: </dt><dd><p>Four cropping coordinates (row, row, column, column) for removing black borders (RGB [O,O,O]) from img.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.extraction.skin_extraction_methods.kernel_skin_copy_and_filter">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.skin_extraction_methods.</span></span><span class="sig-name descname"><span class="pre">kernel_skin_copy_and_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RGB_LOW_TH</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RGB_HIGH_TH</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/skin_extraction_methods.html#kernel_skin_copy_and_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.skin_extraction_methods.kernel_skin_copy_and_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method removes pixels from the image ‘orig’ that are not skin, or 
+that are outside the RGB range [RGB_LOW_TH, RGB_HIGH_TH] (extremes are included).</p>
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.extraction.utils">
+<span id="pyvhr-extraction-utils-module"></span><h2>pyVHR.extraction.utils module<a class="headerlink" href="#module-pyVHR.extraction.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.utils.</span></span><span class="sig-name descname"><span class="pre">MagicLandmarks</span></span><a class="reference internal" href="_modules/pyVHR/extraction/utils.html#MagicLandmarks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class contains usefull lists of landmarks identification numbers.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.cheek_left_bottom">
+<span class="sig-name descname"><span class="pre">cheek_left_bottom</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[215,</span> <span class="pre">138,</span> <span class="pre">135,</span> <span class="pre">210,</span> <span class="pre">212,</span> <span class="pre">57,</span> <span class="pre">216,</span> <span class="pre">207,</span> <span class="pre">192]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.cheek_left_bottom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.cheek_left_top">
+<span class="sig-name descname"><span class="pre">cheek_left_top</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[116,</span> <span class="pre">111,</span> <span class="pre">117,</span> <span class="pre">118,</span> <span class="pre">119,</span> <span class="pre">100,</span> <span class="pre">47,</span> <span class="pre">126,</span> <span class="pre">101,</span> <span class="pre">123,</span> <span class="pre">137,</span> <span class="pre">177,</span> <span class="pre">50,</span> <span class="pre">36,</span> <span class="pre">209,</span> <span class="pre">129,</span> <span class="pre">205,</span> <span class="pre">147,</span> <span class="pre">177,</span> <span class="pre">215,</span> <span class="pre">187,</span> <span class="pre">207,</span> <span class="pre">206,</span> <span class="pre">203]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.cheek_left_top" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.cheek_right_bottom">
+<span class="sig-name descname"><span class="pre">cheek_right_bottom</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[435,</span> <span class="pre">427,</span> <span class="pre">416,</span> <span class="pre">364,</span> <span class="pre">394,</span> <span class="pre">422,</span> <span class="pre">287,</span> <span class="pre">410,</span> <span class="pre">434,</span> <span class="pre">436]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.cheek_right_bottom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.cheek_right_top">
+<span class="sig-name descname"><span class="pre">cheek_right_top</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[349,</span> <span class="pre">348,</span> <span class="pre">347,</span> <span class="pre">346,</span> <span class="pre">345,</span> <span class="pre">447,</span> <span class="pre">323,</span> <span class="pre">280,</span> <span class="pre">352,</span> <span class="pre">330,</span> <span class="pre">371,</span> <span class="pre">358,</span> <span class="pre">423,</span> <span class="pre">426,</span> <span class="pre">425,</span> <span class="pre">427,</span> <span class="pre">411,</span> <span class="pre">376]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.cheek_right_top" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.chin">
+<span class="sig-name descname"><span class="pre">chin</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[204,</span> <span class="pre">170,</span> <span class="pre">140,</span> <span class="pre">194,</span> <span class="pre">201,</span> <span class="pre">171,</span> <span class="pre">175,</span> <span class="pre">200,</span> <span class="pre">418,</span> <span class="pre">396,</span> <span class="pre">369,</span> <span class="pre">421,</span> <span class="pre">431,</span> <span class="pre">379,</span> <span class="pre">424]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.chin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.equispaced_facial_points">
+<span class="sig-name descname"><span class="pre">equispaced_facial_points</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10,</span> <span class="pre">18,</span> <span class="pre">21,</span> <span class="pre">32,</span> <span class="pre">35,</span> <span class="pre">36,</span> <span class="pre">43,</span> <span class="pre">46,</span> <span class="pre">47,</span> <span class="pre">48,</span> <span class="pre">50,</span> <span class="pre">54,</span> <span class="pre">58,</span> <span class="pre">67,</span> <span class="pre">68,</span> <span class="pre">69,</span> <span class="pre">71,</span> <span class="pre">92,</span> <span class="pre">93,</span> <span class="pre">101,</span> <span class="pre">103,</span> <span class="pre">104,</span> <span class="pre">108,</span> <span class="pre">109,</span> <span class="pre">116,</span> <span class="pre">117,</span> <span class="pre">118,</span> <span class="pre">123,</span> <span class="pre">132,</span> <span class="pre">134,</span> <span class="pre">135,</span> <span class="pre">138,</span> <span class="pre">139,</span> <span class="pre">142,</span> <span class="pre">148,</span> <span class="pre">149,</span> <span class="pre">150,</span> <span class="pre">151,</span> <span class="pre">152,</span> <span class="pre">182,</span> <span class="pre">187,</span> <span class="pre">188,</span> <span class="pre">193,</span> <span class="pre">197,</span> <span class="pre">201,</span> <span class="pre">205,</span> <span class="pre">206,</span> <span class="pre">207,</span> <span class="pre">210,</span> <span class="pre">211,</span> <span class="pre">212,</span> <span class="pre">216,</span> <span class="pre">234,</span> <span class="pre">248,</span> <span class="pre">251,</span> <span class="pre">262,</span> <span class="pre">265,</span> <span class="pre">266,</span> <span class="pre">273,</span> <span class="pre">277,</span> <span class="pre">278,</span> <span class="pre">280,</span> <span class="pre">284,</span> <span class="pre">288,</span> <span class="pre">297,</span> <span class="pre">299,</span> <span class="pre">322,</span> <span class="pre">323,</span> <span class="pre">330,</span> <span class="pre">332,</span> <span class="pre">333,</span> <span class="pre">337,</span> <span class="pre">338,</span> <span class="pre">345,</span> <span class="pre">346,</span> <span class="pre">361,</span> <span class="pre">363,</span> <span class="pre">364,</span> <span class="pre">367,</span> <span class="pre">368,</span> <span class="pre">371,</span> <span class="pre">377,</span> <span class="pre">379,</span> <span class="pre">411,</span> <span class="pre">412,</span> <span class="pre">417,</span> <span class="pre">421,</span> <span class="pre">425,</span> <span class="pre">426,</span> <span class="pre">427,</span> <span class="pre">430,</span> <span class="pre">432,</span> <span class="pre">436]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.equispaced_facial_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.eye_left">
+<span class="sig-name descname"><span class="pre">eye_left</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[127,</span> <span class="pre">234,</span> <span class="pre">34,</span> <span class="pre">139,</span> <span class="pre">70,</span> <span class="pre">53,</span> <span class="pre">124,</span> <span class="pre">35,</span> <span class="pre">111,</span> <span class="pre">228,</span> <span class="pre">230,</span> <span class="pre">121,</span> <span class="pre">244,</span> <span class="pre">189,</span> <span class="pre">222,</span> <span class="pre">143]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.eye_left" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.eye_right">
+<span class="sig-name descname"><span class="pre">eye_right</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[283,</span> <span class="pre">300,</span> <span class="pre">368,</span> <span class="pre">353,</span> <span class="pre">264,</span> <span class="pre">372,</span> <span class="pre">454,</span> <span class="pre">340,</span> <span class="pre">448,</span> <span class="pre">450,</span> <span class="pre">452,</span> <span class="pre">464,</span> <span class="pre">417,</span> <span class="pre">441,</span> <span class="pre">444,</span> <span class="pre">282,</span> <span class="pre">276,</span> <span class="pre">446,</span> <span class="pre">368]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.eye_right" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.forehead_center">
+<span class="sig-name descname"><span class="pre">forehead_center</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[10,</span> <span class="pre">151,</span> <span class="pre">9,</span> <span class="pre">8,</span> <span class="pre">107,</span> <span class="pre">336,</span> <span class="pre">285,</span> <span class="pre">55,</span> <span class="pre">8]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.forehead_center" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.forehead_left">
+<span class="sig-name descname"><span class="pre">forehead_left</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[21,</span> <span class="pre">71,</span> <span class="pre">68,</span> <span class="pre">54,</span> <span class="pre">103,</span> <span class="pre">104,</span> <span class="pre">63,</span> <span class="pre">70,</span> <span class="pre">53,</span> <span class="pre">52,</span> <span class="pre">65,</span> <span class="pre">107,</span> <span class="pre">66,</span> <span class="pre">108,</span> <span class="pre">69,</span> <span class="pre">67,</span> <span class="pre">109,</span> <span class="pre">105]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.forehead_left" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.forehoead_right">
+<span class="sig-name descname"><span class="pre">forehoead_right</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[338,</span> <span class="pre">337,</span> <span class="pre">336,</span> <span class="pre">296,</span> <span class="pre">285,</span> <span class="pre">295,</span> <span class="pre">282,</span> <span class="pre">334,</span> <span class="pre">293,</span> <span class="pre">301,</span> <span class="pre">251,</span> <span class="pre">298,</span> <span class="pre">333,</span> <span class="pre">299,</span> <span class="pre">297,</span> <span class="pre">332,</span> <span class="pre">284]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.forehoead_right" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.high_prio_forehead">
+<span class="sig-name descname"><span class="pre">high_prio_forehead</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[10,</span> <span class="pre">67,</span> <span class="pre">69,</span> <span class="pre">104,</span> <span class="pre">108,</span> <span class="pre">109,</span> <span class="pre">151,</span> <span class="pre">299,</span> <span class="pre">337,</span> <span class="pre">338]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.high_prio_forehead" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.high_prio_left_cheek">
+<span class="sig-name descname"><span class="pre">high_prio_left_cheek</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[36,</span> <span class="pre">47,</span> <span class="pre">50,</span> <span class="pre">100,</span> <span class="pre">101,</span> <span class="pre">116,</span> <span class="pre">117,</span> <span class="pre">118,</span> <span class="pre">119,</span> <span class="pre">123,</span> <span class="pre">126,</span> <span class="pre">147,</span> <span class="pre">187,</span> <span class="pre">203,</span> <span class="pre">205,</span> <span class="pre">206,</span> <span class="pre">207,</span> <span class="pre">216]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.high_prio_left_cheek" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.high_prio_nose">
+<span class="sig-name descname"><span class="pre">high_prio_nose</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">45,</span> <span class="pre">51,</span> <span class="pre">115,</span> <span class="pre">122,</span> <span class="pre">131,</span> <span class="pre">134,</span> <span class="pre">142,</span> <span class="pre">174,</span> <span class="pre">195,</span> <span class="pre">196,</span> <span class="pre">197,</span> <span class="pre">198,</span> <span class="pre">209,</span> <span class="pre">217,</span> <span class="pre">220,</span> <span class="pre">236,</span> <span class="pre">248,</span> <span class="pre">275,</span> <span class="pre">277,</span> <span class="pre">281,</span> <span class="pre">360,</span> <span class="pre">363,</span> <span class="pre">399,</span> <span class="pre">419,</span> <span class="pre">420,</span> <span class="pre">429,</span> <span class="pre">437,</span> <span class="pre">440,</span> <span class="pre">456]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.high_prio_nose" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.high_prio_right_cheek">
+<span class="sig-name descname"><span class="pre">high_prio_right_cheek</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[266,</span> <span class="pre">280,</span> <span class="pre">329,</span> <span class="pre">330,</span> <span class="pre">346,</span> <span class="pre">347,</span> <span class="pre">347,</span> <span class="pre">348,</span> <span class="pre">355,</span> <span class="pre">371,</span> <span class="pre">411,</span> <span class="pre">423,</span> <span class="pre">425,</span> <span class="pre">426,</span> <span class="pre">427,</span> <span class="pre">436]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.high_prio_right_cheek" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.left_eye">
+<span class="sig-name descname"><span class="pre">left_eye</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[157,</span> <span class="pre">144,</span> <span class="pre">145,</span> <span class="pre">22,</span> <span class="pre">23,</span> <span class="pre">25,</span> <span class="pre">154,</span> <span class="pre">31,</span> <span class="pre">160,</span> <span class="pre">33,</span> <span class="pre">46,</span> <span class="pre">52,</span> <span class="pre">53,</span> <span class="pre">55,</span> <span class="pre">56,</span> <span class="pre">189,</span> <span class="pre">190,</span> <span class="pre">63,</span> <span class="pre">65,</span> <span class="pre">66,</span> <span class="pre">70,</span> <span class="pre">221,</span> <span class="pre">222,</span> <span class="pre">223,</span> <span class="pre">225,</span> <span class="pre">226,</span> <span class="pre">228,</span> <span class="pre">229,</span> <span class="pre">230,</span> <span class="pre">231,</span> <span class="pre">232,</span> <span class="pre">105,</span> <span class="pre">233,</span> <span class="pre">107,</span> <span class="pre">243,</span> <span class="pre">124]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.left_eye" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.mid_prio_chin">
+<span class="sig-name descname"><span class="pre">mid_prio_chin</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[135,</span> <span class="pre">138,</span> <span class="pre">169,</span> <span class="pre">170,</span> <span class="pre">199,</span> <span class="pre">208,</span> <span class="pre">210,</span> <span class="pre">211,</span> <span class="pre">214,</span> <span class="pre">262,</span> <span class="pre">288,</span> <span class="pre">416,</span> <span class="pre">428,</span> <span class="pre">430,</span> <span class="pre">431,</span> <span class="pre">432,</span> <span class="pre">433,</span> <span class="pre">434]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.mid_prio_chin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.mid_prio_forehead">
+<span class="sig-name descname"><span class="pre">mid_prio_forehead</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[8,</span> <span class="pre">9,</span> <span class="pre">21,</span> <span class="pre">68,</span> <span class="pre">103,</span> <span class="pre">251,</span> <span class="pre">284,</span> <span class="pre">297,</span> <span class="pre">298,</span> <span class="pre">301,</span> <span class="pre">332,</span> <span class="pre">333,</span> <span class="pre">372,</span> <span class="pre">383]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.mid_prio_forehead" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.mid_prio_left_cheek">
+<span class="sig-name descname"><span class="pre">mid_prio_left_cheek</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[34,</span> <span class="pre">111,</span> <span class="pre">137,</span> <span class="pre">156,</span> <span class="pre">177,</span> <span class="pre">192,</span> <span class="pre">213,</span> <span class="pre">227,</span> <span class="pre">234]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.mid_prio_left_cheek" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.mid_prio_mouth">
+<span class="sig-name descname"><span class="pre">mid_prio_mouth</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[92,</span> <span class="pre">164,</span> <span class="pre">165,</span> <span class="pre">167,</span> <span class="pre">186,</span> <span class="pre">212,</span> <span class="pre">322,</span> <span class="pre">391,</span> <span class="pre">393,</span> <span class="pre">410]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.mid_prio_mouth" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.mid_prio_nose">
+<span class="sig-name descname"><span class="pre">mid_prio_nose</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[1,</span> <span class="pre">44,</span> <span class="pre">49,</span> <span class="pre">114,</span> <span class="pre">120,</span> <span class="pre">121,</span> <span class="pre">128,</span> <span class="pre">168,</span> <span class="pre">188,</span> <span class="pre">351,</span> <span class="pre">358,</span> <span class="pre">412]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.mid_prio_nose" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.mid_prio_right_cheek">
+<span class="sig-name descname"><span class="pre">mid_prio_right_cheek</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[340,</span> <span class="pre">345,</span> <span class="pre">352,</span> <span class="pre">361,</span> <span class="pre">454]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.mid_prio_right_cheek" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.mounth">
+<span class="sig-name descname"><span class="pre">mounth</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[391,</span> <span class="pre">393,</span> <span class="pre">11,</span> <span class="pre">269,</span> <span class="pre">270,</span> <span class="pre">271,</span> <span class="pre">287,</span> <span class="pre">164,</span> <span class="pre">165,</span> <span class="pre">37,</span> <span class="pre">167,</span> <span class="pre">40,</span> <span class="pre">43,</span> <span class="pre">181,</span> <span class="pre">313,</span> <span class="pre">314,</span> <span class="pre">186,</span> <span class="pre">57,</span> <span class="pre">315,</span> <span class="pre">61,</span> <span class="pre">321,</span> <span class="pre">73,</span> <span class="pre">76,</span> <span class="pre">335,</span> <span class="pre">83,</span> <span class="pre">85,</span> <span class="pre">90,</span> <span class="pre">106]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.mounth" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.mounth_down">
+<span class="sig-name descname"><span class="pre">mounth_down</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[43,</span> <span class="pre">106,</span> <span class="pre">83,</span> <span class="pre">18,</span> <span class="pre">406,</span> <span class="pre">335,</span> <span class="pre">273,</span> <span class="pre">424,</span> <span class="pre">313,</span> <span class="pre">194,</span> <span class="pre">204]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.mounth_down" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.mounth_up">
+<span class="sig-name descname"><span class="pre">mounth_up</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[186,</span> <span class="pre">92,</span> <span class="pre">167,</span> <span class="pre">393,</span> <span class="pre">322,</span> <span class="pre">410,</span> <span class="pre">287,</span> <span class="pre">39,</span> <span class="pre">269,</span> <span class="pre">61,</span> <span class="pre">164]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.mounth_up" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.nose">
+<span class="sig-name descname"><span class="pre">nose</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[193,</span> <span class="pre">417,</span> <span class="pre">168,</span> <span class="pre">188,</span> <span class="pre">6,</span> <span class="pre">412,</span> <span class="pre">197,</span> <span class="pre">174,</span> <span class="pre">399,</span> <span class="pre">456,</span> <span class="pre">195,</span> <span class="pre">236,</span> <span class="pre">131,</span> <span class="pre">51,</span> <span class="pre">281,</span> <span class="pre">360,</span> <span class="pre">440,</span> <span class="pre">4,</span> <span class="pre">220,</span> <span class="pre">219,</span> <span class="pre">305]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.nose" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.MagicLandmarks.right_eye">
+<span class="sig-name descname"><span class="pre">right_eye</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[384,</span> <span class="pre">385,</span> <span class="pre">386,</span> <span class="pre">259,</span> <span class="pre">388,</span> <span class="pre">261,</span> <span class="pre">265,</span> <span class="pre">398,</span> <span class="pre">276,</span> <span class="pre">282,</span> <span class="pre">283,</span> <span class="pre">285,</span> <span class="pre">413,</span> <span class="pre">293,</span> <span class="pre">296,</span> <span class="pre">300,</span> <span class="pre">441,</span> <span class="pre">442,</span> <span class="pre">445,</span> <span class="pre">446,</span> <span class="pre">449,</span> <span class="pre">451,</span> <span class="pre">334,</span> <span class="pre">463,</span> <span class="pre">336,</span> <span class="pre">464,</span> <span class="pre">467,</span> <span class="pre">339,</span> <span class="pre">341,</span> <span class="pre">342,</span> <span class="pre">353,</span> <span class="pre">381,</span> <span class="pre">373,</span> <span class="pre">249,</span> <span class="pre">253,</span> <span class="pre">255]</span></em><a class="headerlink" href="#pyVHR.extraction.utils.MagicLandmarks.right_eye" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.draw_rects">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.utils.</span></span><span class="sig-name descname"><span class="pre">draw_rects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xcenters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ycenters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xsides</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ysides</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/utils.html#draw_rects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.utils.draw_rects" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is used to draw N rectangles on a image.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.extract_frames_yield">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.utils.</span></span><span class="sig-name descname"><span class="pre">extract_frames_yield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videoFileName</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/utils.html#extract_frames_yield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.utils.extract_frames_yield" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method yield the frames of a video file name or path.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.get_fps">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.utils.</span></span><span class="sig-name descname"><span class="pre">get_fps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videoFileName</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/utils.html#get_fps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.utils.get_fps" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method returns the fps of a video file name or path.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.get_magic_landmarks">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.utils.</span></span><span class="sig-name descname"><span class="pre">get_magic_landmarks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/utils.html#get_magic_landmarks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.utils.get_magic_landmarks" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns high_priority and mid_priority list of landmarks identification number</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.raw_windowing">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.utils.</span></span><span class="sig-name descname"><span class="pre">raw_windowing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/utils.html#raw_windowing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.utils.raw_windowing" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is used to divide a Raw signal into overlapping windows.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>sig (float32 ndarray): ndarray of images with shape [num_frames, rows, columns, rgb_channels].
+wsize (float): window size in seconds.
+stride (float): stride between overlapping windows in seconds.
+fps (float): frames per seconds.</p>
+</dd>
+<dt>Returns:</dt><dd><p>windowed signal as a list of length num_windows of float32 ndarray with shape [num_frames, rows, columns, rgb_channels],
+and a 1D ndarray of times in seconds,where each one is the center of a window.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.sig_windowing">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.utils.</span></span><span class="sig-name descname"><span class="pre">sig_windowing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/utils.html#sig_windowing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.utils.sig_windowing" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is used to divide a RGB signal into overlapping windows.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>sig (float32 ndarray): ndarray with shape [num_frames, num_estimators, rgb_channels].
+wsize (float): window size in seconds.
+stride (float): stride between overlapping windows in seconds.
+fps (float): frames per seconds.</p>
+</dd>
+<dt>Returns:</dt><dd><p>windowed signal as a list of length num_windows of float32 ndarray with shape [num_estimators, rgb_channels, window_frames],
+and a 1D ndarray of times in seconds,where each one is the center of a window.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.extraction.utils.sliding_straded_win_offline">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.extraction.utils.</span></span><span class="sig-name descname"><span class="pre">sliding_straded_win_offline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/extraction/utils.html#sliding_straded_win_offline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.extraction.utils.sliding_straded_win_offline" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is used to compute all the info for creating an overlapping windows signal.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>N (int): length of the signal.
+wsize (float): window size in seconds.
+stride (float): stride between overlapping windows in seconds.
+fps (float): frames per seconds.</p>
+</dd>
+<dt>Returns:</dt><dd><p>List of ranges, each one contains the indices of a window, and a 1D ndarray of times in seconds, where each one is the center of a window.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.extraction">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyVHR.extraction" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, phuselab.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

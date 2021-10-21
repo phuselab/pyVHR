@@ -1,0 +1,916 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>pyVHR.datasets package &#8212; pyVHR 1.0 documentation</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/blank.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="index.html">
+<p class="title">pyVHR</p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.BPM.html">
+   pyVHR.BPM package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.BVP.html">
+   pyVHR.BVP package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.analysis.html">
+   pyVHR.analysis package
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="current reference internal" href="#">
+   pyVHR.datasets package
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyVHR.datasets.utils.html">
+     pyVHR.datasets.utils package
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.extraction.html">
+   pyVHR.extraction package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.plot.html">
+   pyVHR.plot package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.realtime.html">
+   pyVHR.realtime package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pyVHR.resources.html">
+   pyVHR.resources package
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="pyVHR.resources.faceparsing.html">
+     pyVHR.resources.faceparsing package
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pyVHR.resources.faceparsing.modules.html">
+       pyVHR.resources.faceparsing.modules package
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyVHR.resources.img.html">
+     pyVHR.resources.img package
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.utils.html">
+   pyVHR.utils package
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#subpackages">
+   Subpackages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.datasets.cohface">
+   pyVHR.datasets.cohface module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.datasets.dataset">
+   pyVHR.datasets.dataset module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.datasets.lgi_ppgi">
+   pyVHR.datasets.lgi_ppgi module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.datasets.mahnob">
+   pyVHR.datasets.mahnob module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.datasets.pure">
+   pyVHR.datasets.pure module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.datasets.sample">
+   pyVHR.datasets.sample module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.datasets.ubfc1">
+   pyVHR.datasets.ubfc1 module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.datasets.ubfc2">
+   pyVHR.datasets.ubfc2 module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.datasets">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <section id="pyvhr-datasets-package">
+<h1>pyVHR.datasets package<a class="headerlink" href="#pyvhr-datasets-package" title="Permalink to this headline">¶</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyVHR.datasets.utils.html">pyVHR.datasets.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyVHR.datasets.utils.html#module-pyVHR.datasets.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-pyVHR.datasets.cohface">
+<span id="pyvhr-datasets-cohface-module"></span><h2>pyVHR.datasets.cohface module<a class="headerlink" href="#module-pyVHR.datasets.cohface" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.datasets.cohface.COHFACE">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.datasets.cohface.</span></span><span class="sig-name descname"><span class="pre">COHFACE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videodataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BVPdataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/cohface.html#COHFACE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.cohface.COHFACE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyVHR.datasets.dataset.Dataset" title="pyVHR.datasets.dataset.Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.datasets.dataset.Dataset</span></code></a></p>
+<p>Cohface Dataset</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.cohface.COHFACE.SIG_EXT">
+<span class="sig-name descname"><span class="pre">SIG_EXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'hdf5'</span></em><a class="headerlink" href="#pyVHR.datasets.cohface.COHFACE.SIG_EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.cohface.COHFACE.SIG_SUBSTRING">
+<span class="sig-name descname"><span class="pre">SIG_SUBSTRING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'data'</span></em><a class="headerlink" href="#pyVHR.datasets.cohface.COHFACE.SIG_SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.cohface.COHFACE.SIG_SampleRate">
+<span class="sig-name descname"><span class="pre">SIG_SampleRate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">256</span></em><a class="headerlink" href="#pyVHR.datasets.cohface.COHFACE.SIG_SampleRate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.cohface.COHFACE.VIDEO_SUBSTRING">
+<span class="sig-name descname"><span class="pre">VIDEO_SUBSTRING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'data'</span></em><a class="headerlink" href="#pyVHR.datasets.cohface.COHFACE.VIDEO_SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.cohface.COHFACE.frameRate">
+<span class="sig-name descname"><span class="pre">frameRate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">20</span></em><a class="headerlink" href="#pyVHR.datasets.cohface.COHFACE.frameRate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.cohface.COHFACE.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'COHFACE'</span></em><a class="headerlink" href="#pyVHR.datasets.cohface.COHFACE.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.cohface.COHFACE.numLevels">
+<span class="sig-name descname"><span class="pre">numLevels</span></span><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#pyVHR.datasets.cohface.COHFACE.numLevels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.cohface.COHFACE.numSubjects">
+<span class="sig-name descname"><span class="pre">numSubjects</span></span><em class="property"> <span class="pre">=</span> <span class="pre">40</span></em><a class="headerlink" href="#pyVHR.datasets.cohface.COHFACE.numSubjects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.datasets.cohface.COHFACE.readSigfile">
+<span class="sig-name descname"><span class="pre">readSigfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/cohface.html#COHFACE.readSigfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.cohface.COHFACE.readSigfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load signal from file.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>a <a class="reference internal" href="pyVHR.BPM.html#pyVHR.BPM.BPM.BVPsignal" title="pyVHR.BPM.BPM.BVPsignal"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.BPM.BPM.BVPsignal</span></code></a> object that can be used to extract BPM signal from ground truth BVP signal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.cohface.COHFACE.signalGT">
+<span class="sig-name descname"><span class="pre">signalGT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'BVP'</span></em><a class="headerlink" href="#pyVHR.datasets.cohface.COHFACE.signalGT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.cohface.COHFACE.skinThresh">
+<span class="sig-name descname"><span class="pre">skinThresh</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[40,</span> <span class="pre">60]</span></em><a class="headerlink" href="#pyVHR.datasets.cohface.COHFACE.skinThresh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.cohface.COHFACE.video_EXT">
+<span class="sig-name descname"><span class="pre">video_EXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'avi'</span></em><a class="headerlink" href="#pyVHR.datasets.cohface.COHFACE.video_EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.datasets.dataset">
+<span id="pyvhr-datasets-dataset-module"></span><h2>pyVHR.datasets.dataset module<a class="headerlink" href="#module-pyVHR.datasets.dataset" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.datasets.dataset.Dataset">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.datasets.dataset.</span></span><span class="sig-name descname"><span class="pre">Dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videodataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BVPdataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/dataset.html#Dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.dataset.Dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is the abstract class used for creating a new Dataset Class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.datasets.dataset.Dataset.getSigFilename">
+<span class="sig-name descname"><span class="pre">getSigFilename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videoIdx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/dataset.html#Dataset.getSigFilename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.dataset.Dataset.getSigFilename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Signal file name given the progressive index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.datasets.dataset.Dataset.getVideoFilename">
+<span class="sig-name descname"><span class="pre">getVideoFilename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videoIdx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/dataset.html#Dataset.getVideoFilename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.dataset.Dataset.getVideoFilename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get video file name given the progressive index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.datasets.dataset.Dataset.loadFilenames">
+<span class="sig-name descname"><span class="pre">loadFilenames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/dataset.html#Dataset.loadFilenames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.dataset.Dataset.loadFilenames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load dataset file names: define vars videoFilenames and BVPFilenames.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.datasets.dataset.Dataset.readSigfile">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">readSigfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/dataset.html#Dataset.readSigfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.dataset.Dataset.readSigfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load signal from file.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>a <a class="reference internal" href="pyVHR.BPM.html#pyVHR.BPM.BPM.BVPsignal" title="pyVHR.BPM.BPM.BVPsignal"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.BPM.BPM.BVPsignal</span></code></a> object that can be used to extract BPM signal from ground truth BVP signal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.datasets.dataset.datasetFactory">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.datasets.dataset.</span></span><span class="sig-name descname"><span class="pre">datasetFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasetName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">videodataDIR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BVPdataDIR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/dataset.html#datasetFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.dataset.datasetFactory" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is used for creating a new istance of a dataset Class (that
+innherit <a class="reference internal" href="#pyVHR.datasets.dataset.Dataset" title="pyVHR.datasets.dataset.Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.datasets.dataset.Dataset</span></code></a> ).</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>datasetName (str): name of the dataset Class.
+videodataDIR (str): path of the video data directory.
+BVPdataDIR (str): path of the ground truth BVP data directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.datasets.lgi_ppgi">
+<span id="pyvhr-datasets-lgi-ppgi-module"></span><h2>pyVHR.datasets.lgi_ppgi module<a class="headerlink" href="#module-pyVHR.datasets.lgi_ppgi" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.datasets.lgi_ppgi.LGI_PPGI">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.datasets.lgi_ppgi.</span></span><span class="sig-name descname"><span class="pre">LGI_PPGI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videodataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BVPdataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/lgi_ppgi.html#LGI_PPGI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.lgi_ppgi.LGI_PPGI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyVHR.datasets.dataset.Dataset" title="pyVHR.datasets.dataset.Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.datasets.dataset.Dataset</span></code></a></p>
+<p>LGI-PPGI Dataset</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.lgi_ppgi.LGI_PPGI.SIG_EXT">
+<span class="sig-name descname"><span class="pre">SIG_EXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'xml'</span></em><a class="headerlink" href="#pyVHR.datasets.lgi_ppgi.LGI_PPGI.SIG_EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.lgi_ppgi.LGI_PPGI.SIG_SUBSTRING">
+<span class="sig-name descname"><span class="pre">SIG_SUBSTRING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'cms50'</span></em><a class="headerlink" href="#pyVHR.datasets.lgi_ppgi.LGI_PPGI.SIG_SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.lgi_ppgi.LGI_PPGI.SIG_SampleRate">
+<span class="sig-name descname"><span class="pre">SIG_SampleRate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">60</span></em><a class="headerlink" href="#pyVHR.datasets.lgi_ppgi.LGI_PPGI.SIG_SampleRate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.lgi_ppgi.LGI_PPGI.VIDEO_SUBSTRING">
+<span class="sig-name descname"><span class="pre">VIDEO_SUBSTRING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'cv_camera'</span></em><a class="headerlink" href="#pyVHR.datasets.lgi_ppgi.LGI_PPGI.VIDEO_SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.lgi_ppgi.LGI_PPGI.frameRate">
+<span class="sig-name descname"><span class="pre">frameRate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">25</span></em><a class="headerlink" href="#pyVHR.datasets.lgi_ppgi.LGI_PPGI.frameRate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.lgi_ppgi.LGI_PPGI.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'LGI_PPGI'</span></em><a class="headerlink" href="#pyVHR.datasets.lgi_ppgi.LGI_PPGI.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.lgi_ppgi.LGI_PPGI.numLevels">
+<span class="sig-name descname"><span class="pre">numLevels</span></span><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#pyVHR.datasets.lgi_ppgi.LGI_PPGI.numLevels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.lgi_ppgi.LGI_PPGI.numSubjects">
+<span class="sig-name descname"><span class="pre">numSubjects</span></span><em class="property"> <span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#pyVHR.datasets.lgi_ppgi.LGI_PPGI.numSubjects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.datasets.lgi_ppgi.LGI_PPGI.readSigfile">
+<span class="sig-name descname"><span class="pre">readSigfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/lgi_ppgi.html#LGI_PPGI.readSigfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.lgi_ppgi.LGI_PPGI.readSigfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load signal from file.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>a <a class="reference internal" href="pyVHR.BPM.html#pyVHR.BPM.BPM.BVPsignal" title="pyVHR.BPM.BPM.BVPsignal"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.BPM.BPM.BVPsignal</span></code></a> object that can be used to extract BPM signal from ground truth BVP signal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.lgi_ppgi.LGI_PPGI.signalGT">
+<span class="sig-name descname"><span class="pre">signalGT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'BVP'</span></em><a class="headerlink" href="#pyVHR.datasets.lgi_ppgi.LGI_PPGI.signalGT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.lgi_ppgi.LGI_PPGI.video_EXT">
+<span class="sig-name descname"><span class="pre">video_EXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'avi'</span></em><a class="headerlink" href="#pyVHR.datasets.lgi_ppgi.LGI_PPGI.video_EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.datasets.mahnob">
+<span id="pyvhr-datasets-mahnob-module"></span><h2>pyVHR.datasets.mahnob module<a class="headerlink" href="#module-pyVHR.datasets.mahnob" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.datasets.mahnob.MAHNOB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.datasets.mahnob.</span></span><span class="sig-name descname"><span class="pre">MAHNOB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videodataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BVPdataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/mahnob.html#MAHNOB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.mahnob.MAHNOB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyVHR.datasets.dataset.Dataset" title="pyVHR.datasets.dataset.Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.datasets.dataset.Dataset</span></code></a></p>
+<p>Mahnob Dataset</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.mahnob.MAHNOB.SIG_EXT">
+<span class="sig-name descname"><span class="pre">SIG_EXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'bdf'</span></em><a class="headerlink" href="#pyVHR.datasets.mahnob.MAHNOB.SIG_EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.mahnob.MAHNOB.SIG_SUBSTRING">
+<span class="sig-name descname"><span class="pre">SIG_SUBSTRING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'emotion'</span></em><a class="headerlink" href="#pyVHR.datasets.mahnob.MAHNOB.SIG_SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.mahnob.MAHNOB.SIG_SampleRate">
+<span class="sig-name descname"><span class="pre">SIG_SampleRate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">256</span></em><a class="headerlink" href="#pyVHR.datasets.mahnob.MAHNOB.SIG_SampleRate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.mahnob.MAHNOB.VIDEO_SUBSTRING">
+<span class="sig-name descname"><span class="pre">VIDEO_SUBSTRING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'Section'</span></em><a class="headerlink" href="#pyVHR.datasets.mahnob.MAHNOB.VIDEO_SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.mahnob.MAHNOB.frameRate">
+<span class="sig-name descname"><span class="pre">frameRate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">20</span></em><a class="headerlink" href="#pyVHR.datasets.mahnob.MAHNOB.frameRate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.mahnob.MAHNOB.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'MAHNOB'</span></em><a class="headerlink" href="#pyVHR.datasets.mahnob.MAHNOB.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.mahnob.MAHNOB.numLevels">
+<span class="sig-name descname"><span class="pre">numLevels</span></span><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#pyVHR.datasets.mahnob.MAHNOB.numLevels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.mahnob.MAHNOB.numSubjects">
+<span class="sig-name descname"><span class="pre">numSubjects</span></span><em class="property"> <span class="pre">=</span> <span class="pre">40</span></em><a class="headerlink" href="#pyVHR.datasets.mahnob.MAHNOB.numSubjects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.datasets.mahnob.MAHNOB.readSigfile">
+<span class="sig-name descname"><span class="pre">readSigfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/mahnob.html#MAHNOB.readSigfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.mahnob.MAHNOB.readSigfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load ECG signal.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>a pyVHR.utils.ecg.ECGsignal object that can be used to extract ground truth BPM signal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.mahnob.MAHNOB.signalGT">
+<span class="sig-name descname"><span class="pre">signalGT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'ECG'</span></em><a class="headerlink" href="#pyVHR.datasets.mahnob.MAHNOB.signalGT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.mahnob.MAHNOB.video_EXT">
+<span class="sig-name descname"><span class="pre">video_EXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'avi'</span></em><a class="headerlink" href="#pyVHR.datasets.mahnob.MAHNOB.video_EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.datasets.pure">
+<span id="pyvhr-datasets-pure-module"></span><h2>pyVHR.datasets.pure module<a class="headerlink" href="#module-pyVHR.datasets.pure" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.datasets.pure.PURE">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.datasets.pure.</span></span><span class="sig-name descname"><span class="pre">PURE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videodataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BVPdataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/pure.html#PURE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.pure.PURE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyVHR.datasets.dataset.Dataset" title="pyVHR.datasets.dataset.Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.datasets.dataset.Dataset</span></code></a></p>
+<p>PURE Dataset</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.pure.PURE.SIG_EXT">
+<span class="sig-name descname"><span class="pre">SIG_EXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'json'</span></em><a class="headerlink" href="#pyVHR.datasets.pure.PURE.SIG_EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.pure.PURE.SIG_SUBSTRING">
+<span class="sig-name descname"><span class="pre">SIG_SUBSTRING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'-'</span></em><a class="headerlink" href="#pyVHR.datasets.pure.PURE.SIG_SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.pure.PURE.SIG_SampleRate">
+<span class="sig-name descname"><span class="pre">SIG_SampleRate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">60</span></em><a class="headerlink" href="#pyVHR.datasets.pure.PURE.SIG_SampleRate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.pure.PURE.VIDEO_SUBSTRING">
+<span class="sig-name descname"><span class="pre">VIDEO_SUBSTRING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'-'</span></em><a class="headerlink" href="#pyVHR.datasets.pure.PURE.VIDEO_SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.pure.PURE.frameRate">
+<span class="sig-name descname"><span class="pre">frameRate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">30.0</span></em><a class="headerlink" href="#pyVHR.datasets.pure.PURE.frameRate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.datasets.pure.PURE.loadFilenames">
+<span class="sig-name descname"><span class="pre">loadFilenames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/pure.html#PURE.loadFilenames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.pure.PURE.loadFilenames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load dataset file names and directories of frames: 
+define vars videoFilenames and BVPFilenames</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.pure.PURE.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'PURE'</span></em><a class="headerlink" href="#pyVHR.datasets.pure.PURE.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.pure.PURE.numLevels">
+<span class="sig-name descname"><span class="pre">numLevels</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#pyVHR.datasets.pure.PURE.numLevels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.pure.PURE.numSubjects">
+<span class="sig-name descname"><span class="pre">numSubjects</span></span><em class="property"> <span class="pre">=</span> <span class="pre">10</span></em><a class="headerlink" href="#pyVHR.datasets.pure.PURE.numSubjects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.datasets.pure.PURE.readSigfile">
+<span class="sig-name descname"><span class="pre">readSigfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/pure.html#PURE.readSigfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.pure.PURE.readSigfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load signal from file.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>a <a class="reference internal" href="pyVHR.BPM.html#pyVHR.BPM.BPM.BVPsignal" title="pyVHR.BPM.BPM.BVPsignal"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.BPM.BPM.BVPsignal</span></code></a> object that can be used to extract BPM signal from ground truth BVP signal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.pure.PURE.signalGT">
+<span class="sig-name descname"><span class="pre">signalGT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'BVP'</span></em><a class="headerlink" href="#pyVHR.datasets.pure.PURE.signalGT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.pure.PURE.skinThresh">
+<span class="sig-name descname"><span class="pre">skinThresh</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[40,</span> <span class="pre">60]</span></em><a class="headerlink" href="#pyVHR.datasets.pure.PURE.skinThresh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.pure.PURE.video_EXT">
+<span class="sig-name descname"><span class="pre">video_EXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'avi'</span></em><a class="headerlink" href="#pyVHR.datasets.pure.PURE.video_EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.datasets.sample">
+<span id="pyvhr-datasets-sample-module"></span><h2>pyVHR.datasets.sample module<a class="headerlink" href="#module-pyVHR.datasets.sample" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.datasets.sample.SAMPLE">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.datasets.sample.</span></span><span class="sig-name descname"><span class="pre">SAMPLE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videodataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BVPdataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/sample.html#SAMPLE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.sample.SAMPLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyVHR.datasets.dataset.Dataset" title="pyVHR.datasets.dataset.Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.datasets.dataset.Dataset</span></code></a></p>
+<p>Sample Dataset</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.sample.SAMPLE.BVPdataDIR">
+<span class="sig-name descname"><span class="pre">BVPdataDIR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'../sampleDataset/'</span></em><a class="headerlink" href="#pyVHR.datasets.sample.SAMPLE.BVPdataDIR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.sample.SAMPLE.SIG_EXT">
+<span class="sig-name descname"><span class="pre">SIG_EXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'xml'</span></em><a class="headerlink" href="#pyVHR.datasets.sample.SAMPLE.SIG_EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.sample.SAMPLE.SIG_SUBSTRING">
+<span class="sig-name descname"><span class="pre">SIG_SUBSTRING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'cms50'</span></em><a class="headerlink" href="#pyVHR.datasets.sample.SAMPLE.SIG_SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.sample.SAMPLE.SIG_SampleRate">
+<span class="sig-name descname"><span class="pre">SIG_SampleRate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">60</span></em><a class="headerlink" href="#pyVHR.datasets.sample.SAMPLE.SIG_SampleRate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.sample.SAMPLE.VIDEO_SUBSTRING">
+<span class="sig-name descname"><span class="pre">VIDEO_SUBSTRING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'cv_camera'</span></em><a class="headerlink" href="#pyVHR.datasets.sample.SAMPLE.VIDEO_SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.sample.SAMPLE.frameRate">
+<span class="sig-name descname"><span class="pre">frameRate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">25</span></em><a class="headerlink" href="#pyVHR.datasets.sample.SAMPLE.frameRate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.sample.SAMPLE.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'SAMPLE'</span></em><a class="headerlink" href="#pyVHR.datasets.sample.SAMPLE.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.sample.SAMPLE.numLevels">
+<span class="sig-name descname"><span class="pre">numLevels</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#pyVHR.datasets.sample.SAMPLE.numLevels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.sample.SAMPLE.numSubjects">
+<span class="sig-name descname"><span class="pre">numSubjects</span></span><em class="property"> <span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#pyVHR.datasets.sample.SAMPLE.numSubjects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.datasets.sample.SAMPLE.readSigfile">
+<span class="sig-name descname"><span class="pre">readSigfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/sample.html#SAMPLE.readSigfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.sample.SAMPLE.readSigfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load signal from file.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>a <a class="reference internal" href="pyVHR.BPM.html#pyVHR.BPM.BPM.BVPsignal" title="pyVHR.BPM.BPM.BVPsignal"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.BPM.BPM.BVPsignal</span></code></a> object that can be used to extract BPM signal from ground truth BVP signal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.sample.SAMPLE.signalGT">
+<span class="sig-name descname"><span class="pre">signalGT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'BVP'</span></em><a class="headerlink" href="#pyVHR.datasets.sample.SAMPLE.signalGT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.sample.SAMPLE.video_EXT">
+<span class="sig-name descname"><span class="pre">video_EXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'avi'</span></em><a class="headerlink" href="#pyVHR.datasets.sample.SAMPLE.video_EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.sample.SAMPLE.videodataDIR">
+<span class="sig-name descname"><span class="pre">videodataDIR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'../sampleDataset/'</span></em><a class="headerlink" href="#pyVHR.datasets.sample.SAMPLE.videodataDIR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.datasets.ubfc1">
+<span id="pyvhr-datasets-ubfc1-module"></span><h2>pyVHR.datasets.ubfc1 module<a class="headerlink" href="#module-pyVHR.datasets.ubfc1" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc1.UBFC1">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.datasets.ubfc1.</span></span><span class="sig-name descname"><span class="pre">UBFC1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videodataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BVPdataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/ubfc1.html#UBFC1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.ubfc1.UBFC1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyVHR.datasets.dataset.Dataset" title="pyVHR.datasets.dataset.Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.datasets.dataset.Dataset</span></code></a></p>
+<p>UBFC1 Dataset</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc1.UBFC1.SIG_EXT">
+<span class="sig-name descname"><span class="pre">SIG_EXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'xmp'</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc1.UBFC1.SIG_EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc1.UBFC1.SIG_SUBSTRING">
+<span class="sig-name descname"><span class="pre">SIG_SUBSTRING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc1.UBFC1.SIG_SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc1.UBFC1.SIG_SampleRate">
+<span class="sig-name descname"><span class="pre">SIG_SampleRate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">62</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc1.UBFC1.SIG_SampleRate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc1.UBFC1.VIDEO_SUBSTRING">
+<span class="sig-name descname"><span class="pre">VIDEO_SUBSTRING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc1.UBFC1.VIDEO_SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc1.UBFC1.frameRate">
+<span class="sig-name descname"><span class="pre">frameRate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">30</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc1.UBFC1.frameRate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc1.UBFC1.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'UBFC1'</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc1.UBFC1.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc1.UBFC1.numLevels">
+<span class="sig-name descname"><span class="pre">numLevels</span></span><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc1.UBFC1.numLevels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc1.UBFC1.numSubjects">
+<span class="sig-name descname"><span class="pre">numSubjects</span></span><em class="property"> <span class="pre">=</span> <span class="pre">8</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc1.UBFC1.numSubjects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc1.UBFC1.readSigfile">
+<span class="sig-name descname"><span class="pre">readSigfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/ubfc1.html#UBFC1.readSigfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.ubfc1.UBFC1.readSigfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load signal from file.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>a <a class="reference internal" href="pyVHR.BPM.html#pyVHR.BPM.BPM.BVPsignal" title="pyVHR.BPM.BPM.BVPsignal"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.BPM.BPM.BVPsignal</span></code></a> object that can be used to extract BPM signal from ground truth BVP signal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc1.UBFC1.signalGT">
+<span class="sig-name descname"><span class="pre">signalGT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'BVP'</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc1.UBFC1.signalGT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc1.UBFC1.skinThresh">
+<span class="sig-name descname"><span class="pre">skinThresh</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[40,</span> <span class="pre">60]</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc1.UBFC1.skinThresh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc1.UBFC1.video_EXT">
+<span class="sig-name descname"><span class="pre">video_EXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'avi'</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc1.UBFC1.video_EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.datasets.ubfc2">
+<span id="pyvhr-datasets-ubfc2-module"></span><h2>pyVHR.datasets.ubfc2 module<a class="headerlink" href="#module-pyVHR.datasets.ubfc2" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc2.UBFC2">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.datasets.ubfc2.</span></span><span class="sig-name descname"><span class="pre">UBFC2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">videodataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BVPdataDIR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/ubfc2.html#UBFC2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.ubfc2.UBFC2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyVHR.datasets.dataset.Dataset" title="pyVHR.datasets.dataset.Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.datasets.dataset.Dataset</span></code></a></p>
+<p>UBFC2 Dataset</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc2.UBFC2.SIG_EXT">
+<span class="sig-name descname"><span class="pre">SIG_EXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'txt'</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc2.UBFC2.SIG_EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc2.UBFC2.SIG_SUBSTRING">
+<span class="sig-name descname"><span class="pre">SIG_SUBSTRING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc2.UBFC2.SIG_SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc2.UBFC2.SIG_SampleRate">
+<span class="sig-name descname"><span class="pre">SIG_SampleRate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">30</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc2.UBFC2.SIG_SampleRate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc2.UBFC2.VIDEO_SUBSTRING">
+<span class="sig-name descname"><span class="pre">VIDEO_SUBSTRING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'vid'</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc2.UBFC2.VIDEO_SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc2.UBFC2.frameRate">
+<span class="sig-name descname"><span class="pre">frameRate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">30</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc2.UBFC2.frameRate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc2.UBFC2.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'UBFC2'</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc2.UBFC2.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc2.UBFC2.numLevels">
+<span class="sig-name descname"><span class="pre">numLevels</span></span><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc2.UBFC2.numLevels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc2.UBFC2.numSubjects">
+<span class="sig-name descname"><span class="pre">numSubjects</span></span><em class="property"> <span class="pre">=</span> <span class="pre">26</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc2.UBFC2.numSubjects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc2.UBFC2.readSigfile">
+<span class="sig-name descname"><span class="pre">readSigfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/datasets/ubfc2.html#UBFC2.readSigfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.datasets.ubfc2.UBFC2.readSigfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load signal from file.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>a <a class="reference internal" href="pyVHR.BPM.html#pyVHR.BPM.BPM.BVPsignal" title="pyVHR.BPM.BPM.BVPsignal"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyVHR.BPM.BPM.BVPsignal</span></code></a> object that can be used to extract BPM signal from ground truth BVP signal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc2.UBFC2.signalGT">
+<span class="sig-name descname"><span class="pre">signalGT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'BVP'</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc2.UBFC2.signalGT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc2.UBFC2.skinThresh">
+<span class="sig-name descname"><span class="pre">skinThresh</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[40,</span> <span class="pre">60]</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc2.UBFC2.skinThresh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.datasets.ubfc2.UBFC2.video_EXT">
+<span class="sig-name descname"><span class="pre">video_EXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'avi'</span></em><a class="headerlink" href="#pyVHR.datasets.ubfc2.UBFC2.video_EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.datasets">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyVHR.datasets" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, phuselab.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

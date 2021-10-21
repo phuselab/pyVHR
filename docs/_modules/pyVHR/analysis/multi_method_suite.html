@@ -1,0 +1,545 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyVHR.analysis.multi_method_suite &#8212; pyVHR 1.0 documentation</title>
+    
+  <link href="../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/blank.css" />
+    
+  <link rel="preload" as="script" href="../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="../../../index.html">
+<p class="title">pyVHR</p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <h1>Source code for pyVHR.analysis.multi_method_suite</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">configparser</span>
+<span class="kn">import</span> <span class="nn">ast</span>
+<span class="kn">from</span> <span class="nn">numpy.lib.arraysetops</span> <span class="kn">import</span> <span class="n">isin</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">from</span> <span class="nn">importlib</span> <span class="kn">import</span> <span class="n">import_module</span><span class="p">,</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">pyVHR.datasets.dataset</span> <span class="kn">import</span> <span class="n">datasetFactory</span>
+<span class="kn">from</span> <span class="nn">pyVHR.utils.errors</span> <span class="kn">import</span> <span class="n">getErrors</span><span class="p">,</span> <span class="n">printErrors</span><span class="p">,</span> <span class="n">displayErrors</span>
+<span class="kn">from</span> <span class="nn">pyVHR.extraction.sig_processing</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyVHR.extraction.sig_extraction_methods</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyVHR.extraction.skin_extraction_methods</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyVHR.BVP.BVP</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyVHR.BPM.BPM</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyVHR.BVP.methods</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyVHR.BVP.filters</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="MultiMethodSuite"><a class="viewcode-back" href="../../../pyVHR.analysis.html#pyVHR.analysis.multi_method_suite.MultiMethodSuite">[docs]</a><span class="k">class</span> <span class="nc">MultiMethodSuite</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    This class performs tests on a video dataset using multiple rPPG methods.</span>
+<span class="sd">    The suite uses these methods individually to calculate BVP and estimate BPM. </span>
+<span class="sd">    After this all the BVP signals of the methods are combined into a single n-estimator signal, </span>
+<span class="sd">    which is used to estimate a last BPM signal. </span>
+<span class="sd">    Using multiple methods together allows you to have many estimators, </span>
+<span class="sd">    so it can be useful to have a more precise BPM estimate.</span>
+<span class="sd">    You can customize all the parameters using a configuration file (.cfg); in the</span>
+<span class="sd">    analysis module you can find an example of cfg file named &quot;multi_method_cfg.cfg&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configFilename</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configFilename</span> <span class="o">=</span> <span class="n">configFilename</span>
+        <span class="k">if</span> <span class="n">configFilename</span> <span class="o">==</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">configFilename</span> <span class="o">=</span> <span class="s1">&#39;../pyVHR/analysis/newcfg.cfg&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parse_cfg</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configFilename</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MultiMethodSuite.start"><a class="viewcode-back" href="../../../pyVHR.analysis.html#pyVHR.analysis.multi_method_suite.MultiMethodSuite.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verb</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Runs the tests as specified in the loaded config file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            verb:</span>
+<span class="sd">               - 0 - not verbose</span>
+<span class="sd">               - 1 - show the main steps</span>
+<span class="sd">               </span>
+<span class="sd">               (use also combinations)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># -- cfg parser</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">(</span>
+            <span class="n">inline_comment_prefixes</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="s1">&#39;;&#39;</span><span class="p">))</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">optionxform</span> <span class="o">=</span> <span class="nb">str</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parser</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configFilename</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configFilename</span><span class="p">)</span>
+
+        <span class="c1"># -- verbose prints</span>
+        <span class="k">if</span> <span class="s1">&#39;1&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">verb</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__verbose</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+
+        <span class="c1"># -- dataset &amp; cfg params</span>
+        <span class="k">if</span> <span class="s1">&#39;path&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasetdict</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasetdict</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;None&#39;</span><span class="p">:</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasetFactory</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">datasetdict</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">],</span> <span class="n">videodataDIR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">datasetdict</span><span class="p">[</span><span class="s1">&#39;videodataDIR&#39;</span><span class="p">],</span> <span class="n">BVPdataDIR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">datasetdict</span><span class="p">[</span><span class="s1">&#39;BVPdataDIR&#39;</span><span class="p">],</span> <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">datasetdict</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasetFactory</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">datasetdict</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">],</span> <span class="n">videodataDIR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">datasetdict</span><span class="p">[</span><span class="s1">&#39;videodataDIR&#39;</span><span class="p">],</span> <span class="n">BVPdataDIR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">datasetdict</span><span class="p">[</span><span class="s1">&#39;BVPdataDIR&#39;</span><span class="p">])</span>
+
+        <span class="c1"># -- catch data (object)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">TestResult</span><span class="p">()</span>
+
+        <span class="c1"># -- SIG processing</span>
+        <span class="n">sig_processing</span> <span class="o">=</span> <span class="n">SignalProcessing</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;cuda&#39;</span><span class="p">]):</span>
+            <span class="n">sig_processing</span><span class="o">.</span><span class="n">display_cuda_device</span><span class="p">()</span>
+            <span class="n">sig_processing</span><span class="o">.</span><span class="n">choose_cuda_device</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;cuda_device&#39;</span><span class="p">]))</span>
+        <span class="c1"># set skin extractor</span>
+        <span class="n">target_device</span> <span class="o">=</span> <span class="s1">&#39;GPU&#39;</span> <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;cuda&#39;</span><span class="p">])</span> <span class="k">else</span> <span class="s1">&#39;CPU&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;skin_extractor&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;convexhull&#39;</span><span class="p">:</span>
+            <span class="n">sig_processing</span><span class="o">.</span><span class="n">set_skin_extractor</span><span class="p">(</span>
+                <span class="n">SkinExtractionConvexHull</span><span class="p">(</span><span class="n">target_device</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;skin_extractor&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;faceparsing&#39;</span><span class="p">:</span>
+            <span class="n">sig_processing</span><span class="o">.</span><span class="n">set_skin_extractor</span><span class="p">(</span>
+                <span class="n">SkinExtractionFaceParsing</span><span class="p">(</span><span class="n">target_device</span><span class="p">))</span>
+        <span class="c1"># set patches</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;approach&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;patches&#39;</span><span class="p">:</span>
+            <span class="n">ldmks_list</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;landmarks_list&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ldmks_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">sig_processing</span><span class="o">.</span><span class="n">set_landmarks</span><span class="p">(</span><span class="n">ldmks_list</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;patches&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;squares&#39;</span><span class="p">:</span>
+                <span class="c1"># set squares patches side dimension</span>
+                <span class="n">sig_processing</span><span class="o">.</span><span class="n">set_square_patches_side</span><span class="p">(</span>
+                    <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;squares_dim&#39;</span><span class="p">]))</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;patches&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;rects&#39;</span><span class="p">:</span>
+                <span class="c1"># set rects patches sides dimensions</span>
+                <span class="n">rects_dims</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;rects_dims&#39;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rects_dims</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">sig_processing</span><span class="o">.</span><span class="n">set_rect_patches_sides</span><span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rects_dims</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+        <span class="c1"># set sig-processing and skin-processing params</span>
+        <span class="n">SignalProcessingParams</span><span class="o">.</span><span class="n">RGB_LOW_TH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;sig_color_low_threshold&#39;</span><span class="p">])</span>
+        <span class="n">SignalProcessingParams</span><span class="o">.</span><span class="n">RGB_HIGH_TH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;sig_color_high_threshold&#39;</span><span class="p">])</span>
+        <span class="n">SkinProcessingParams</span><span class="o">.</span><span class="n">RGB_LOW_TH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;skin_color_low_threshold&#39;</span><span class="p">])</span>
+        <span class="n">SkinProcessingParams</span><span class="o">.</span><span class="n">RGB_HIGH_TH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;skin_color_high_threshold&#39;</span><span class="p">])</span>
+
+        <span class="c1"># load all the videos</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">videoIdx</span> <span class="o">==</span> <span class="p">[]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">videoIdx</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                             <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">videoFilenames</span><span class="p">))]</span>
+
+        <span class="c1"># -- loop on videos</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">videoIdx</span><span class="p">:</span>
+
+            <span class="c1"># -- verbose prints</span>
+            <span class="k">if</span> <span class="s1">&#39;1&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">verb</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">## videoID: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">v</span><span class="p">))</span>
+
+            <span class="c1"># -- ground-truth signal</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">fname</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">getSigFilename</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">sigGT</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">readSigfile</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">winSizeGT</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;winSize&#39;</span><span class="p">])</span>
+            <span class="n">bpmGT</span><span class="p">,</span> <span class="n">timesGT</span> <span class="o">=</span> <span class="n">sigGT</span><span class="o">.</span><span class="n">getBPM</span><span class="p">(</span><span class="n">winSizeGT</span><span class="p">)</span>
+
+            <span class="c1"># -- video file name</span>
+            <span class="n">videoFileName</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">getVideoFilename</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">videoFileName</span><span class="p">)</span>
+            <span class="n">fps</span> <span class="o">=</span> <span class="n">get_fps</span><span class="p">(</span><span class="n">videoFileName</span><span class="p">)</span>
+
+            <span class="n">sig_processing</span><span class="o">.</span><span class="n">set_total_frames</span><span class="p">(</span>
+                <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;tot_sec&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">fps</span><span class="p">)</span>
+
+            <span class="n">sig</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;approach&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;hol&#39;</span><span class="p">:</span>
+                <span class="c1"># SIG extraction with holistic</span>
+                <span class="n">sig</span> <span class="o">=</span> <span class="n">sig_processing</span><span class="o">.</span><span class="n">extract_holistic</span><span class="p">(</span><span class="n">videoFileName</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;approach&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;patches&#39;</span><span class="p">:</span>
+                <span class="c1"># SIG extraction with patches</span>
+                <span class="n">sig</span> <span class="o">=</span> <span class="n">sig_processing</span><span class="o">.</span><span class="n">extract_patches</span><span class="p">(</span>
+                    <span class="n">videoFileName</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;patches&#39;</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]))</span>
+
+            <span class="c1"># -- sig windowing</span>
+            <span class="n">windowed_sig</span><span class="p">,</span> <span class="n">timesES</span> <span class="o">=</span> <span class="n">sig_windowing</span><span class="p">(</span>
+                <span class="n">sig</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;winSize&#39;</span><span class="p">]),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">fps</span><span class="p">)</span>
+
+            <span class="c1"># -- loop on methods</span>
+            <span class="n">bvps_collection</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">methods_collection</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s1">&#39;1&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">verb</span><span class="p">):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;## Computing method: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">m</span><span class="p">)))</span>
+                <span class="c1"># -- PRE FILTERING</span>
+                <span class="n">filtered_windowed_sig</span> <span class="o">=</span> <span class="n">windowed_sig</span>
+
+                <span class="c1"># -- color threshold - applied only with patches</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span><span class="p">[</span><span class="s1">&#39;approach&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;patches&#39;</span><span class="p">:</span>
+                    <span class="n">filtered_windowed_sig</span> <span class="o">=</span> <span class="n">apply_filter</span><span class="p">(</span>
+                        <span class="n">windowed_sig</span><span class="p">,</span>
+                        <span class="n">rgb_filter_th</span><span class="p">,</span>
+                        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;RGB_LOW_TH&#39;</span><span class="p">:</span>  <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bvpdict</span><span class="p">[</span><span class="s1">&#39;color_low_threshold&#39;</span><span class="p">]),</span>
+                                <span class="s1">&#39;RGB_HIGH_TH&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bvpdict</span><span class="p">[</span><span class="s1">&#39;color_high_threshold&#39;</span><span class="p">])})</span>
+
+                <span class="c1"># -- custom filters</span>
+                <span class="n">prefilter_list</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">methodsdict</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s1">&#39;pre_filtering&#39;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefilter_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">prefilter_list</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="s1">&#39;1&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">verb</span><span class="p">):</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  pre-filter: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">f</span><span class="p">)</span>
+                        <span class="n">fdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">parser</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+                        <span class="k">if</span> <span class="n">fdict</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;None&#39;</span><span class="p">:</span>
+                            <span class="c1"># custom path</span>
+                            <span class="n">spec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">spec_from_file_location</span><span class="p">(</span>
+                                <span class="n">fdict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">fdict</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">])</span>
+                            <span class="n">mod</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">module_from_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+                            <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">mod</span><span class="p">)</span>
+                            <span class="n">method_to_call</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+                                <span class="n">mod</span><span class="p">,</span> <span class="n">fdict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># package path</span>
+                            <span class="n">module</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span>
+                                <span class="s1">&#39;pyVHR.BVP.filters&#39;</span><span class="p">)</span>
+                            <span class="n">method_to_call</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+                                <span class="n">module</span><span class="p">,</span> <span class="n">fdict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+                        <span class="n">filtered_windowed_sig</span> <span class="o">=</span> <span class="n">apply_filter</span><span class="p">(</span>
+                            <span class="n">filtered_windowed_sig</span><span class="p">,</span> <span class="n">method_to_call</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">fps</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">fdict</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]))</span>
+
+                <span class="c1"># -- BVP extraction</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">methodsdict</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s1">&#39;path&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;None&#39;</span><span class="p">:</span>
+                    <span class="c1"># custom path</span>
+                    <span class="n">spec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">spec_from_file_location</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">methodsdict</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">methodsdict</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s1">&#39;path&#39;</span><span class="p">])</span>
+                    <span class="n">mod</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">module_from_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+                    <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">mod</span><span class="p">)</span>
+                    <span class="n">method_to_call</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">methodsdict</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># package path</span>
+                    <span class="n">module</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span>
+                        <span class="s1">&#39;pyVHR.BVP.methods&#39;</span><span class="p">)</span>
+                    <span class="n">method_to_call</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+                        <span class="n">module</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">methodsdict</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+                <span class="n">bvps</span> <span class="o">=</span> <span class="n">RGB_sig_to_BVP</span><span class="p">(</span><span class="n">filtered_windowed_sig</span><span class="p">,</span> <span class="n">fps</span><span class="p">,</span>
+                                      <span class="n">device_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">methodsdict</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s1">&#39;device_type&#39;</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="n">method_to_call</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">methodsdict</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s1">&#39;params&#39;</span><span class="p">]))</span>
+
+                <span class="c1"># POST FILTERING</span>
+                <span class="n">postfilter_list</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">methodsdict</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s1">&#39;post_filtering&#39;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">postfilter_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">postfilter_list</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="s1">&#39;1&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">verb</span><span class="p">):</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  post-filter: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">f</span><span class="p">)</span>
+                        <span class="n">fdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">parser</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+                        <span class="k">if</span> <span class="n">fdict</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;None&#39;</span><span class="p">:</span>
+                            <span class="c1"># custom path</span>
+                            <span class="n">spec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">spec_from_file_location</span><span class="p">(</span>
+                                <span class="n">fdict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">fdict</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">])</span>
+                            <span class="n">mod</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">module_from_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+                            <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">mod</span><span class="p">)</span>
+                            <span class="n">method_to_call</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+                                <span class="n">mod</span><span class="p">,</span> <span class="n">fdict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># package path</span>
+                            <span class="n">module</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span>
+                                <span class="s1">&#39;pyVHR.BVP.filters&#39;</span><span class="p">)</span>
+                            <span class="n">method_to_call</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+                                <span class="n">module</span><span class="p">,</span> <span class="n">fdict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+                        <span class="n">bvps</span> <span class="o">=</span> <span class="n">apply_filter</span><span class="p">(</span>
+                            <span class="n">bvps</span><span class="p">,</span> <span class="n">method_to_call</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">fps</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">fdict</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]))</span>
+
+                <span class="n">bvps_collection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bvps</span><span class="p">)</span>
+                <span class="n">methods_collection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+            <span class="c1"># -- BPM extraction</span>
+            <span class="c1"># first each method, then multi-method</span>
+            <span class="n">multi_method_coll</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">bvps_collection</span><span class="p">]</span>
+            <span class="n">methods_collection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Multi-Method&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bvps_collection</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">bvps_collection</span><span class="p">):</span> <span class="c1"># last element is the multi-method</span>
+                    <span class="n">bvp_element</span> <span class="o">=</span> <span class="n">concatenate_BVPs</span><span class="p">(</span><span class="n">multi_method_coll</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">bvp_element</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ERROR] Multi method Concatenation can&#39;t be executed because BVP signals have different shapes!&quot;</span><span class="p">)</span>
+                        <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span> <span class="c1"># use single methods</span>
+                    <span class="n">bvp_element</span> <span class="o">=</span> <span class="n">bvps_collection</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+                <span class="n">bpmES</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bpmdict</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;welch&#39;</span><span class="p">:</span>
+                    <span class="n">bpmES</span> <span class="o">=</span> <span class="n">BVP_to_BPM</span><span class="p">(</span><span class="n">bvp_element</span><span class="p">,</span> <span class="n">fps</span><span class="p">,</span> <span class="n">minHz</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">bpmdict</span><span class="p">[</span><span class="s1">&#39;minHz&#39;</span><span class="p">]),</span> <span class="n">maxHz</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bpmdict</span><span class="p">[</span><span class="s1">&#39;maxHz&#39;</span><span class="p">]))</span>
+                <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bpmdict</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;psd_clustering&#39;</span><span class="p">:</span>
+                    <span class="n">bpmES</span> <span class="o">=</span> <span class="n">BVP_to_BPM_PSD_clustering</span><span class="p">(</span><span class="n">bvp_element</span><span class="p">,</span> <span class="n">fps</span><span class="p">,</span> <span class="n">minHz</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">bpmdict</span><span class="p">[</span><span class="s1">&#39;minHz&#39;</span><span class="p">]),</span> <span class="n">maxHz</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bpmdict</span><span class="p">[</span><span class="s1">&#39;maxHz&#39;</span><span class="p">]))</span>
+                <span class="k">if</span> <span class="n">bpmES</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ERROR] BPM extraction error; check cfg params!&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                <span class="c1"># median BPM from multiple estimators BPM</span>
+                <span class="c1"># this doesn&#39;t affect holistic approach</span>
+                <span class="n">median_bpmES</span> <span class="o">=</span> <span class="n">multi_est_BPM_median</span><span class="p">(</span><span class="n">bpmES</span><span class="p">)</span>
+
+                <span class="c1"># -- error metrics</span>
+                <span class="n">RMSE</span><span class="p">,</span> <span class="n">MAE</span><span class="p">,</span> <span class="n">MAX</span><span class="p">,</span> <span class="n">PCC</span> <span class="o">=</span> <span class="n">getErrors</span><span class="p">(</span><span class="n">median_bpmES</span><span class="p">,</span> <span class="n">bpmGT</span><span class="p">,</span> <span class="n">timesES</span><span class="p">,</span> <span class="n">timesGT</span><span class="p">)</span>
+
+                <span class="c1"># -- save results</span>
+                <span class="n">method_name</span> <span class="o">=</span> <span class="n">methods_collection</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">newDataSerie</span><span class="p">()</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">addData</span><span class="p">(</span><span class="s1">&#39;dataset&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datasetdict</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]))</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">addData</span><span class="p">(</span><span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">method_name</span><span class="p">))</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">addData</span><span class="p">(</span><span class="s1">&#39;videoIdx&#39;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">addData</span><span class="p">(</span><span class="s1">&#39;RMSE&#39;</span><span class="p">,</span> <span class="n">RMSE</span><span class="p">)</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">addData</span><span class="p">(</span><span class="s1">&#39;MAE&#39;</span><span class="p">,</span> <span class="n">MAE</span><span class="p">)</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">addData</span><span class="p">(</span><span class="s1">&#39;MAX&#39;</span><span class="p">,</span> <span class="n">MAX</span><span class="p">)</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">addData</span><span class="p">(</span><span class="s1">&#39;PCC&#39;</span><span class="p">,</span> <span class="n">PCC</span><span class="p">)</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">addData</span><span class="p">(</span><span class="s1">&#39;bpmGT&#39;</span><span class="p">,</span> <span class="n">bpmGT</span><span class="p">)</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">addData</span><span class="p">(</span><span class="s1">&#39;bpmES&#39;</span><span class="p">,</span> <span class="n">median_bpmES</span><span class="p">)</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">addData</span><span class="p">(</span><span class="s1">&#39;timeGT&#39;</span><span class="p">,</span> <span class="n">timesGT</span><span class="p">)</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">addData</span><span class="p">(</span><span class="s1">&#39;timeES&#39;</span><span class="p">,</span> <span class="n">timesES</span><span class="p">)</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">addData</span><span class="p">(</span><span class="s1">&#39;videoFilename&#39;</span><span class="p">,</span> <span class="n">videoFileName</span><span class="p">)</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">addDataSerie</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="s1">&#39;1&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">verb</span><span class="p">):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;## Results for method: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">method_name</span><span class="p">)))</span>
+                    <span class="n">printErrors</span><span class="p">(</span><span class="n">RMSE</span><span class="p">,</span> <span class="n">MAE</span><span class="p">,</span> <span class="n">MAX</span><span class="p">,</span> <span class="n">PCC</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="MultiMethodSuite.parse_cfg"><a class="viewcode-back" href="../../../pyVHR.analysis.html#pyVHR.analysis.multi_method_suite.MultiMethodSuite.parse_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">parse_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configFilename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; parses the given configuration file for loading the test&#39;s parameters.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            configFilename: configuation file (.cfg) name of path .</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">(</span>
+            <span class="n">inline_comment_prefixes</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="s1">&#39;;&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">optionxform</span> <span class="o">=</span> <span class="nb">str</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">configFilename</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">configFilename</span><span class="p">)</span>
+
+        <span class="c1"># load paramas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datasetdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="p">[</span><span class="s1">&#39;DATASET&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="p">[</span><span class="s1">&#39;SIG&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bvpdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="p">[</span><span class="s1">&#39;BVP&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bpmdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="p">[</span><span class="s1">&#39;BPM&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+        <span class="c1"># video idx list extraction</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datasetdict</span><span class="p">[</span><span class="s1">&#39;videoIdx&#39;</span><span class="p">]),</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">videoIdx</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">datasetdict</span><span class="p">[</span><span class="s1">&#39;videoIdx&#39;</span><span class="p">])]</span>
+
+        <span class="c1"># load parameters for each methods</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">methodsdict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">methods</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bvpdict</span><span class="p">[</span><span class="s1">&#39;methods&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">methodsdict</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">())</span></div>
+
+    <span class="k">def</span> <span class="nf">__merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dict1</span><span class="p">,</span> <span class="n">dict2</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dict2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dict1</span><span class="p">:</span>
+                <span class="n">dict1</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">dict2</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__verbose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verb</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">verb</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;** Run the test with the following config:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;      dataset: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasetdict</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;      methods: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">methods</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="TestResult"><a class="viewcode-back" href="../../../pyVHR.analysis.html#pyVHR.analysis.multi_method_suite.TestResult">[docs]</a><span class="k">class</span> <span class="nc">TestResult</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    This class is used by :py:class:`pyVHR.analysis.multi_method_suite.MultiMethodSuite` to manage the results</span>
+<span class="sd">    of a test for a given video dataset on multiple rPPG methods</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dict</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="TestResult.addDataSerie"><a class="viewcode-back" href="../../../pyVHR.analysis.html#pyVHR.analysis.multi_method_suite.TestResult.addDataSerie">[docs]</a>    <span class="k">def</span> <span class="nf">addDataSerie</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># -- store serie</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataFrame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataFrame</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TestResult.newDataSerie"><a class="viewcode-back" href="../../../pyVHR.analysis.html#pyVHR.analysis.multi_method_suite.TestResult.newDataSerie">[docs]</a>    <span class="k">def</span> <span class="nf">newDataSerie</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># -- new dict</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">D</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">D</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">D</span><span class="p">[</span><span class="s1">&#39;videoIdx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>        <span class="c1"># video filename</span>
+        <span class="n">D</span><span class="p">[</span><span class="s1">&#39;sigFilename&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>     <span class="c1"># GT signal filename</span>
+        <span class="n">D</span><span class="p">[</span><span class="s1">&#39;videoFilename&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>   <span class="c1"># GT signal filename</span>
+        <span class="n">D</span><span class="p">[</span><span class="s1">&#39;RMSE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">D</span><span class="p">[</span><span class="s1">&#39;MAE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">D</span><span class="p">[</span><span class="s1">&#39;PCC&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">D</span><span class="p">[</span><span class="s1">&#39;MAX&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">D</span><span class="p">[</span><span class="s1">&#39;bpmGT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>          <span class="c1"># GT bpm</span>
+        <span class="n">D</span><span class="p">[</span><span class="s1">&#39;bpmES&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">D</span><span class="p">[</span><span class="s1">&#39;timeGT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>            <span class="c1"># GT bpm</span>
+        <span class="n">D</span><span class="p">[</span><span class="s1">&#39;timeES&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dict</span> <span class="o">=</span> <span class="n">D</span></div>
+
+<div class="viewcode-block" id="TestResult.addData"><a class="viewcode-back" href="../../../pyVHR.analysis.html#pyVHR.analysis.multi_method_suite.TestResult.addData">[docs]</a>    <span class="k">def</span> <span class="nf">addData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
+
+<div class="viewcode-block" id="TestResult.saveResults"><a class="viewcode-back" href="../../../pyVHR.analysis.html#pyVHR.analysis.multi_method_suite.TestResult.saveResults">[docs]</a>    <span class="k">def</span> <span class="nf">saveResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outFilename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the test results in a HDF5 library that can be opened using pandas.</span>
+<span class="sd">        You can analyze the results using :py:class:`pyVHR.analysis.stats.StatAnalysis`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">outFilename</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">outFilename</span> <span class="o">=</span> <span class="s2">&quot;testResults.h5&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">outFilename</span> <span class="o">=</span> <span class="n">outFilename</span>
+
+        <span class="c1"># -- save data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataFrame</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="n">outFilename</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;df&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span></div></div>
+</pre></div>
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, phuselab.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

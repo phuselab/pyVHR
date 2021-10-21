@@ -1,0 +1,45 @@
+pyVHR.realtime package
+======================
+
+Submodules
+----------
+
+pyVHR.realtime.GUI module
+-------------------------
+
+.. automodule:: pyVHR.realtime.GUI
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyVHR.realtime.VHRroutine module
+--------------------------------
+
+.. automodule:: pyVHR.realtime.VHRroutine
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyVHR.realtime.params module
+----------------------------
+
+.. automodule:: pyVHR.realtime.params
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyVHR.realtime.video\_capture module
+------------------------------------
+
+.. automodule:: pyVHR.realtime.video_capture
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pyVHR.realtime
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,531 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyVHR.realtime.GUI &#8212; pyVHR 1.0 documentation</title>
+    
+  <link href="../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/blank.css" />
+    
+  <link rel="preload" as="script" href="../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="../../../index.html">
+<p class="title">pyVHR</p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <h1>Source code for pyVHR.realtime.GUI</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyVHR.realtime.params</span> <span class="kn">import</span> <span class="n">Params</span>
+<span class="kn">from</span> <span class="nn">pyVHR.realtime.VHRroutine</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">PySimpleGUI</span> <span class="k">as</span> <span class="nn">sg</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">ast</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<div class="viewcode-block" id="GUI_MENU"><a class="viewcode-back" href="../../../pyVHR.realtime.html#pyVHR.realtime.GUI.GUI_MENU">[docs]</a><span class="k">def</span> <span class="nf">GUI_MENU</span><span class="p">():</span>
+    <span class="n">col1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Set Parameters:&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Video file path, or device number:&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-VideoFileName-&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">FileBrowse</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;-VideoFileName-&quot;</span><span class="p">))],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Window Size:&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">winSize</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-winSize-&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Stride:&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">stride</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-stride-&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;FPS fixed:&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span><span class="s2">&quot;None&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-fpsfixed-&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;            &quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Skin Extractor:&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;Convex Hull&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO2&quot;</span><span class="p">,</span>
+                      <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-skinConvex-&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;FaceParsing&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO2&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-skinFaceParsing-&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;ROI:&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;Holistic&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO3&quot;</span><span class="p">,</span>
+                      <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-holistic-&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;Patches&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO3&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-patches-&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Method for Signal computation:&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO0&quot;</span><span class="p">,</span>
+                      <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-mean-&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;median&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO0&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-median-&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;            &quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Patches type:&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;Squares&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO4&quot;</span><span class="p">,</span>
+                      <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-squares-&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;Rectangles&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO4&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-rects-&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Landmarks list (ex: [1,2,3]):&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span><span class="s2">&quot;Default&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-ldmkslist-&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Squares dimension:&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">squares_dim</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-squares_dim-&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Rects dimension (ex for two landmarks: [[20,15],[10,10]]):&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span><span class="s2">&quot;[[],]&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-rectsdim-&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;            &quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="s1">&#39;Apply Parameters&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;-APPLY-&#39;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="s1">&#39;START&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;-START-&#39;</span><span class="p">,</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
+            <span class="p">]</span>
+    <span class="n">col2</span> <span class="o">=</span> <span class="p">[[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;            &quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Skin RGB color low threshold (ex: input V -&gt; RGB(V,V,V)):       &quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">skin_color_low_threshold</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-skin_color_low_threshold-&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Skin RGB color high threshold (ex: input V -&gt; RGB(V,V,V)):      &quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">skin_color_high_threshold</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-skin_color_high_threshold-&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;ROI RGB color low threshold (ex: input V -&gt; RGB(V,V,V)):        &quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">sig_color_low_threshold</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-sig_color_low_threshold-&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;ROI RGB color high threshold (ex: input V -&gt; RGB(V,V,V)):       &quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">sig_color_high_threshold</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-sig_color_high_threshold-&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;            &quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Signal RGB color low threshold (ex: input V -&gt; RGB(V,V,V)):     &quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">color_low_threshold</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-color_low_threshold-&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Signal RGB color high threshold (ex: input V -&gt; RGB(V,V,V)):    &quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">color_high_threshold</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-color_high_threshold-&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;            &quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Visualize Skin:&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO5&quot;</span><span class="p">,</span>
+                      <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-visualizeskintrue-&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;False&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO5&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-visualizeskinfalse-&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Visualize Landmarks:&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO6&quot;</span><span class="p">,</span>
+                      <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-visualizeldmkstrue-&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;False&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO6&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-visualizeldmksfalse-&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2"> - Visualize Patches:&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO7&quot;</span><span class="p">,</span>
+                      <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-visualizepatchestrue-&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;False&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO7&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-visualizepatchesfalse-&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2"> - Visualize Landmarks number:&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO8&quot;</span><span class="p">,</span>
+                      <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-visualizeldmksnumtrue-&quot;</span><span class="p">),</span>
+             <span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s2">&quot;False&quot;</span><span class="p">,</span> <span class="s2">&quot;RADIO8&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-visualizeldmksnumfalse-&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;            </span><span class="se">\n</span><span class="s2"> Font Color (R,G,B,A)&quot;</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">font_color</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;-FontColor-&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">1</span><span class="p">))],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Font Size: &quot;</span><span class="p">),</span> <span class="n">sg</span><span class="o">.</span><span class="n">In</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">font_size</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;-FontSize-&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))],</span>
+            <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;For Editing PRE-POST filters, BVP method and BPM params edit:</span><span class="se">\n</span><span class="s2"> Params.pre_filter, Params.method, Params.post_filter,</span><span class="se">\n</span><span class="s2"> Params.minHz, Params.maxHz&quot;</span><span class="p">)]</span>
+            <span class="p">]</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="p">[[</span><span class="n">sg</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">col1</span><span class="p">,</span> <span class="n">element_justification</span><span class="o">=</span><span class="s1">&#39;l&#39;</span><span class="p">),</span>
+              <span class="n">sg</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">col2</span><span class="p">,</span> <span class="n">element_justification</span><span class="o">=</span><span class="s1">&#39;l&#39;</span><span class="p">)]]</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">Window</span><span class="p">(</span><span class="s1">&#39;pyVHR&#39;</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">finalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+    <span class="n">bpm_plot</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">bpm_save</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">bpm_plot_max</span> <span class="o">=</span> <span class="mi">60</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">original_image</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">skin_image</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">patches_image</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">vhr_t</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sd</span> <span class="o">=</span> <span class="n">SharedData</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">create_run_window</span><span class="p">():</span>
+        <span class="n">fps</span> <span class="o">=</span> <span class="n">Params</span><span class="o">.</span><span class="n">fps_fixed</span> <span class="k">if</span> <span class="n">Params</span><span class="o">.</span><span class="n">fps_fixed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">get_fps</span><span class="p">(</span>
+            <span class="n">Params</span><span class="o">.</span><span class="n">videoFileName</span><span class="p">)</span>
+        <span class="n">visualize_list</span> <span class="o">=</span> <span class="p">[[</span><span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span>
+            <span class="s1">&#39;Original Video&#39;</span><span class="p">,</span>  <span class="s2">&quot;RADIO11&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-IN_Visualize_original-&quot;</span><span class="p">)],</span> <span class="p">]</span>
+        <span class="k">if</span> <span class="n">Params</span><span class="o">.</span><span class="n">visualize_skin</span><span class="p">:</span>
+            <span class="n">visualize_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s1">&#39;Skin&#39;</span><span class="p">,</span> <span class="s2">&quot;RADIO11&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-IN_Visualize_skin-&quot;</span><span class="p">)])</span>
+        <span class="k">if</span> <span class="n">Params</span><span class="o">.</span><span class="n">approach</span> <span class="o">==</span> <span class="s1">&#39;patches&#39;</span><span class="p">:</span>
+            <span class="n">visualize_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span><span class="s1">&#39;Patches&#39;</span><span class="p">,</span> <span class="s2">&quot;RADIO11&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-IN_Visualize_patches-&quot;</span><span class="p">)])</span>
+
+        <span class="n">run_col1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">videoFileName</span><span class="p">)],</span>
+                    <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span>
+                        <span class="s2">&quot;Video FPS: &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">fps</span><span class="p">)),</span>
+                    <span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span>
+                        <span class="s2">&quot;Video resolution:             &quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;-res-&quot;</span><span class="p">)],</span>
+                    <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;Visualize: &quot;</span><span class="p">)],</span>
+                    <span class="o">*</span><span class="n">visualize_list</span><span class="p">,</span>
+                    <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s1">&#39;BPMs&#39;</span><span class="p">)],</span>
+                    <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;-BPM_PLOT-&#39;</span><span class="p">)],</span>
+                    <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="s1">&#39;Stop&#39;</span><span class="p">)],</span>
+                    <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="s1">&#39;Save BPMs&#39;</span><span class="p">)]]</span>
+        <span class="n">run_col2</span> <span class="o">=</span> <span class="p">[[</span><span class="n">sg</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s1">&#39;Visualize&#39;</span><span class="p">)],</span>
+                    <span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;-VIDEO-&#39;</span><span class="p">)]]</span>
+        <span class="n">run_layout</span> <span class="o">=</span> <span class="p">[[</span><span class="n">sg</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">run_col1</span><span class="p">,</span> <span class="n">element_justification</span><span class="o">=</span><span class="s1">&#39;l&#39;</span><span class="p">),</span>
+                       <span class="n">sg</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">run_col2</span><span class="p">,</span> <span class="n">element_justification</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">)]]</span>
+        <span class="n">wr</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">Window</span><span class="p">(</span><span class="s1">&#39;pyVHR - RUN&#39;</span><span class="p">,</span> <span class="n">run_layout</span><span class="p">,</span>
+                       <span class="n">finalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="c1"># blank plots for compiling kernels</span>
+        <span class="n">imgbytes</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imencode</span><span class="p">(</span><span class="s1">&#39;.png&#39;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+        <span class="n">wr</span><span class="p">[</span><span class="s1">&#39;-VIDEO-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">imgbytes</span><span class="p">)</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">9</span><span class="p">),</span>
+                                 <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines+markers&#39;</span><span class="p">,</span>
+                                 <span class="n">name</span><span class="o">=</span><span class="s1">&#39;lines+markers&#39;</span><span class="p">))</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">autosize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">paper_bgcolor</span><span class="o">=</span><span class="s2">&quot;LightSteelBlue&quot;</span><span class="p">,)</span>
+        <span class="n">img_bytes</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">to_image</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">)</span>
+        <span class="n">wr</span><span class="p">[</span><span class="s1">&#39;-BPM_PLOT-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">img_bytes</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wr</span>
+
+    <span class="n">run_window</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">win</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">read_all_windows</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">event</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;Exit&#39;</span><span class="p">,</span> <span class="s1">&#39;Stop&#39;</span><span class="p">,</span> <span class="n">sg</span><span class="o">.</span><span class="n">WIN_CLOSED</span><span class="p">)</span> <span class="ow">and</span> <span class="n">run_window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sd</span><span class="o">.</span><span class="n">q_stop_cap</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># stop cap, it will stop VHR model thread</span>
+            <span class="n">sd</span><span class="o">.</span><span class="n">q_stop</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># stop VHR model thread if cap can&#39;t</span>
+            <span class="n">vhr_t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+            <span class="n">vhr_t</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">sd</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">sd</span> <span class="o">=</span> <span class="n">SharedData</span><span class="p">()</span>
+            <span class="n">run_window</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">run_window</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">event</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;Exit&#39;</span><span class="p">,</span> <span class="n">sg</span><span class="o">.</span><span class="n">WIN_CLOSED</span><span class="p">)</span> <span class="ow">and</span> <span class="n">run_window</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">window</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">run_window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">run_win_event</span><span class="p">,</span> <span class="n">run_win_values</span> <span class="o">=</span> <span class="n">run_window</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+            <span class="c1"># Video plot</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">sd</span><span class="o">.</span><span class="n">q_video_image</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+                <span class="n">original_image</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">q_video_image</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">sd</span><span class="o">.</span><span class="n">q_skin_image</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+                <span class="n">skin_image</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">q_skin_image</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">sd</span><span class="o">.</span><span class="n">q_patches_image</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+                <span class="n">patches_image</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">q_patches_image</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">original_image</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">run_win_values</span><span class="p">[</span><span class="s2">&quot;-IN_Visualize_original-&quot;</span><span class="p">]):</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">original_image</span>
+            <span class="k">elif</span> <span class="n">Params</span><span class="o">.</span><span class="n">visualize_skin</span> <span class="ow">and</span> <span class="n">skin_image</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">run_win_values</span><span class="p">[</span><span class="s2">&quot;-IN_Visualize_skin-&quot;</span><span class="p">]):</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">skin_image</span>
+            <span class="k">elif</span> <span class="n">Params</span><span class="o">.</span><span class="n">visualize_landmarks</span> <span class="ow">and</span> <span class="n">patches_image</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">run_win_values</span><span class="p">[</span><span class="s2">&quot;-IN_Visualize_patches-&quot;</span><span class="p">]):</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">patches_image</span>
+            <span class="k">if</span> <span class="n">image</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+                <span class="n">imgbytes</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imencode</span><span class="p">(</span><span class="s1">&#39;.png&#39;</span><span class="p">,</span> <span class="n">image</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+                <span class="n">run_window</span><span class="p">[</span><span class="s1">&#39;-VIDEO-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">imgbytes</span><span class="p">)</span>
+                <span class="n">run_window</span><span class="p">[</span><span class="s1">&#39;-res-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;Video resolution: &quot;</span> <span class="o">+</span>
+                                           <span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot; x &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="c1"># BPM plot</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">sd</span><span class="o">.</span><span class="n">q_bpm</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+                <span class="n">bpm</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">q_bpm</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+                <span class="n">bpm_plot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bpm</span><span class="p">)</span>
+                <span class="n">bpm_save</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bpm</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bpm_plot</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">bpm_plot_max</span><span class="p">:</span>
+                    <span class="n">bpm_plot</span> <span class="o">=</span> <span class="n">bpm_plot</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+                <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bpm_plot</span><span class="p">),</span> <span class="n">Params</span><span class="o">.</span><span class="n">stride</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bpm_plot</span><span class="p">),</span>
+                                         <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines+markers&#39;</span><span class="p">,</span>
+                                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;lines+markers&#39;</span><span class="p">))</span>
+                <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+                    <span class="n">autosize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+                    <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
+                    <span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="n">paper_bgcolor</span><span class="o">=</span><span class="s2">&quot;LightSteelBlue&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">img_bytes</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">to_image</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">)</span>
+                <span class="n">run_window</span><span class="p">[</span><span class="s1">&#39;-BPM_PLOT-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">img_bytes</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">run_win_event</span> <span class="o">==</span> <span class="s1">&#39;Save BPMs&#39;</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">path</span> <span class="o">=</span> <span class="n">Params</span><span class="o">.</span><span class="n">out_path</span> <span class="k">if</span> <span class="n">Params</span><span class="o">.</span><span class="n">out_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> \
+                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span><span class="o">+</span><span class="s1">&#39;_BPMs&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">bpm_save</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BPMs saved!&quot;</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ERROR] wrong path for saving BPMs!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">event</span> <span class="o">==</span> <span class="s1">&#39;-APPLY-&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-VideoFileName-&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">videoFileName</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-VideoFileName-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">videoFileName</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-VideoFileName-&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-VideoFileName-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">videoFileName</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-VideoFileName-&#39;</span><span class="p">])</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">fake_delay</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">fake_delay</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-winSize-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">winSize</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-winSize-&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-winSize-&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">3</span>
+            <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-winSize-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">winSize</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-stride-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">stride</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-stride-&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-stride-&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span>
+            <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-stride-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">stride</span><span class="p">))</span>
+            <span class="n">Params</span><span class="o">.</span><span class="n">cuda</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-fpsfixed-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">fps_fixed</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-fpsfixed-&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-fpsfixed-&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-fpsfixed-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">fps_fixed</span><span class="p">))</span>
+            <span class="n">Params</span><span class="o">.</span><span class="n">skin_extractor</span> <span class="o">=</span> <span class="s1">&#39;convexhull&#39;</span> <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span>
+                <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-skinConvex-&#39;</span><span class="p">])</span> <span class="k">else</span> <span class="s1">&#39;faceparsing&#39;</span>
+            <span class="n">Params</span><span class="o">.</span><span class="n">approach</span> <span class="o">=</span> <span class="s1">&#39;holistic&#39;</span> <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span>
+                <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-holistic-&#39;</span><span class="p">])</span> <span class="k">else</span> <span class="s1">&#39;patches&#39;</span>
+            <span class="n">Params</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span> <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span>
+                <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-mean-&#39;</span><span class="p">])</span> <span class="k">else</span> <span class="s1">&#39;median&#39;</span>
+            <span class="n">Params</span><span class="o">.</span><span class="n">patches</span> <span class="o">=</span> <span class="s1">&#39;squares&#39;</span> <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span>
+                <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-squares-&#39;</span><span class="p">])</span> <span class="k">else</span> <span class="s1">&#39;rects&#39;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ldlist</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-ldmkslist-&#39;</span><span class="p">])</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">landmarks_list</span> <span class="o">=</span> <span class="n">ldlist</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span>
+                    <span class="n">ldlist</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Params</span><span class="o">.</span><span class="n">landmarks_list</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-ldmkslist-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">landmarks_list</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-squares_dim-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">squares_dim</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-squares_dim-&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-squares_dim-&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-squares_dim-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">squares_dim</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">rects_dims</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-rectsdim-&#39;</span><span class="p">])</span>
+                <span class="c1"># Default if len is not the same</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">rects_dims</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">landmarks_list</span><span class="p">):</span>
+                    <span class="n">new_rect_dim</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">landmarks_list</span><span class="p">)):</span>
+                        <span class="n">new_rect_dim</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">Params</span><span class="o">.</span><span class="n">squares_dim</span><span class="p">,</span> <span class="n">Params</span><span class="o">.</span><span class="n">squares_dim</span><span class="p">])</span>
+                    <span class="n">Params</span><span class="o">.</span><span class="n">rects_dims</span> <span class="o">=</span> <span class="n">new_rect_dim</span>
+                    <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-rectsdim-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">new_rect_dim</span><span class="p">))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="c1"># Default if parameter is wrong</span>
+                <span class="n">new_rect_dim</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">landmarks_list</span><span class="p">)):</span>
+                    <span class="n">new_rect_dim</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">Params</span><span class="o">.</span><span class="n">squares_dim</span><span class="p">,</span> <span class="n">Params</span><span class="o">.</span><span class="n">squares_dim</span><span class="p">])</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">rects_dims</span> <span class="o">=</span> <span class="n">new_rect_dim</span>
+                <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-rectsdim-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">new_rect_dim</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-skin_color_low_threshold-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">skin_color_low_threshold</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-skin_color_low_threshold-&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-skin_color_low_threshold-&#39;</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-skin_color_low_threshold-&#39;</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mi">255</span> <span class="k">else</span> <span class="mi">2</span>
+            <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-skin_color_low_threshold-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">skin_color_low_threshold</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-skin_color_high_threshold-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">skin_color_high_threshold</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-skin_color_high_threshold-&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-skin_color_high_threshold-&#39;</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-skin_color_high_threshold-&#39;</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mi">255</span> <span class="k">else</span> <span class="mi">254</span>
+            <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-skin_color_high_threshold-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">skin_color_high_threshold</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-sig_color_low_threshold-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">sig_color_low_threshold</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-sig_color_low_threshold-&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-sig_color_low_threshold-&#39;</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-sig_color_low_threshold-&#39;</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mi">255</span> <span class="k">else</span> <span class="mi">2</span>
+            <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-sig_color_low_threshold-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">sig_color_low_threshold</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-sig_color_high_threshold-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">sig_color_high_threshold</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-sig_color_high_threshold-&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-sig_color_high_threshold-&#39;</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-sig_color_high_threshold-&#39;</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mi">255</span> <span class="k">else</span> <span class="mi">254</span>
+            <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-sig_color_high_threshold-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">sig_color_high_threshold</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-color_low_threshold-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">color_low_threshold</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-color_low_threshold-&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-color_low_threshold-&#39;</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-color_low_threshold-&#39;</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mi">255</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-color_low_threshold-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">color_low_threshold</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-color_high_threshold-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">color_high_threshold</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-color_high_threshold-&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-color_high_threshold-&#39;</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-color_high_threshold-&#39;</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mi">255</span> <span class="k">else</span> <span class="mi">255</span>
+            <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-color_high_threshold-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">color_high_threshold</span><span class="p">))</span>
+
+            <span class="n">Params</span><span class="o">.</span><span class="n">visualize_skin</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span>
+                <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-visualizeskintrue-&#39;</span><span class="p">])</span> <span class="k">else</span> <span class="kc">False</span>
+            <span class="n">Params</span><span class="o">.</span><span class="n">visualize_landmarks</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span>
+                <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-visualizeldmkstrue-&#39;</span><span class="p">])</span> <span class="k">else</span> <span class="kc">False</span>
+            <span class="n">Params</span><span class="o">.</span><span class="n">visualize_patches</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span>
+                <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-visualizepatchestrue-&#39;</span><span class="p">])</span> <span class="k">else</span> <span class="kc">False</span>
+            <span class="n">Params</span><span class="o">.</span><span class="n">visualize_landmarks_number</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span>
+                <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-visualizeldmksnumtrue-&#39;</span><span class="p">])</span> <span class="k">else</span> <span class="kc">False</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">colorfont</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-FontColor-&#39;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">colorfont</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                    <span class="n">correct</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">colorfont</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">e</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">e</span> <span class="o">&lt;=</span> <span class="mi">255</span><span class="p">):</span>
+                            <span class="n">correct</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">if</span> <span class="n">correct</span><span class="p">:</span>
+                        <span class="n">Params</span><span class="o">.</span><span class="n">font_color</span> <span class="o">=</span> <span class="n">colorfont</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-FontColor-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">font_color</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-FontSize-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+                <span class="n">Params</span><span class="o">.</span><span class="n">font_size</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s1">&#39;-FontSize-&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;-FontSize-&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="k">else</span> <span class="mf">0.3</span>
+            <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-FontSize-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">font_size</span><span class="p">))</span>
+            <span class="n">window</span><span class="p">[</span><span class="s1">&#39;-START-&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">event</span> <span class="o">==</span> <span class="s1">&#39;-START-&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">run_window</span><span class="p">:</span>
+            <span class="n">bpm_plot</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">bpm_save</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">image</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">sd</span> <span class="o">=</span> <span class="n">SharedData</span><span class="p">()</span>
+            <span class="n">run_window</span> <span class="o">=</span> <span class="n">create_run_window</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">vhr_t</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">vhr_t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">VHRroutine</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">sd</span><span class="p">,))</span>
+                <span class="n">vhr_t</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">vhr_t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">window</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Theese parameters can be edited only here.</span>
+
+    <span class="c1"># Pre and Post filters are list of dictionary with the following structure:</span>
+    <span class="c1"># {&#39;filter_func&#39;: method_name, &#39;params&#39;: {}}</span>
+
+    <span class="c1"># A rPPG method is a dictionary with the following structure:</span>
+    <span class="c1"># {&#39;method_func&#39;: method_name, &#39;device_type&#39;: &#39;device_name&#39;, &#39;params&#39;: {}}</span>
+    <span class="c1"># device_type can be: &#39;cpu&#39;, &#39;torch&#39;.</span>
+
+    <span class="n">Params</span><span class="o">.</span><span class="n">pre_filter</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;filter_func&#39;</span><span class="p">:</span> <span class="n">BPfilter</span><span class="p">,</span> <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;minHz&#39;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span> <span class="s1">&#39;maxHz&#39;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="s1">&#39;fps&#39;</span><span class="p">:</span> <span class="s1">&#39;adaptive&#39;</span><span class="p">,</span> <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">}}]</span>
+        
+    <span class="n">Params</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;method_func&#39;</span><span class="p">:</span> <span class="n">cpu_CHROM</span><span class="p">,</span>
+                     <span class="s1">&#39;device_type&#39;</span><span class="p">:</span> <span class="s1">&#39;cpu&#39;</span><span class="p">,</span> <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+
+    <span class="n">Params</span><span class="o">.</span><span class="n">post_filter</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;filter_func&#39;</span><span class="p">:</span> <span class="n">BPfilter</span><span class="p">,</span> <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;minHz&#39;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span> <span class="s1">&#39;maxHz&#39;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="s1">&#39;fps&#39;</span><span class="p">:</span> <span class="s1">&#39;adaptive&#39;</span><span class="p">,</span> <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">}}]</span>
+
+    <span class="c1"># BPM extraction type</span>
+    <span class="c1"># &#39;psd_clustering&#39; or welch</span>
+    <span class="n">Params</span><span class="o">.</span><span class="n">BPM_extraction_type</span> <span class="o">=</span> <span class="s1">&#39;welch&#39;</span>
+
+    <span class="c1"># Saving path for BPMs</span>
+    <span class="c1">#Params.out_path = &quot;/home/user/Downloads/&quot;</span>
+    <span class="n">Params</span><span class="o">.</span><span class="n">out_path</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Working directory will be used</span>
+
+    <span class="c1"># Downscale input video to width 640 (preserve aspect-ratio)</span>
+    <span class="n">Params</span><span class="o">.</span><span class="n">resize</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">GUI_MENU</span><span class="p">()</span>
+</pre></div>
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, phuselab.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

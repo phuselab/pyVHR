@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyVHR.extraction.skin_extraction_methods &#8212; pyVHR 1.0 documentation</title>
+    
+  <link href="../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/blank.css" />
+    
+  <link rel="preload" as="script" href="../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="../../../index.html">
+<p class="title">pyVHR</p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <h1>Source code for pyVHR.extraction.skin_extraction_methods</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">cuda</span><span class="p">,</span> <span class="n">njit</span><span class="p">,</span> <span class="n">prange</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="nn">transforms</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">prange</span><span class="p">,</span> <span class="n">njit</span><span class="p">,</span> <span class="n">cuda</span>
+<span class="kn">from</span> <span class="nn">pyVHR.resources.faceparsing.model</span> <span class="kn">import</span> <span class="n">BiSeNet</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pyVHR</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">ConvexHull</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageDraw</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module defines classes or methods used for skin extraction.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">### functions and parameters ###</span>
+
+<div class="viewcode-block" id="SkinProcessingParams"><a class="viewcode-back" href="../../../pyVHR.extraction.html#pyVHR.extraction.skin_extraction_methods.SkinProcessingParams">[docs]</a><span class="k">class</span> <span class="nc">SkinProcessingParams</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This class contains usefull parameters used by this module.</span>
+
+<span class="sd">        RGB_LOW_TH (numpy.int32): RGB low-threshold value.</span>
+
+<span class="sd">        RGB_HIGH_TH (numpy.int32): RGB high-threshold value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">RGB_LOW_TH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="mi">55</span><span class="p">)</span>
+    <span class="n">RGB_HIGH_TH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="bbox2_CPU"><a class="viewcode-back" href="../../../pyVHR.extraction.html#pyVHR.extraction.skin_extraction_methods.bbox2_CPU">[docs]</a><span class="k">def</span> <span class="nf">bbox2_CPU</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Args:</span>
+<span class="sd">        img (ndarray): ndarray with shape [rows, columns, rgb_channels].</span>
+
+<span class="sd">    Returns: </span>
+<span class="sd">        Four cropping coordinates (row, row, column, column) for removing black borders (RGB [O,O,O]) from img.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">nzrows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+    <span class="n">nzcols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">nzrows</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">nzcols</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">rmin</span><span class="p">,</span> <span class="n">rmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">rows</span><span class="p">)[</span><span class="mi">0</span><span class="p">][[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="n">cmin</span><span class="p">,</span> <span class="n">cmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">cols</span><span class="p">)[</span><span class="mi">0</span><span class="p">][[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">rmin</span><span class="p">,</span> <span class="n">rmax</span><span class="p">,</span> <span class="n">cmin</span><span class="p">,</span> <span class="n">cmax</span></div>
+
+
+<span class="c1">### SKIN EXTRACTION CLASSES ###</span>
+
+<div class="viewcode-block" id="SkinExtractionFaceParsing"><a class="viewcode-back" href="../../../pyVHR.extraction.html#pyVHR.extraction.skin_extraction_methods.SkinExtractionFaceParsing">[docs]</a><span class="k">class</span> <span class="nc">SkinExtractionFaceParsing</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This class performs skin extraction on CPU/GPU using Face Parsing.</span>
+<span class="sd">        https://github.com/zllrunning/face-parsing.PyTorch</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            device (str): This class can execute code on &#39;CPU&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_classes</span> <span class="o">=</span> <span class="mi">19</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">BiSeNet</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="n">n_classes</span><span class="p">)</span>
+        <span class="n">save_pth</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span>
+            <span class="n">pyVHR</span><span class="o">.</span><span class="n">resources</span><span class="o">.</span><span class="n">faceparsing</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/79999_iter.pth&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">save_pth</span><span class="p">):</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/phuselab/pyVHR/blob/main/pyVHR/resources/faceparsing/79999_iter.pth&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloading faceparsing model...&#39;</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="nb">open</span><span class="p">(</span><span class="n">save_pth</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">save_pth</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">to_tensor</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+            <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+            <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">)),</span>
+        <span class="p">])</span>
+
+<div class="viewcode-block" id="SkinExtractionFaceParsing.extract_skin"><a class="viewcode-back" href="../../../pyVHR.extraction.html#pyVHR.extraction.skin_extraction_methods.SkinExtractionFaceParsing.extract_skin">[docs]</a>    <span class="k">def</span> <span class="nf">extract_skin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">ldmks</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method extract the skin from an image using Face Parsing. </span>
+<span class="sd">        Landmarks (ldmks) are used to create a facial bounding box for cropping the face; this way</span>
+<span class="sd">        the network used in Face Parsing is more accurate. </span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            image (uint8 ndarray): ndarray with shape [rows, columns, rgb_channels].</span>
+<span class="sd">            ldmks (float32 ndarray): ndarray with shape [num_landmarks, xy_coordinates].</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Cropped skin-image and non-cropped skin-image; both are uint8 ndarray with shape [rows, columns, rgb_channels].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># crop with bounding box of ldmks; the network works better if the bounding box is bigger</span>
+        <span class="n">aviable_ldmks</span> <span class="o">=</span> <span class="n">ldmks</span><span class="p">[</span><span class="n">ldmks</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">][:,:</span><span class="mi">2</span><span class="p">]</span>  
+        <span class="n">min_y</span><span class="p">,</span> <span class="n">min_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">aviable_ldmks</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">max_y</span><span class="p">,</span> <span class="n">max_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">aviable_ldmks</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">min_y</span> <span class="o">*=</span> <span class="mf">0.90</span>
+        <span class="n">min_x</span> <span class="o">*=</span> <span class="mf">0.90</span>
+        <span class="n">max_y</span> <span class="o">=</span> <span class="n">max_y</span> <span class="o">*</span> <span class="mf">1.10</span> <span class="k">if</span> <span class="n">max_y</span> <span class="o">*</span> <span class="mf">1.10</span> <span class="o">&lt;</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">max_x</span> <span class="o">=</span> <span class="n">max_x</span> <span class="o">*</span> <span class="mf">1.10</span> <span class="k">if</span> <span class="n">max_x</span> <span class="o">*</span> <span class="mf">1.10</span> <span class="o">&lt;</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">cropped_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">image</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">min_y</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">max_y</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">min_x</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">max_x</span><span class="p">)</span> <span class="p">,:])</span>
+        <span class="n">nda_im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cropped_image</span><span class="p">)</span>
+        <span class="c1"># prepare the image for the bisenet network</span>
+        <span class="n">cropped_image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_tensor</span><span class="p">(</span><span class="n">cropped_image</span><span class="p">)</span>
+        <span class="n">cropped_image</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">cropped_image</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">cropped_skin_img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extraction</span><span class="p">(</span><span class="n">cropped_image</span><span class="p">,</span> <span class="n">nda_im</span><span class="p">)</span>
+        <span class="c1"># recreate full image using cropped_skin_img</span>
+        <span class="n">full_skin_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+        <span class="n">full_skin_image</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">min_y</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">max_y</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">min_x</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">max_x</span><span class="p">)</span> <span class="p">,:]</span> <span class="o">=</span> <span class="n">cropped_skin_img</span>
+        <span class="k">return</span> <span class="n">cropped_skin_img</span><span class="p">,</span> <span class="n">full_skin_image</span></div>
+
+<div class="viewcode-block" id="SkinExtractionFaceParsing.extraction"><a class="viewcode-back" href="../../../pyVHR.extraction.html#pyVHR.extraction.skin_extraction_methods.SkinExtractionFaceParsing.extraction">[docs]</a>    <span class="k">def</span> <span class="nf">extraction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">im</span><span class="p">,</span> <span class="n">nda_im</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method performs skin extraction using Face Parsing.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            im (torch.Tensor): torch.Tensor with size [rows, columns, rgb_channels] </span>
+<span class="sd">            nda_im (uint8 ndarray): ndarray with shape [rows, columns, rgb_channels].</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            skin-image as uint8 ndarray with shape [rows, columns, rgb_channels].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="c1">### bisenet skin detection ###</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="p">(</span><span class="n">im</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1">### gpu cuda skin copy ###</span>
+            <span class="n">parsing</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+            <span class="n">parsing</span> <span class="o">=</span> <span class="n">parsing</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="n">nda_im</span> <span class="o">=</span> <span class="n">nda_im</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+            <span class="c1"># kernel skin copy</span>
+            <span class="k">return</span> <span class="n">kernel_skin_copy_and_filter</span><span class="p">(</span><span class="n">nda_im</span><span class="p">,</span> <span class="n">parsing</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">SkinProcessingParams</span><span class="o">.</span><span class="n">RGB_LOW_TH</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">SkinProcessingParams</span><span class="o">.</span><span class="n">RGB_HIGH_TH</span><span class="p">))</span></div></div>
+
+<span class="c1"># SkinExtractionFaceParsing class kernels #</span>
+
+<div class="viewcode-block" id="kernel_skin_copy_and_filter"><a class="viewcode-back" href="../../../pyVHR.extraction.html#pyVHR.extraction.skin_extraction_methods.kernel_skin_copy_and_filter">[docs]</a><span class="nd">@njit</span><span class="p">(</span><span class="s1">&#39;uint8[:,:,:](uint8[:,:,:], int32[:,:], int32, int32)&#39;</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nogil</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">kernel_skin_copy_and_filter</span><span class="p">(</span><span class="n">orig</span><span class="p">,</span> <span class="n">pars</span><span class="p">,</span> <span class="n">RGB_LOW_TH</span><span class="p">,</span> <span class="n">RGB_HIGH_TH</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This method removes pixels from the image &#39;orig&#39; that are not skin, or </span>
+<span class="sd">    that are outside the RGB range [RGB_LOW_TH, RGB_HIGH_TH] (extremes are included).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">orig</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="n">orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="n">orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="c1"># skin class = 1, nose = 10</span>
+            <span class="k">if</span> <span class="n">pars</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">pars</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="p">((</span><span class="n">orig</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">RGB_LOW_TH</span> <span class="ow">and</span> <span class="n">orig</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">RGB_LOW_TH</span> <span class="ow">and</span> <span class="n">orig</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">RGB_LOW_TH</span><span class="p">)</span> <span class="ow">or</span>
+                        <span class="p">(</span><span class="n">orig</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">RGB_HIGH_TH</span> <span class="ow">and</span> <span class="n">orig</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">RGB_HIGH_TH</span> <span class="ow">and</span> <span class="n">orig</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">RGB_HIGH_TH</span><span class="p">)):</span>
+                    <span class="n">new</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">orig</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+                    <span class="n">new</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">orig</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+                    <span class="n">new</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">orig</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">new</span></div>
+
+<div class="viewcode-block" id="SkinExtractionConvexHull"><a class="viewcode-back" href="../../../pyVHR.extraction.html#pyVHR.extraction.skin_extraction_methods.SkinExtractionConvexHull">[docs]</a><span class="k">class</span> <span class="nc">SkinExtractionConvexHull</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This class performs skin extraction on CPU/GPU using a Convex Hull segmentation obtained from facial landmarks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            device (str): This class can execute code on &#39;CPU&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="SkinExtractionConvexHull.extract_skin"><a class="viewcode-back" href="../../../pyVHR.extraction.html#pyVHR.extraction.skin_extraction_methods.SkinExtractionConvexHull.extract_skin">[docs]</a>    <span class="k">def</span> <span class="nf">extract_skin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">image</span><span class="p">,</span> <span class="n">ldmks</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method extract the skin from an image using Convex Hull segmentation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            image (uint8 ndarray): ndarray with shape [rows, columns, rgb_channels].</span>
+<span class="sd">            ldmks (float32 ndarray): landmarks used to create the Convex Hull; ldmks is a ndarray with shape [num_landmarks, xy_coordinates].</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Cropped skin-image and non-cropped skin-image; both are uint8 ndarray with shape [rows, columns, rgb_channels].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pyVHR.extraction.sig_processing</span> <span class="kn">import</span> <span class="n">MagicLandmarks</span>
+        <span class="n">aviable_ldmks</span> <span class="o">=</span> <span class="n">ldmks</span><span class="p">[</span><span class="n">ldmks</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">][:,:</span><span class="mi">2</span><span class="p">]</span>        
+        <span class="c1"># face_mask convex hull </span>
+        <span class="n">hull</span> <span class="o">=</span> <span class="n">ConvexHull</span><span class="p">(</span><span class="n">aviable_ldmks</span><span class="p">)</span>
+        <span class="n">verts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">aviable_ldmks</span><span class="p">[</span><span class="n">v</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">aviable_ldmks</span><span class="p">[</span><span class="n">v</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">hull</span><span class="o">.</span><span class="n">vertices</span><span class="p">]</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">outline</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="c1"># left eye convex hull</span>
+        <span class="n">left_eye_ldmks</span> <span class="o">=</span> <span class="n">ldmks</span><span class="p">[</span><span class="n">MagicLandmarks</span><span class="o">.</span><span class="n">left_eye</span><span class="p">]</span>
+        <span class="n">aviable_ldmks</span> <span class="o">=</span> <span class="n">left_eye_ldmks</span><span class="p">[</span><span class="n">left_eye_ldmks</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">][:,:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">aviable_ldmks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">hull</span> <span class="o">=</span> <span class="n">ConvexHull</span><span class="p">(</span><span class="n">aviable_ldmks</span><span class="p">)</span>
+            <span class="n">verts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">aviable_ldmks</span><span class="p">[</span><span class="n">v</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">aviable_ldmks</span><span class="p">[</span><span class="n">v</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">hull</span><span class="o">.</span><span class="n">vertices</span><span class="p">]</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">outline</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">left_eye_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+            <span class="n">left_eye_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">left_eye_mask</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">left_eye_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mi">1</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+        <span class="c1"># right eye convex hull</span>
+        <span class="n">right_eye_ldmks</span> <span class="o">=</span> <span class="n">ldmks</span><span class="p">[</span><span class="n">MagicLandmarks</span><span class="o">.</span><span class="n">right_eye</span><span class="p">]</span>
+        <span class="n">aviable_ldmks</span> <span class="o">=</span> <span class="n">right_eye_ldmks</span><span class="p">[</span><span class="n">right_eye_ldmks</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">][:,:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">aviable_ldmks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">hull</span> <span class="o">=</span> <span class="n">ConvexHull</span><span class="p">(</span><span class="n">aviable_ldmks</span><span class="p">)</span>
+            <span class="n">verts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">aviable_ldmks</span><span class="p">[</span><span class="n">v</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">aviable_ldmks</span><span class="p">[</span><span class="n">v</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">hull</span><span class="o">.</span><span class="n">vertices</span><span class="p">]</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">outline</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">right_eye_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+            <span class="n">right_eye_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">right_eye_mask</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">right_eye_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mi">1</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+        <span class="c1"># mounth convex hull</span>
+        <span class="n">mounth_ldmks</span> <span class="o">=</span> <span class="n">ldmks</span><span class="p">[</span><span class="n">MagicLandmarks</span><span class="o">.</span><span class="n">mounth</span><span class="p">]</span>
+        <span class="n">aviable_ldmks</span> <span class="o">=</span> <span class="n">mounth_ldmks</span><span class="p">[</span><span class="n">mounth_ldmks</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">][:,:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">aviable_ldmks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">hull</span> <span class="o">=</span> <span class="n">ConvexHull</span><span class="p">(</span><span class="n">aviable_ldmks</span><span class="p">)</span>
+            <span class="n">verts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">aviable_ldmks</span><span class="p">[</span><span class="n">v</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">aviable_ldmks</span><span class="p">[</span><span class="n">v</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">hull</span><span class="o">.</span><span class="n">vertices</span><span class="p">]</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">outline</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">mounth_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+            <span class="n">mounth_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mounth_mask</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mounth_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mi">1</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+        <span class="c1"># apply masks and crop </span>
+        <span class="n">skin_image</span> <span class="o">=</span> <span class="n">image</span> <span class="o">*</span> <span class="n">mask</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">left_eye_mask</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">right_eye_mask</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mounth_mask</span><span class="p">)</span>
+
+        <span class="n">rmin</span><span class="p">,</span> <span class="n">rmax</span><span class="p">,</span> <span class="n">cmin</span><span class="p">,</span> <span class="n">cmax</span> <span class="o">=</span> <span class="n">bbox2_CPU</span><span class="p">(</span><span class="n">skin_image</span><span class="p">)</span>
+
+        <span class="n">cropped_skin_im</span> <span class="o">=</span> <span class="n">skin_image</span>
+        <span class="k">if</span> <span class="n">rmin</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">rmax</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">cmin</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">cmax</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">rmax</span><span class="o">-</span><span class="n">rmin</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">cmax</span><span class="o">-</span><span class="n">cmin</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cropped_skin_im</span> <span class="o">=</span> <span class="n">skin_image</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">rmin</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">rmax</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">cmin</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">cmax</span><span class="p">)]</span>
+
+        <span class="k">return</span> <span class="n">cropped_skin_im</span><span class="p">,</span> <span class="n">skin_image</span></div></div>
+</pre></div>
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, phuselab.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

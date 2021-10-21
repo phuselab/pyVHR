@@ -1,0 +1,45 @@
+pyVHR.utils package
+===================
+
+Submodules
+----------
+
+pyVHR.utils.ecg module
+----------------------
+
+.. automodule:: pyVHR.utils.ecg
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyVHR.utils.elapse module
+-------------------------
+
+.. automodule:: pyVHR.utils.elapse
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyVHR.utils.errors module
+-------------------------
+
+.. automodule:: pyVHR.utils.errors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyVHR.utils.printutils module
+-----------------------------
+
+.. automodule:: pyVHR.utils.printutils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pyVHR.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,447 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>pyVHR.utils package &#8212; pyVHR 1.0 documentation</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/blank.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="index.html">
+<p class="title">pyVHR</p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.BPM.html">
+   pyVHR.BPM package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.BVP.html">
+   pyVHR.BVP package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.analysis.html">
+   pyVHR.analysis package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pyVHR.datasets.html">
+   pyVHR.datasets package
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyVHR.datasets.utils.html">
+     pyVHR.datasets.utils package
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.extraction.html">
+   pyVHR.extraction package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.plot.html">
+   pyVHR.plot package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.realtime.html">
+   pyVHR.realtime package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pyVHR.resources.html">
+   pyVHR.resources package
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="pyVHR.resources.faceparsing.html">
+     pyVHR.resources.faceparsing package
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pyVHR.resources.faceparsing.modules.html">
+       pyVHR.resources.faceparsing.modules package
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyVHR.resources.img.html">
+     pyVHR.resources.img package
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   pyVHR.utils package
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.utils.ecg">
+   pyVHR.utils.ecg module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.utils.elapse">
+   pyVHR.utils.elapse module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.utils.errors">
+   pyVHR.utils.errors module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.utils.printutils">
+   pyVHR.utils.printutils module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.utils">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <section id="pyvhr-utils-package">
+<h1>pyVHR.utils package<a class="headerlink" href="#pyvhr-utils-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-pyVHR.utils.ecg">
+<span id="pyvhr-utils-ecg-module"></span><h2>pyVHR.utils.ecg module<a class="headerlink" href="#module-pyVHR.utils.ecg" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.utils.ecg.ECGsignal">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.utils.ecg.</span></span><span class="sig-name descname"><span class="pre">ECGsignal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">startTime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/ecg.html#ECGsignal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.ecg.ECGsignal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manage ECG signals</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.utils.ecg.ECGsignal.getBPM">
+<span class="sig-name descname"><span class="pre">getBPM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">winsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/ecg.html#ECGsignal.getBPM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.ecg.ECGsignal.getBPM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the BPMs (ECG peaks) by biosppy library</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>This method returns two variables: a list of BPMs and a list of times (each one correspond to the i-th BPM).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.utils.ecg.ECGsignal.maxHz">
+<span class="sig-name descname"><span class="pre">maxHz</span></span><em class="property"> <span class="pre">=</span> <span class="pre">4.0</span></em><a class="headerlink" href="#pyVHR.utils.ecg.ECGsignal.maxHz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.utils.ecg.ECGsignal.minHz">
+<span class="sig-name descname"><span class="pre">minHz</span></span><em class="property"> <span class="pre">=</span> <span class="pre">0.75</span></em><a class="headerlink" href="#pyVHR.utils.ecg.ECGsignal.minHz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.utils.ecg.ECGsignal.nFFT">
+<span class="sig-name descname"><span class="pre">nFFT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">16384</span></em><a class="headerlink" href="#pyVHR.utils.ecg.ECGsignal.nFFT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.utils.ecg.ECGsignal.step">
+<span class="sig-name descname"><span class="pre">step</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#pyVHR.utils.ecg.ECGsignal.step" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.utils.ecg.ECGsignal.verb">
+<span class="sig-name descname"><span class="pre">verb</span></span><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#pyVHR.utils.ecg.ECGsignal.verb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.utils.elapse">
+<span id="pyvhr-utils-elapse-module"></span><h2>pyVHR.utils.elapse module<a class="headerlink" href="#module-pyVHR.utils.elapse" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.utils.elapse.tic">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.utils.elapse.</span></span><span class="sig-name descname"><span class="pre">tic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/elapse.html#tic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.elapse.tic" title="Permalink to this definition">¶</a></dt>
+<dd><p>tic like Matlab function</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.utils.elapse.toc">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.utils.elapse.</span></span><span class="sig-name descname"><span class="pre">toc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/elapse.html#toc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.elapse.toc" title="Permalink to this definition">¶</a></dt>
+<dd><p>toc like Matlab function</p>
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.utils.errors">
+<span id="pyvhr-utils-errors-module"></span><h2>pyVHR.utils.errors module<a class="headerlink" href="#module-pyVHR.utils.errors" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.utils.errors.LinCorr">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.utils.errors.</span></span><span class="sig-name descname"><span class="pre">LinCorr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bpmES</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpmGT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesES</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesGT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/errors.html#LinCorr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.errors.LinCorr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.utils.errors.MAEerror">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.utils.errors.</span></span><span class="sig-name descname"><span class="pre">MAEerror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bpmES</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpmGT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesES</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesGT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/errors.html#MAEerror"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.errors.MAEerror" title="Permalink to this definition">¶</a></dt>
+<dd><p>MAE:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.utils.errors.MAXError">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.utils.errors.</span></span><span class="sig-name descname"><span class="pre">MAXError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bpmES</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpmGT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesES</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesGT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/errors.html#MAXError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.errors.MAXError" title="Permalink to this definition">¶</a></dt>
+<dd><p>MAE:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.utils.errors.PearsonCorr">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.utils.errors.</span></span><span class="sig-name descname"><span class="pre">PearsonCorr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bpmES</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpmGT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesES</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesGT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/errors.html#PearsonCorr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.errors.PearsonCorr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.utils.errors.RMSEerror">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.utils.errors.</span></span><span class="sig-name descname"><span class="pre">RMSEerror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bpmES</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpmGT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesES</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesGT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/errors.html#RMSEerror"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.errors.RMSEerror" title="Permalink to this definition">¶</a></dt>
+<dd><p>RMSE:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.utils.errors.bpm_diff">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.utils.errors.</span></span><span class="sig-name descname"><span class="pre">bpm_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bpmES</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpmGT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesES</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesGT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/errors.html#bpm_diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.errors.bpm_diff" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.utils.errors.concordance_correlation_coefficient">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.utils.errors.</span></span><span class="sig-name descname"><span class="pre">concordance_correlation_coefficient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bpm_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpm_pred</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/errors.html#concordance_correlation_coefficient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.errors.concordance_correlation_coefficient" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.utils.errors.displayErrors">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.utils.errors.</span></span><span class="sig-name descname"><span class="pre">displayErrors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bpmES</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpmGT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesES</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesGT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/errors.html#displayErrors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.errors.displayErrors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.utils.errors.getErrors">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.utils.errors.</span></span><span class="sig-name descname"><span class="pre">getErrors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bpmES</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpmGT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesES</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesGT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/errors.html#getErrors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.errors.getErrors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.utils.errors.printErrors">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.utils.errors.</span></span><span class="sig-name descname"><span class="pre">printErrors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">RMSE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MAE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MAX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PCC</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CCC</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/errors.html#printErrors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.errors.printErrors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyVHR.utils.printutils">
+<span id="pyvhr-utils-printutils-module"></span><h2>pyVHR.utils.printutils module<a class="headerlink" href="#module-pyVHR.utils.printutils" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.utils.printutils.multiplot">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.utils.printutils.</span></span><span class="sig-name descname"><span class="pre">multiplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeroMean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Signal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">800</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/printutils.html#multiplot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.printutils.multiplot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.utils.printutils.printProgressBar">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.utils.printutils.</span></span><span class="sig-name descname"><span class="pre">printProgressBar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iteration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'█'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">printEnd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\r'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/utils/printutils.html#printProgressBar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.utils.printutils.printProgressBar" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Call in a loop to create terminal progress bar
+&#64;params:</p>
+<blockquote>
+<div><p>iteration   - Required  : current iteration (Int)
+total       - Required  : total iterations (Int)
+prefix      - Optional  : prefix string (Str)
+suffix      - Optional  : suffix string (Str)
+decimals    - Optional  : positive number of decimals in percent complete (Int)
+length      - Optional  : character length of bar (Int)
+fill        - Optional  : bar fill character (Str)
+printEnd    - Optional  : end character (e.g. “</p>
+</div></blockquote>
+</div></blockquote>
+<p>“, ”
+“) (Str)</p>
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyVHR.utils" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, phuselab.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

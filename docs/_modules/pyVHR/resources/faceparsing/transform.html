@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyVHR.resources.faceparsing.transform &#8212; pyVHR 1.0 documentation</title>
+    
+  <link href="../../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/blank.css" />
+    
+  <link rel="preload" as="script" href="../../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="../../../../index.html">
+<p class="title">pyVHR</p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <h1>Source code for pyVHR.resources.faceparsing.transform</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python</span>
+<span class="c1"># -*- encoding: utf-8 -*-</span>
+
+
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">PIL.ImageEnhance</span> <span class="k">as</span> <span class="nn">ImageEnhance</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="RandomCrop"><a class="viewcode-back" href="../../../../pyVHR.resources.faceparsing.html#pyVHR.resources.faceparsing.transform.RandomCrop">[docs]</a><span class="k">class</span> <span class="nc">RandomCrop</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">im_lb</span><span class="p">):</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">im_lb</span><span class="p">[</span><span class="s1">&#39;im&#39;</span><span class="p">]</span>
+        <span class="n">lb</span> <span class="o">=</span> <span class="n">im_lb</span><span class="p">[</span><span class="s1">&#39;lb&#39;</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">im</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">lb</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">W</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">size</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span> <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">im</span><span class="o">=</span><span class="n">im</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">W</span> <span class="ow">or</span> <span class="n">h</span> <span class="o">&lt;</span> <span class="n">H</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">W</span><span class="p">)</span> <span class="o">/</span> <span class="n">w</span> <span class="k">if</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">h</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">H</span><span class="p">)</span> <span class="o">/</span> <span class="n">h</span>
+            <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">scale</span> <span class="o">*</span> <span class="n">w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">scale</span> <span class="o">*</span> <span class="n">h</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">BILINEAR</span><span class="p">)</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="n">lb</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">)</span>
+        <span class="n">sw</span><span class="p">,</span> <span class="n">sh</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">W</span><span class="p">),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="n">H</span><span class="p">)</span>
+        <span class="n">crop</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sw</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">sh</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">sw</span><span class="p">)</span> <span class="o">+</span> <span class="n">W</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">sh</span><span class="p">)</span> <span class="o">+</span> <span class="n">H</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">crop</span><span class="p">),</span>
+                <span class="n">lb</span> <span class="o">=</span> <span class="n">lb</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">crop</span><span class="p">)</span>
+                    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HorizontalFlip"><a class="viewcode-back" href="../../../../pyVHR.resources.faceparsing.html#pyVHR.resources.faceparsing.transform.HorizontalFlip">[docs]</a><span class="k">class</span> <span class="nc">HorizontalFlip</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">im_lb</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">im_lb</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="n">im_lb</span><span class="p">[</span><span class="s1">&#39;im&#39;</span><span class="p">]</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="n">im_lb</span><span class="p">[</span><span class="s1">&#39;lb&#39;</span><span class="p">]</span>
+
+            <span class="c1"># atts = [1 &#39;skin&#39;, 2 &#39;l_brow&#39;, 3 &#39;r_brow&#39;, 4 &#39;l_eye&#39;, 5 &#39;r_eye&#39;, 6 &#39;eye_g&#39;, 7 &#39;l_ear&#39;, 8 &#39;r_ear&#39;, 9 &#39;ear_r&#39;,</span>
+            <span class="c1">#         10 &#39;nose&#39;, 11 &#39;mouth&#39;, 12 &#39;u_lip&#39;, 13 &#39;l_lip&#39;, 14 &#39;neck&#39;, 15 &#39;neck_l&#39;, 16 &#39;cloth&#39;, 17 &#39;hair&#39;, 18 &#39;hat&#39;]</span>
+
+            <span class="n">flip_lb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+            <span class="n">flip_lb</span><span class="p">[</span><span class="n">lb</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+            <span class="n">flip_lb</span><span class="p">[</span><span class="n">lb</span> <span class="o">==</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">flip_lb</span><span class="p">[</span><span class="n">lb</span> <span class="o">==</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+            <span class="n">flip_lb</span><span class="p">[</span><span class="n">lb</span> <span class="o">==</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+            <span class="n">flip_lb</span><span class="p">[</span><span class="n">lb</span> <span class="o">==</span> <span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>
+            <span class="n">flip_lb</span><span class="p">[</span><span class="n">lb</span> <span class="o">==</span> <span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="mi">7</span>
+            <span class="n">flip_lb</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">flip_lb</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">FLIP_LEFT_RIGHT</span><span class="p">),</span>
+                        <span class="n">lb</span> <span class="o">=</span> <span class="n">flip_lb</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">FLIP_LEFT_RIGHT</span><span class="p">),</span>
+                    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RandomScale"><a class="viewcode-back" href="../../../../pyVHR.resources.faceparsing.html#pyVHR.resources.faceparsing.transform.RandomScale">[docs]</a><span class="k">class</span> <span class="nc">RandomScale</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scales</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales</span> <span class="o">=</span> <span class="n">scales</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">im_lb</span><span class="p">):</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">im_lb</span><span class="p">[</span><span class="s1">&#39;im&#39;</span><span class="p">]</span>
+        <span class="n">lb</span> <span class="o">=</span> <span class="n">im_lb</span><span class="p">[</span><span class="s1">&#39;lb&#39;</span><span class="p">]</span>
+        <span class="n">W</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scales</span><span class="p">)</span>
+        <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">W</span> <span class="o">*</span> <span class="n">scale</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">H</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">BILINEAR</span><span class="p">),</span>
+                    <span class="n">lb</span> <span class="o">=</span> <span class="n">lb</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">),</span>
+                <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ColorJitter"><a class="viewcode-back" href="../../../../pyVHR.resources.faceparsing.html#pyVHR.resources.faceparsing.transform.ColorJitter">[docs]</a><span class="k">class</span> <span class="nc">ColorJitter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">brightness</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">contrast</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">saturation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">brightness</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">brightness</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">brightness</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">brightness</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="o">+</span><span class="n">brightness</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">contrast</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">contrast</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">contrast</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">contrast</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="o">+</span><span class="n">contrast</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">saturation</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">saturation</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">saturation</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">saturation</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="o">+</span><span class="n">saturation</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">im_lb</span><span class="p">):</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">im_lb</span><span class="p">[</span><span class="s1">&#39;im&#39;</span><span class="p">]</span>
+        <span class="n">lb</span> <span class="o">=</span> <span class="n">im_lb</span><span class="p">[</span><span class="s1">&#39;lb&#39;</span><span class="p">]</span>
+        <span class="n">r_brightness</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">brightness</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">brightness</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">r_contrast</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">contrast</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">contrast</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">r_saturation</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">saturation</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">saturation</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">ImageEnhance</span><span class="o">.</span><span class="n">Brightness</span><span class="p">(</span><span class="n">im</span><span class="p">)</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="n">r_brightness</span><span class="p">)</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">ImageEnhance</span><span class="o">.</span><span class="n">Contrast</span><span class="p">(</span><span class="n">im</span><span class="p">)</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="n">r_contrast</span><span class="p">)</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">ImageEnhance</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="n">im</span><span class="p">)</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="n">r_saturation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="p">,</span>
+                    <span class="n">lb</span> <span class="o">=</span> <span class="n">lb</span><span class="p">,</span>
+                <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MultiScale"><a class="viewcode-back" href="../../../../pyVHR.resources.faceparsing.html#pyVHR.resources.faceparsing.transform.MultiScale">[docs]</a><span class="k">class</span> <span class="nc">MultiScale</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scales</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales</span> <span class="o">=</span> <span class="n">scales</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
+        <span class="n">W</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">sizes</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">int</span><span class="p">(</span><span class="n">W</span><span class="o">*</span><span class="n">ratio</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">H</span><span class="o">*</span><span class="n">ratio</span><span class="p">))</span> <span class="k">for</span> <span class="n">ratio</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scales</span><span class="p">]</span>
+        <span class="n">imgs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="p">[</span><span class="n">imgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">Image</span><span class="o">.</span><span class="n">BILINEAR</span><span class="p">))</span> <span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">sizes</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">imgs</span></div>
+
+
+<div class="viewcode-block" id="Compose"><a class="viewcode-back" href="../../../../pyVHR.resources.faceparsing.html#pyVHR.resources.faceparsing.transform.Compose">[docs]</a><span class="k">class</span> <span class="nc">Compose</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">do_list</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">do_list</span> <span class="o">=</span> <span class="n">do_list</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">im_lb</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_list</span><span class="p">:</span>
+            <span class="n">im_lb</span> <span class="o">=</span> <span class="n">comp</span><span class="p">(</span><span class="n">im_lb</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">im_lb</span></div>
+
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">flip</span> <span class="o">=</span> <span class="n">HorizontalFlip</span><span class="p">(</span><span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">crop</span> <span class="o">=</span> <span class="n">RandomCrop</span><span class="p">((</span><span class="mi">321</span><span class="p">,</span> <span class="mi">321</span><span class="p">))</span>
+    <span class="n">rscales</span> <span class="o">=</span> <span class="n">RandomScale</span><span class="p">((</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.75</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;data/img.jpg&#39;</span><span class="p">)</span>
+    <span class="n">lb</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;data/label.png&#39;</span><span class="p">)</span>
+</pre></div>
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, phuselab.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

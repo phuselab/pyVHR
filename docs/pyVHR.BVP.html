@@ -1,0 +1,594 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>pyVHR.BVP package &#8212; pyVHR 1.0 documentation</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/blank.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="index.html">
+<p class="title">pyVHR</p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.BPM.html">
+   pyVHR.BPM package
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   pyVHR.BVP package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.analysis.html">
+   pyVHR.analysis package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pyVHR.datasets.html">
+   pyVHR.datasets package
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyVHR.datasets.utils.html">
+     pyVHR.datasets.utils package
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.extraction.html">
+   pyVHR.extraction package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.plot.html">
+   pyVHR.plot package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.realtime.html">
+   pyVHR.realtime package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pyVHR.resources.html">
+   pyVHR.resources package
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="pyVHR.resources.faceparsing.html">
+     pyVHR.resources.faceparsing package
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pyVHR.resources.faceparsing.modules.html">
+       pyVHR.resources.faceparsing.modules package
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyVHR.resources.img.html">
+     pyVHR.resources.img package
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.utils.html">
+   pyVHR.utils package
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.BVP.BVP">
+   pyVHR.BVP.BVP module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.BVP.filters">
+   pyVHR.BVP.filters module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.BVP.methods">
+   pyVHR.BVP.methods module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.BVP.utils">
+   pyVHR.BVP.utils module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.BVP">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <section id="pyvhr-bvp-package">
+<h1>pyVHR.BVP package<a class="headerlink" href="#pyvhr-bvp-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-pyVHR.BVP.BVP">
+<span id="pyvhr-bvp-bvp-module"></span><h2>pyVHR.BVP.BVP module<a class="headerlink" href="#module-pyVHR.BVP.BVP" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.BVP.RGB_sig_to_BVP">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.BVP.</span></span><span class="sig-name descname"><span class="pre">RGB_sig_to_BVP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">windowed_sig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/BVP.html#RGB_sig_to_BVP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.BVP.RGB_sig_to_BVP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform an input RGB windowed signal in a BVP windowed signal using a rPPG method (see pyVHR.BVP.methods).
+You can pass also non-RGB signal but the method used must handle its shape.</p>
+<dl>
+<dt>Args:</dt><dd><p>windowed_sig (list): RGB windowed signal as a list of length num_windows of np.ndarray with shape [num_estimators, rgb_channels, num_frames].
+fps (float): frames per seconds. You can pass also a generic signal but the method used must handle its shape and type.
+device_type (str): the chosen rPPG method run on CPU (‘cpu’, ‘torch’).
+method: a method that comply with the fucntion signature documented</p>
+<blockquote>
+<div><p>in pyVHR.BVP.methods. This method must use Numpy if the ‘device_type’ is ‘cpu’, Torch if the ‘device_type’ is ‘torch’, and Cupy 
+if the ‘device_type’ is ‘cuda’.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>params(dict): dictionary of usefull parameters that will be passed to the method. If the method needs fps you can set {‘fps’:’adaptive’}</dt><dd><p>in the dictionary to use the ‘fps’ input variable.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>a list of lenght num_windows of BVP signals as np.ndarray with shape [num_estimators, num_frames];
+if no BVP can be found in a window, then the np.ndarray has num_estimators == 0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.BVP.concatenate_BVPs">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.BVP.</span></span><span class="sig-name descname"><span class="pre">concatenate_BVPs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_of_BVPs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/BVP.html#concatenate_BVPs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.BVP.concatenate_BVPs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Join a list of windowed BVPs. There must be the same number of windows, and each one must have the same number of frames.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>list_of_BVPs (list): a list of windowed BVPs each one defined as a list of lenght num_windows of BVP signals as np.ndarray</dt><dd><p>with shape [num_estimators, num_frames]. Remember that concatenation is possible only if ‘num_frames’
+is the same for each BVP of the nth window.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>a list of lenght num_windows of BVP signals as np.ndarray with shape [total_num_estimators, num_frames];
+if no BVP can be found in a window, then the np.ndarray has total_num_estimators == 0. 
+For example: given the BVP windows of shape [10, 200] and [20,200], the concatenated window will have shape [30,200];
+If an exception is thrown for any reason, the function returns 0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.BVP.signals_to_bvps_cpu">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.BVP.</span></span><span class="sig-name descname"><span class="pre">signals_to_bvps_cpu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpu_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/BVP.html#signals_to_bvps_cpu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.BVP.signals_to_bvps_cpu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform an input RGB signal in a BVP signal using a rPPG 
+method (see pyVHR.BVP.methods).
+This method must use and execute on CPU.
+You can pass also non-RGB signal but the method used must handle its shape.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>sig (float32 ndarray): RGB Signal as float32 ndarray with shape  [num_estimators, rgb_channels, num_frames].</dt><dd><p>You can pass also a generic signal but the method used must handle its shape and type.</p>
+</dd>
+<dt>cpu_method: a method that comply with the fucntion signature documented </dt><dd><p>in pyVHR.BVP.methods. This method must use Numpy.</p>
+</dd>
+</dl>
+<p>params (dict): dictionary of usefull parameters that will be passed to the method.</p>
+</dd>
+<dt>Returns:</dt><dd><p>float32 ndarray: BVP signal as float32 ndarray with shape [num_estimators, num_frames].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.BVP.signals_to_bvps_torch">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.BVP.</span></span><span class="sig-name descname"><span class="pre">signals_to_bvps_torch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">torch_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/BVP.html#signals_to_bvps_torch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.BVP.signals_to_bvps_torch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform an input RGB signal in a BVP signal using a rPPG 
+method (see pyVHR.BVP.methods).
+This method must use Torch and execute on GPU/CPU.
+You can pass also non-RGB signal but the method used must handle its shape.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>sig (float32 ndarray): RGB Signal as float32 ndarray with shape  [num_estimators, rgb_channels, num_frames].</dt><dd><p>You can pass also a generic signal but the method used must handle its shape and type.</p>
+</dd>
+<dt>torch_method: a method that comply with the fucntion signature documented </dt><dd><p>in pyVHR.BVP.methods. This method must use Torch.</p>
+</dd>
+</dl>
+<p>params (dict): dictionary of usefull parameters that will be passed to the method.</p>
+</dd>
+<dt>Returns:</dt><dd><p>float32 ndarray: BVP signal as float32 ndarray with shape [num_estimators, num_frames].</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.BVP.filters">
+<span id="pyvhr-bvp-filters-module"></span><h2>pyVHR.BVP.filters module<a class="headerlink" href="#module-pyVHR.BVP.filters" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.filters.BPfilter">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.filters.</span></span><span class="sig-name descname"><span class="pre">BPfilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/filters.html#BPfilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.filters.BPfilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Band Pass filter (using BPM band) for RGB signal and BVP signal.</p>
+<p>The dictionary parameters are: {‘minHz’:float, ‘maxHz’:float, ‘fps’:float, ‘order’:int}</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.filters.apply_filter">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.filters.</span></span><span class="sig-name descname"><span class="pre">apply_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">windowed_sig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/filters.html#apply_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.filters.apply_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a filter method to a windowed RGB signal or BVP signal.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>windowed_sig: list of length num_window of RGB signal as float32 ndarray with shape [num_estimators, rgb_channels, num_frames],</dt><dd><p>or BVP signal as float32 ndarray with shape [num_estimators, num_frames].</p>
+</dd>
+</dl>
+<p>filter_func: filter method that accept a ‘windowed_sig’ (pyVHR implements some filters in pyVHR.BVP.filters).
+params (dict): usefull parameters passed to the filter method.</p>
+</dd>
+<dt>Returns:</dt><dd><p>A filtered signal with the same shape as the input signal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.filters.detrend">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.filters.</span></span><span class="sig-name descname"><span class="pre">detrend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/filters.html#detrend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.filters.detrend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detrending filter for RGB signal and BVP signal.</p>
+<p>This code is based on the following article “An advanced detrending method with application
+to HRV analysis”. Tarvainen et al., IEEE Trans on Biomedical Engineering, 2002.</p>
+<p>Code like: <a class="reference external" href="https://www.idiap.ch/software/bob/docs/bob/bob.rppg.base/v1.0.3/_modules/bob/rppg/cvpr14/filter_utils.html">https://www.idiap.ch/software/bob/docs/bob/bob.rppg.base/v1.0.3/_modules/bob/rppg/cvpr14/filter_utils.html</a></p>
+<p>The dictionary parameters are: {‘detLambda’:int,}. Where ‘detLambda’ is the smoothing parameter.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.filters.kernel_rgb_filter_th">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.filters.</span></span><span class="sig-name descname"><span class="pre">kernel_rgb_filter_th</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RGB_LOW_TH</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RGB_HIGH_TH</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/filters.html#kernel_rgb_filter_th"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.filters.kernel_rgb_filter_th" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method performs the Color Threshold filter for RGB signal only.
+Please refer to the method pyVHR.BVP.filters.rgb_filter_th.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.filters.rgb_filter_th">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.filters.</span></span><span class="sig-name descname"><span class="pre">rgb_filter_th</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/filters.html#rgb_filter_th"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.filters.rgb_filter_th" title="Permalink to this definition">¶</a></dt>
+<dd><p>Color Threshold filter for RGB signal only.</p>
+<p>The i_th estimators is filterd if its signal is outside the
+LOW/HIGH thresholds color interval in at least one frame.</p>
+<p>The dictionary parameters are: {‘RGB_LOW_TH’:int, ‘RGB_HIGH_TH’:int}.
+Where ‘RGB_LOW_TH’ and ‘RGB_HIGH_TH’ are RGB value ([0,255]) which describe the filter thresholds.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.filters.sg_detrend">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.filters.</span></span><span class="sig-name descname"><span class="pre">sg_detrend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/filters.html#sg_detrend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.filters.sg_detrend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the low-frequency components with the low-pass filter developed by Savitzky-Golay.
+It can be used for RGB signals and BVP signals.</p>
+<p>The dictionary parameters are: {‘window_length’:int, ‘polyorder’:int}. Where
+‘window_length’ is the length of the filter window (i.e. the number of coefficients). <cite>window_length</cite> must be a positive odd integer.
+‘polyorder’ is the order of the polynomial used to fit the samples. <cite>polyorder</cite> must be less than <cite>window_length</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.filters.zeromean">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.filters.</span></span><span class="sig-name descname"><span class="pre">zeromean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/filters.html#zeromean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.filters.zeromean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Zero Mean filter for RGB signal and BVP signal.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.filters.zscore">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.filters.</span></span><span class="sig-name descname"><span class="pre">zscore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/filters.html#zscore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.filters.zscore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Z-score filter for RGB signal and BVP signal.</p>
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.BVP.methods">
+<span id="pyvhr-bvp-methods-module"></span><h2>pyVHR.BVP.methods module<a class="headerlink" href="#module-pyVHR.BVP.methods" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.methods.cpu_CHROM">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.methods.</span></span><span class="sig-name descname"><span class="pre">cpu_CHROM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/methods.html#cpu_CHROM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.methods.cpu_CHROM" title="Permalink to this definition">¶</a></dt>
+<dd><p>CHROM method on CPU using Numpy.</p>
+<p>De Haan, G., &amp; Jeanne, V. (2013). Robust pulse rate from chrominance-based rPPG. IEEE Transactions on Biomedical Engineering, 60(10), 2878-2886.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.methods.cpu_GREEN">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.methods.</span></span><span class="sig-name descname"><span class="pre">cpu_GREEN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/methods.html#cpu_GREEN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.methods.cpu_GREEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>GREEN method on CPU using Numpy</p>
+<p>Verkruysse, W., Svaasand, L. O., &amp; Nelson, J. S. (2008). Remote plethysmographic imaging using ambient light. Optics express, 16(26), 21434-21445.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.methods.cpu_ICA">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.methods.</span></span><span class="sig-name descname"><span class="pre">cpu_ICA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/methods.html#cpu_ICA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.methods.cpu_ICA" title="Permalink to this definition">¶</a></dt>
+<dd><p>ICA method on CPU using Numpy.</p>
+<p>The dictionary parameters are {‘component’:str}. Where ‘component’ can be ‘second_comp’ or ‘all_comp’.</p>
+<p>Poh, M. Z., McDuff, D. J., &amp; Picard, R. W. (2010). Non-contact, automated cardiac pulse measurements using video imaging and blind source separation. Optics express, 18(10), 10762-10774.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.methods.cpu_LGI">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.methods.</span></span><span class="sig-name descname"><span class="pre">cpu_LGI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/methods.html#cpu_LGI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.methods.cpu_LGI" title="Permalink to this definition">¶</a></dt>
+<dd><p>LGI method on CPU using Numpy.</p>
+<p>Pilz, C. S., Zaunseder, S., Krajewski, J., &amp; Blazek, V. (2018). Local group invariance for heart rate estimation from face videos in the wild. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition Workshops (pp. 1254-1262).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.methods.cpu_PBV">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.methods.</span></span><span class="sig-name descname"><span class="pre">cpu_PBV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/methods.html#cpu_PBV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.methods.cpu_PBV" title="Permalink to this definition">¶</a></dt>
+<dd><p>PBV method on CPU using Numpy.</p>
+<p>De Haan, G., &amp; Van Leest, A. (2014). Improved motion robustness of remote-PPG by using the blood volume pulse signature. Physiological measurement, 35(9), 1913.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.methods.cpu_PCA">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.methods.</span></span><span class="sig-name descname"><span class="pre">cpu_PCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/methods.html#cpu_PCA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.methods.cpu_PCA" title="Permalink to this definition">¶</a></dt>
+<dd><p>PCA method on CPU using Numpy.</p>
+<p>The dictionary parameters are {‘component’:str}. Where ‘component’ can be ‘second_comp’ or ‘all_comp’.</p>
+<p>Lewandowska, M., Rumiński, J., Kocejko, T., &amp; Nowak, J. (2011, September). Measuring pulse rate with a webcam—a non-contact method for evaluating cardiac activity. In 2011 federated conference on computer science and information systems (FedCSIS) (pp. 405-410). IEEE.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.methods.cpu_POS">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.methods.</span></span><span class="sig-name descname"><span class="pre">cpu_POS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/methods.html#cpu_POS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.methods.cpu_POS" title="Permalink to this definition">¶</a></dt>
+<dd><p>POS method on CPU using Numpy.</p>
+<p>The dictionary parameters are: {‘fps’:float}.</p>
+<p>Wang, W., den Brinker, A. C., Stuijk, S., &amp; de Haan, G. (2016). Algorithmic principles of remote PPG. IEEE Transactions on Biomedical Engineering, 64(7), 1479-1491.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.methods.cpu_SSR">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.methods.</span></span><span class="sig-name descname"><span class="pre">cpu_SSR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_signal</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/methods.html#cpu_SSR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.methods.cpu_SSR" title="Permalink to this definition">¶</a></dt>
+<dd><p>SSR method on CPU using Numpy.</p>
+<p>‘raw_signal’ is a float32 ndarray with shape [num_frames, rows, columns, rgb_channels]; it can be obtained by
+using the :py:class:‵pyVHR.extraction.sig_processing.SignalProcessing‵ class (‘extract_raw_holistic’ method).</p>
+<p>The dictionary parameters are: {‘fps’:float}.</p>
+<p>Wang, W., Stuijk, S., &amp; De Haan, G. (2015). A novel algorithm for remote photoplethysmography: Spatial subspace rotation. IEEE transactions on biomedical engineering, 63(9), 1974-1984.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.methods.torch_CHROM">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.methods.</span></span><span class="sig-name descname"><span class="pre">torch_CHROM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/methods.html#torch_CHROM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.methods.torch_CHROM" title="Permalink to this definition">¶</a></dt>
+<dd><p>CHROM method on CPU using Torch.</p>
+<p>De Haan, G., &amp; Jeanne, V. (2013). Robust pulse rate from chrominance-based rPPG. IEEE Transactions on Biomedical Engineering, 60(10), 2878-2886.</p>
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.BVP.utils">
+<span id="pyvhr-bvp-utils-module"></span><h2>pyVHR.BVP.utils module<a class="headerlink" href="#module-pyVHR.BVP.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BVP.utils.jadeR">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BVP.utils.</span></span><span class="sig-name descname"><span class="pre">jadeR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BVP/utils.html#jadeR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BVP.utils.jadeR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Blind separation of real signals with JADE.
+jadeR implements JADE, an Independent Component Analysis (ICA) algorithm
+developed by Jean-Francois Cardoso. See <a class="reference external" href="http://www.tsi.enst.fr/~cardoso/guidesepsou.html">http://www.tsi.enst.fr/~cardoso/guidesepsou.html</a> , and papers cited
+at the end of the source file.</p>
+<p>Translated into NumPy from the original Matlab Version 1.8 (May 2005) by
+Gabriel Beckers, <a class="reference external" href="http://gbeckers.nl">http://gbeckers.nl</a> .</p>
+<dl>
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>X – an nxT data matrix (n sensors, T samples). May be a numpy array or</dt><dd><p>matrix.</p>
+</dd>
+<dt>m – output matrix B has size mxn so that only m sources are</dt><dd><p>extracted.  This is done by restricting the operation of jadeR
+to the m first principal components. Defaults to None, in which
+case m=n.</p>
+</dd>
+</dl>
+<p>verbose – print info on progress. Default is True.</p>
+</dd>
+<dt>Returns:</dt><dd><p>An m*n matrix B (NumPy matrix type), such that Y=B*X are separated
+sources extracted from the n*T data matrix X. If m is omitted, B is a
+square n*n matrix (as many sources as sensors). The rows of B are
+ordered such that the columns of pinv(B) are in order of decreasing
+norm; this has the effect that the <cite>most energetically significant</cite>
+components appear first in the rows of Y=B*X.</p>
+</dd>
+</dl>
+<p>Quick notes (more at the end of this file):
+o This code is for REAL-valued signals.  A MATLAB implementation of JADE
+for both real and complex signals is also available from
+<a class="reference external" href="http://sig.enst.fr/~cardoso/stuff.html">http://sig.enst.fr/~cardoso/stuff.html</a>
+o This algorithm differs from the first released implementations of
+JADE in that it has been optimized to deal more efficiently
+1) with real signals (as opposed to complex)
+2) with the case when the ICA model does not necessarily hold.
+o There is a practical limit to the number of independent
+components that can be extracted with this implementation.  Note
+that the first step of JADE amounts to a PCA with dimensionality
+reduction from n to m (which defaults to n).  In practice m
+cannot be <cite>very large</cite> (more than 40, 50, 60… depending on
+available memory)
+o See more notes, references and revision history at the end of
+this file and more stuff on the WEB
+<a class="reference external" href="http://sig.enst.fr/~cardoso/stuff.html">http://sig.enst.fr/~cardoso/stuff.html</a>
+o For more info on NumPy translation, see the end of this file.
+o This code is supposed to do a good job!  Please report any
+problem relating to the NumPY code <a class="reference external" href="mailto:gabriel&#37;&#52;&#48;gbeckers&#46;nl">gabriel<span>&#64;</span>gbeckers<span>&#46;</span>nl</a></p>
+<p>Copyright original Matlab code : Jean-Francois Cardoso &lt;<a class="reference external" href="mailto:cardoso&#37;&#52;&#48;sig&#46;enst&#46;fr">cardoso<span>&#64;</span>sig<span>&#46;</span>enst<span>&#46;</span>fr</a>&gt;
+Copyright Numpy translation : Gabriel Beckers &lt;<a class="reference external" href="mailto:gabriel&#37;&#52;&#48;gbeckers&#46;nl">gabriel<span>&#64;</span>gbeckers<span>&#46;</span>nl</a>&gt;</p>
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.BVP">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyVHR.BVP" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, phuselab.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

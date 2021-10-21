@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>pyVHR.BPM package &#8212; pyVHR 1.0 documentation</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/blank.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="index.html">
+<p class="title">pyVHR</p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   pyVHR.BPM package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.BVP.html">
+   pyVHR.BVP package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.analysis.html">
+   pyVHR.analysis package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pyVHR.datasets.html">
+   pyVHR.datasets package
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyVHR.datasets.utils.html">
+     pyVHR.datasets.utils package
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.extraction.html">
+   pyVHR.extraction package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.plot.html">
+   pyVHR.plot package
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.realtime.html">
+   pyVHR.realtime package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pyVHR.resources.html">
+   pyVHR.resources package
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="pyVHR.resources.faceparsing.html">
+     pyVHR.resources.faceparsing package
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pyVHR.resources.faceparsing.modules.html">
+       pyVHR.resources.faceparsing.modules package
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyVHR.resources.img.html">
+     pyVHR.resources.img package
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyVHR.utils.html">
+   pyVHR.utils package
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.BPM.BPM">
+   pyVHR.BPM.BPM module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.BPM.utils">
+   pyVHR.BPM.utils module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-pyVHR.BPM">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <section id="pyvhr-bpm-package">
+<h1>pyVHR.BPM package<a class="headerlink" href="#pyvhr-bpm-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-pyVHR.BPM.BPM">
+<span id="pyvhr-bpm-bpm-module"></span><h2>pyVHR.BPM.BPM module<a class="headerlink" href="#module-pyVHR.BPM.BPM" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.BPM.BPM.BPM">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.BPM.BPM.</span></span><span class="sig-name descname"><span class="pre">BPM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">startTime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minHz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.65</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxHz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/BPM.html#BPM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.BPM.BPM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class transforms a BVP signal in a BPM signal using CPU.</p>
+<p>BVP signal must be a float32 numpy.ndarray with shape [num_estimators, num_frames].</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.BPM.BPM.BPM.BVP_to_BPM">
+<span class="sig-name descname"><span class="pre">BVP_to_BPM</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/BPM.html#BPM.BVP_to_BPM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.BPM.BPM.BVP_to_BPM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the BPM signal as a float32 Numpy.ndarray with shape [num_estimators, ].</p>
+<p>This method use the Welch’s method to estimate the spectral density of the BVP signal,
+then it chooses as BPM the maximum Amplitude frequency.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.BPM.BPM.BPM.BVP_to_BPM_PSD_clustering">
+<span class="sig-name descname"><span class="pre">BVP_to_BPM_PSD_clustering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out_fact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/BPM.html#BPM.BVP_to_BPM_PSD_clustering"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.BPM.BPM.BVP_to_BPM_PSD_clustering" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the BPM signal as a numpy.float32.</p>
+<p>TODO: cambiare descrizione.
+This method use the Welch’s method to estimate the spectral density of the BVP signal; in case
+of multiple estimators the method sum all the Power Spectums, then it chooses as BPM the 
+maximum Amplitude frequency.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BPM.BPM.BVP_to_BPM">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BPM.BPM.</span></span><span class="sig-name descname"><span class="pre">BVP_to_BPM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bvps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minHz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.65</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxHz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/BPM.html#BVP_to_BPM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.BPM.BVP_to_BPM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform a BVP windowed signal in a BPM signal using CPU.</p>
+<p>This method use the Welch’s method to estimate the spectral density of the BVP signal,
+then it chooses as BPM the maximum Amplitude frequency.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>bvps (list): list of length num_windows of BVP signal defined as float32 Numpy.ndarray with shape [num_estimators, num_frames].
+fps (float): frames per seconds.
+minHz (float): frequency in Hz used to isolate a specific subband [minHz, maxHz] (esclusive).
+maxHz (float): frequency in Hz used to isolate a specific subband [minHz, maxHz] (esclusive).</p>
+</dd>
+<dt>Returns:</dt><dd><p>A list of length num_windows of BPM signals defined as a float32 Numpy.ndarray with shape [num_estimators, ].
+If any BPM can’t be found in a window, then the ndarray has num_estimators == 0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BPM.BPM.BVP_to_BPM_PSD_clustering">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BPM.BPM.</span></span><span class="sig-name descname"><span class="pre">BVP_to_BPM_PSD_clustering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bvps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minHz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.65</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxHz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_fact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/BPM.html#BVP_to_BPM_PSD_clustering"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.BPM.BVP_to_BPM_PSD_clustering" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform a BVP windowed signal in a BPM signal using CPU.</p>
+<p>TODO: riscrivere descrizione
+This method use the Welch’s method to estimate the spectral density of the BVP signal; in case
+of multiple estimators the method sum all the Power Spectums, then it chooses as BPM the 
+maximum Amplitude frequency.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>bvps (list): list of length num_windows of BVP signal defined as float32 Numpy.ndarray with shape [num_estimators, num_frames].
+fps (float): frames per seconds.
+minHz (float): frequency in Hz used to isolate a specific subband [minHz, maxHz] (esclusive).
+maxHz (float): frequency in Hz used to isolate a specific subband [minHz, maxHz] (esclusive).</p>
+</dd>
+<dt>Returns:</dt><dd><p>A list of length num_windows of BPM signals defined as a numpy.float32.
+If any BPM can’t be found in a window, then the BPM is 0.0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVHR.BPM.BPM.BVPsignal">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyVHR.BPM.BPM.</span></span><span class="sig-name descname"><span class="pre">BVPsignal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">startTime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minHz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxHz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/BPM.html#BVPsignal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.BPM.BVPsignal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manage (multi-channel, row-wise) BVP signals, and transforms it in BPM.
+This class is used to obtain BPM signal from ground truth BVP signal.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.BPM.BPM.BVPsignal.displaySpectrum">
+<span class="sig-name descname"><span class="pre">displaySpectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/BPM.html#BVPsignal.displaySpectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.BPM.BVPsignal.displaySpectrum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show the spectrogram of the BVP signal</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.BPM.BPM.BVPsignal.getBPM">
+<span class="sig-name descname"><span class="pre">getBPM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">winsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/BPM.html#BVPsignal.getBPM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.BPM.BVPsignal.getBPM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the BPM signal extracted from the ground truth BVP signal.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.BPM.BPM.BVPsignal.nFFT">
+<span class="sig-name descname"><span class="pre">nFFT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">2048</span></em><a class="headerlink" href="#pyVHR.BPM.BPM.BVPsignal.nFFT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVHR.BPM.BPM.BVPsignal.spectrogram">
+<span class="sig-name descname"><span class="pre">spectrogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">winsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/BPM.html#BVPsignal.spectrogram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.BPM.BVPsignal.spectrogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the BVP signal spectrogram restricted to the
+band 42-240 BPM by using winsize (in sec) samples.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVHR.BPM.BPM.BVPsignal.step">
+<span class="sig-name descname"><span class="pre">step</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#pyVHR.BPM.BPM.BVPsignal.step" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BPM.BPM.multi_est_BPM_median">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BPM.BPM.</span></span><span class="sig-name descname"><span class="pre">multi_est_BPM_median</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bpms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/BPM.html#multi_est_BPM_median"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.BPM.multi_est_BPM_median" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is used for computing the median of a multi-estimators BPM windowed signal.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>bpms (list): list of lenght num_windows of BPM signals, each defined as a Numpy.ndarray with shape [num_estimators, ],</dt><dd><p>or 1D Numpy.ndarray in case of a single estimator;</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns: </dt><dd><p>The median of the multi-estimators BPM signal defined as a float32 Numpy.ndarray with shape [num_windows,]; if a window 
+has num_estimators == 0, then the median value is set to 0.0 .
+The Median Absolute Deviation (MAD) of the multi-estimators BPM signal</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-pyVHR.BPM.utils">
+<span id="pyvhr-bpm-utils-module"></span><h2>pyVHR.BPM.utils module<a class="headerlink" href="#module-pyVHR.BPM.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BPM.utils.Welch">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BPM.utils.</span></span><span class="sig-name descname"><span class="pre">Welch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bvps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minHz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.65</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxHz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2048</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/utils.html#Welch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.utils.Welch" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function computes Welch’method for spectral density estimation.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>bvps(flaot32 numpy.ndarray): BVP signal as float32 Numpy.ndarray with shape [num_estimators, num_frames].
+fps (float): frames per seconds.
+minHz (float): frequency in Hz used to isolate a specific subband [minHz, maxHz] (esclusive).
+maxHz (float): frequency in Hz used to isolate a specific subband [minHz, maxHz] (esclusive).
+nfft (int): number of DFT points, specified as a positive integer.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Sample frequencies as float32 numpy.ndarray, and Power spectral density or power spectrum as float32 numpy.ndarray.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BPM.utils.circle_clustering">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BPM.utils.</span></span><span class="sig-name descname"><span class="pre">circle_clustering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/utils.html#circle_clustering"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.utils.circle_clustering" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO:documentare</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>W (tipo): spiegare W</p>
+</dd>
+<dt>Returns:</dt><dd><p>cosa ritorna (tipo): spiegare , questa funzione restituisce: P, kjs, Q, hahdh</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BPM.utils.gaussian">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BPM.utils.</span></span><span class="sig-name descname"><span class="pre">gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/utils.html#gaussian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.utils.gaussian" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BPM.utils.gaussian_fit">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BPM.utils.</span></span><span class="sig-name descname"><span class="pre">gaussian_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/utils.html#gaussian_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.utils.gaussian_fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyVHR.BPM.utils.optimize_partition">
+<span class="sig-prename descclassname"><span class="pre">pyVHR.BPM.utils.</span></span><span class="sig-name descname"><span class="pre">optimize_partition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_fact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyVHR/BPM/utils.html#optimize_partition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVHR.BPM.utils.optimize_partition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyVHR.BPM">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyVHR.BPM" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, phuselab.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>
