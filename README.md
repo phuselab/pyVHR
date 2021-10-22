@@ -1,5 +1,4 @@
-
-![pyVHR](https://raw.githubusercontent.com/phuselab/pyVHR/master/img/pyVHR-logo.png)
+<img src="https://raw.githubusercontent.com/phuselab/pyVHR/master/img/pyVHR-logo.png" alt="pyVHR logo" width="300"/>
 ---
 
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyvhr)
@@ -32,13 +31,13 @@ Once installed, create a new `conda` environment and automatically fetch all the
 
 **CPU-only version**
 ```bash
-conda env create --file https://github.com/phuselab/pyVHR/blob/pyVHR_CPU/pyVHR_CPU_env.yml
+conda env create --file https://raw.githubusercontent.com/phuselab/pyVHR/pyVHR_CPU/pyVHR_CPU_env.yml
 ```
 
 **CPU+GPU version**  
 This yml environment is for cudatoolkit=10.2 and python=3.8.
 ```bash
-conda env create --file https://github.com/phuselab/pyVHR/blob/main/pyVHR_env.yml
+conda env create --file https://raw.githubusercontent.com/phuselab/pyVHR/master/pyVHR_env.yml
 ```
 
 ### Installation
