@@ -72,7 +72,6 @@ plt.show()
 ```
 The full documentation of `run_on_video` method, with all the possible parameters, can be found here: [https://phuselab.github.io/pyVHR/](https://phuselab.github.io/pyVHR/pyVHR.analysis.html?highlight=run_on_video#pyVHR.analysis.pipeline.Pipeline.run_on_video)
 
-
 The `notebooks` folder contains useful Jupyter notebooks.
 
 ## Documentation
@@ -151,10 +150,6 @@ Currently supported datasets are:
 **UBFC1** / *https://sites.google.com/view/ybenezeth/ubfcrppg*
 
 **UBFC2** / *https://sites.google.com/view/ybenezeth/ubfcrppg*
-
-## Documentation
-
-The full documentation of the pyVHR framework is available at [https://phuselab.github.io/pyVHR/](https://phuselab.github.io/pyVHR/).
 
 ## Reference
 
