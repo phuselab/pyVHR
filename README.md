@@ -1,5 +1,4 @@
 <img src="https://raw.githubusercontent.com/phuselab/pyVHR/master/img/pyVHR-logo.png" alt="pyVHR logo" width="300"/>
----
 
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyvhr)
 [![PyPI](https://img.shields.io/pypi/v/pyvhr)](https://pypi.org/project/pyVHR/)
