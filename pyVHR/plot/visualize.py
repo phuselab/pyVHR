@@ -16,7 +16,7 @@ from scipy.signal import welch
 import random
 
 
-from pyVHR.BPM.utils import *
+from pyVHR.BPM.utils import gaussian,gaussian_fit, Model, Welch,pairwise_distances, optimize_partition, circle_clustering
 
 
 """
