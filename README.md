@@ -75,7 +75,11 @@ The full documentation of `run_on_video` method, with all the possible parameter
 
 The `notebooks` folder contains useful Jupyter notebooks.
 
-### GUI
+## Documentation
+
+The full documentation of the pyVHR framework is available at [https://phuselab.github.io/pyVHR/](https://phuselab.github.io/pyVHR/).
+
+## GUI
 In the folder `realtime` you can find an example of a simple GUI created using the pyVHR package.
 You can launch it by going into the path `pyVHR/realtime/` and using the command 
 
