@@ -183,3 +183,5 @@ dependencies:
     - webencodings==0.5.1
     - wheel==0.37.0
     - widgetsnbextension==4.0.0a4
+    - biosppy==0.7.3 
+    - requests==2.26.0 
