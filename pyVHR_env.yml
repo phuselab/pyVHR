@@ -171,4 +171,6 @@ dependencies:
     - threadpoolctl==2.2.0
     - uncertainties==3.1.6
     - wheel==0.37.0
+    - biosppy==0.7.3 
+    - requests==2.26.0 
 prefix: /home/frea/miniconda3/envs/dev
