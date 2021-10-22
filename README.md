@@ -38,7 +38,7 @@ conda env create --file https://github.com/phuselab/pyVHR/blob/pyVHR_CPU/pyVHR_C
 **CPU+GPU version**  
 This yml environment is for cudatoolkit=10.2 and python=3.8.
 ```bash
-conda env create --file https://github.com/phuselab/pyVHR/blob/main/pyVHR_env.yml
+conda env create --file https://github.com/phuselab/pyVHR/pyVHR_env.yml
 ```
 
 ### Installation
