@@ -74,6 +74,8 @@ The full documentation of `run_on_video` method, with all the possible parameter
 
 The `notebooks` folder contains useful Jupyter notebooks.
 
+The `usage` folder contains very useful python modules. 
+
 ## Documentation
 
 The full documentation of the pyVHR framework is available at [https://phuselab.github.io/pyVHR/](https://phuselab.github.io/pyVHR/).

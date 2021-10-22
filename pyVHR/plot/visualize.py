@@ -17,7 +17,6 @@ import random
 
 
 
-
 """
 This module defines classes or methods used for plotting outputs.
 """
