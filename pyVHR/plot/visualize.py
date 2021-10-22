@@ -16,7 +16,6 @@ from scipy.signal import welch
 import random
 
 
-from pyVHR.BPM.utils import *
 
 
 """
@@ -290,6 +289,7 @@ def visualize_landmarks_list(image_file_name=None, landmarks_list=None):
     fig.show(renderer=VisualizeParams.renderer)
 
 
+from pyVHR.BPM.utils import Model, gaussian, Welch, Welch_cuda, pairwise_distances, circle_clustering, optimize_partition, gaussian_fit
 def visualize_BVPs_PSD_clutering(GT_BPM, GT_times , BVPs, times, fps, minHz=0.65, maxHz=4.0, out_fact=1):
     """
     TODO: documentare
@@ -303,7 +303,7 @@ def visualize_BVPs_PSD_clutering(GT_BPM, GT_times , BVPs, times, fps, minHz=0.65
         minHz (float): frequency in Hz used to isolate a specific subband [minHz, maxHz] (esclusive).
         maxHz (float): frequency in Hz used to isolate a specific subband [minHz, maxHz] (esclusive).
     
-    """
+    """  
     gmodel = Model(gaussian, independent_vars=['x', 'mu', 'a'])
     for i,X in enumerate(BVPs):
         if X.shape[0] == 0:

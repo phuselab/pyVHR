@@ -1,3 +1,3 @@
 from .stats import *
-from .statsutils import *
-from .stattests import *
+from .pipeline import *
+from .multi_method_suite import *
