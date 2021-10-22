@@ -1,6 +1,4 @@
-
-![pyVHR](https://raw.githubusercontent.com/phuselab/pyVHR/master/img/pyVHR-logo.png)
----
+<img src="https://raw.githubusercontent.com/phuselab/pyVHR/master/img/pyVHR-logo.png" alt="pyVHR logo" width="300"/>
 
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyvhr)
 [![PyPI](https://img.shields.io/pypi/v/pyvhr)](https://pypi.org/project/pyVHR/)
@@ -32,13 +30,13 @@ Once installed, create a new `conda` environment and automatically fetch all the
 
 **CPU-only version**
 ```bash
-conda env create --file https://github.com/phuselab/pyVHR/blob/pyVHR_CPU/pyVHR_CPU_env.yml
+conda env create --file https://raw.githubusercontent.com/phuselab/pyVHR/pyVHR_CPU/pyVHR_CPU_env.yml
 ```
 
 **CPU+GPU version**  
 This yml environment is for cudatoolkit=10.2 and python=3.8.
 ```bash
-conda env create --file https://github.com/phuselab/pyVHR/blob/main/pyVHR_env.yml
+conda env create --file https://raw.githubusercontent.com/phuselab/pyVHR/master/pyVHR_env.yml
 ```
 
 ### Installation
@@ -72,7 +70,7 @@ plt.plot(time, BPM)
 plt.fill_between(time, BPM-uncertainty, BPM+uncertainty, alpha=0.2)
 plt.show()
 ```
-The full documentation of `run_on_video` method, with all the possible parameters, can be found here: [https://phuselab.github.io/pyVHR/](https://phuselab.github.io/pyVHR/)
+The full documentation of `run_on_video` method, with all the possible parameters, can be found here: [https://phuselab.github.io/pyVHR/](https://phuselab.github.io/pyVHR/pyVHR.analysis.html?highlight=run_on_video#pyVHR.analysis.pipeline.Pipeline.run_on_video)
 
 
 The `notebooks` folder contains useful Jupyter notebooks.
