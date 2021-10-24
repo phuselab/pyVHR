@@ -63,7 +63,7 @@ from pyVHR.analysis.pipeline import Pipeline
 import matplotlib.pyplot as plt
 
 pipe = Pipeline()
-time, BPM, uncertainty = pipe.run_on_video('/path/to/video')
+time, BPM, uncertainty = pipe.run_on_video('/path/to/video', roi_approach="patches", roi_method="faceparsing")
 
 plt.figure()
 plt.plot(time, BPM)
