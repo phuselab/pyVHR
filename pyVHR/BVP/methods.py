@@ -131,7 +131,7 @@ def cpu_POS(signal, **kargs):
         # Tuning (7)
         S1 = S[:, 0, :]
         S2 = S[:, 1, :]
-        alpha = np.std(S1, axis=1) / (eps + +np.std(S2, axis=1))
+        alpha = np.std(S1, axis=1) / (eps + np.std(S2, axis=1))
         alpha = np.expand_dims(alpha, axis=1)
         Hn = np.add(S1, alpha * S2)
         Hnm = Hn - np.expand_dims(np.mean(Hn, axis=1), axis=1)
@@ -151,6 +151,7 @@ def cupy_POS(signal, **kargs):
     """
     # Run the pos algorithm on the RGB color signal c with sliding window length wlen
     # Recommended value for wlen is 32 for a 20 fps camera (1.6 s)
+    eps = 10**-9
     X = signal
     fps = cupy.float32(kargs['fps'])
     e, c, f = X.shape            # e = #estimators, c = 3 rgb ch., f = #frames
@@ -167,7 +168,7 @@ def cupy_POS(signal, **kargs):
         m = n - w + 1
         # Temporal normalization (5)
         Cn = X[:, :, m:(n + 1)]
-        M = 1.0 / (cupy.mean(Cn, axis=2))
+        M = 1.0 / (cupy.mean(Cn, axis=2)+eps)
         M = cupy.expand_dims(M, axis=2)  # shape [e, c, w]
         Cn = cupy.multiply(M, Cn)
 
@@ -179,7 +180,7 @@ def cupy_POS(signal, **kargs):
         # Tuning (7)
         S1 = S[:, 0, :]
         S2 = S[:, 1, :]
-        alpha = cupy.std(S1, axis=1) / (cupy.std(S2, axis=1))
+        alpha = cupy.std(S1, axis=1) / (eps + cupy.std(S2, axis=1))
         alpha = cupy.expand_dims(alpha, axis=1)
         Hn = cupy.add(S1, alpha * S2)
         Hnm = Hn - cupy.expand_dims(cupy.mean(Hn, axis=1), axis=1)
