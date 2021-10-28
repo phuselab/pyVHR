@@ -13,7 +13,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyVHR",
-    version="1.0.1",
+    version="1.0.2",
     author="Vittorio Cuculo <vittorio.cuculo@unimi.it>, Donatello Conte <donatello.conte@univ-tours.fr>, Alessandro D'Amelio <alessandro.damelio@unimi.it>, Giuliano Grossi <giuliano.grossi@unimi.it>, Edoardo Mortara <edoardo.mortara@studenti.unimi.it>",
     author_email="",
     description="Package for rPPG methods",
