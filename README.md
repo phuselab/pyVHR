@@ -145,7 +145,7 @@ Currently supported datasets are:
 
 **MAHNOB-HCI** / *https://mahnob-db.eu/hci-tagging/*
 
-**PURE** / *https://www.tu-ilmenau.de/en/neurob/data-sets-code/pulse/*
+**PURE** / *https://www.tu-ilmenau.de/neurob/data-sets-code/pulse-rate-detection-dataset-pure*
 
 **UBFC1** / *https://sites.google.com/view/ybenezeth/ubfcrppg*
 
