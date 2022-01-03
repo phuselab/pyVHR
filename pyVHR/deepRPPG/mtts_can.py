@@ -80,6 +80,11 @@ def detrend(signal, Lambda):
 
 def MTTS_CAN_deep(frames, fs, model_checkpoint=None, batch_size=100, dim=36, img_rows=36, img_cols=36, frame_depth=10, verb=0):
 
+  gpus = tf.config.list_physical_devices('GPU')
+  if gpus:
+     for gpu in gpus:
+        tf.config.experimental.set_memory_growth(gpu,True)
+
   if model_checkpoint is None:
     model_checkpoint = pyVHR.__path__[0] +  '/deepRPPG/MTTS_CAN/checkpoint.hdf5'
 
@@ -95,9 +100,6 @@ def MTTS_CAN_deep(frames, fs, model_checkpoint=None, batch_size=100, dim=36, img
   # apply pretrained model
   yptest = model.predict((dXsub[:, :, :, :3], dXsub[:, :, :, -3:]), batch_size=batch_size, verbose=verb)
 
-  # cleaning
-  tf.keras.backend.clear_session()
-	
   # filtering
   pulse_pred = yptest[0]
   pulse_pred = detrend(np.cumsum(pulse_pred), 100)
