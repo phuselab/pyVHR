@@ -117,6 +117,25 @@ class SignalProcessing():
         """
         return self.visualize_landmarks_collection
 
+    def extract_raw(self, videoFileName):
+        """
+        Extracts raw frames from video.
+
+        Args:
+            videoFileName (str): video file name or path.
+
+        Returns: 
+            ndarray: raw frames with shape [num_frames, height, width, rgb_channels].
+        """
+
+        frames = []
+        for frame in extract_frames_yield(videoFileName):
+                frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))   # convert to RGB
+
+        return np.array(frames)
+
+
+
     ### HOLISTIC METHODS ###
 
     def extract_raw_holistic(self, videoFileName):
