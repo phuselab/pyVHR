@@ -63,7 +63,7 @@ from pyVHR.analysis.pipeline import Pipeline
 import matplotlib.pyplot as plt
 
 pipe = Pipeline()
-time, BPM, uncertainty = pipe.run_on_video('/path/to/video')
+time, BPM, uncertainty = pipe.run_on_video('/path/to/video', roi_approach="patches", roi_method="faceparsing")
 
 plt.figure()
 plt.plot(time, BPM)
@@ -73,8 +73,6 @@ plt.show()
 The full documentation of `run_on_video` method, with all the possible parameters, can be found here: [https://phuselab.github.io/pyVHR/](https://phuselab.github.io/pyVHR/pyVHR.analysis.html?highlight=run_on_video#pyVHR.analysis.pipeline.Pipeline.run_on_video)
 
 The `notebooks` folder contains useful Jupyter notebooks.
-
-The `usage` folder contains very useful python modules. 
 
 ## Documentation
 
@@ -147,7 +145,7 @@ Currently supported datasets are:
 
 **MAHNOB-HCI** / *https://mahnob-db.eu/hci-tagging/*
 
-**PURE** / *https://www.tu-ilmenau.de/en/neurob/data-sets-code/pulse/*
+**PURE** / *https://www.tu-ilmenau.de/neurob/data-sets-code/pulse-rate-detection-dataset-pure*
 
 **UBFC1** / *https://sites.google.com/view/ybenezeth/ubfcrppg*
 

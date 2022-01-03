@@ -28,7 +28,7 @@ class Pipeline():
     def __init__(self):
         pass
 
-    def run_on_video(self, videoFileName, cuda=False, roi_method='convexhull', roi_approach='hol', method='cpu_POS', bpm_type='welch', pre_filt=False, post_filt=True, verb=True):
+    def run_on_video(self, videoFileName, cuda=True, roi_method='convexhull', roi_approach='hol', method='cupy_POS', bpm_type='welch', pre_filt=False, post_filt=True, verb=True):
         """ 
         Runs the pipeline on a specific video file.
 
