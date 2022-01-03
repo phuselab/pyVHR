@@ -93,12 +93,29 @@ class SignalProcessing():
         """
         Get the 'skin+patches' images produced by the last processing. Remember to 
         set :py:meth:`pyVHR.extraction.sig_processing.SignalProcessing.set_visualize_skin_and_landmarks`
-        correctly.
+        correctly
         
         Returns:
             list of ndarray: list of cv2 images; each image is a ndarray with shape [rows, columns, rgb_channels].
         """
         return self.visualize_landmarks_collection
+
+    def extract_raw(self, videoFileName):
+        """
+        Extracts raw frames from video.
+
+        Args:
+            videoFileName (str): video file name or path.
+
+        Returns: 
+            ndarray: raw frames with shape [num_frames, height, width, rgb_channels].
+        """
+
+        frames = []
+        for frame in extract_frames_yield(videoFileName):
+                frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))   # convert to RGB
+
+        return np.array(frames)
 
     ### HOLISTIC METHODS ###
 
@@ -169,7 +186,7 @@ class SignalProcessing():
 
     def extract_holistic(self, videoFileName):
         """
-        This method compute the RGB-mean signal using the whole skin (holistic);
+        This method computes the RGB-mean signal using the whole skin (holistic);
 
         Args:
             videoFileName (str): video file name or path.
@@ -252,7 +269,7 @@ class SignalProcessing():
 
     def set_square_patches_side(self, square_side):
         """
-        Set the dimension of the square patches that will be used for signal processing. There are 468 facial points you can
+        Sets the dimension of the square patches that will be used for signal processing. There are 468 facial points you can
         choose; for visualizing their identification number please use :py:meth:`pyVHR.plot.visualize.visualize_landmarks_list`.
 
         Args:
@@ -265,7 +282,7 @@ class SignalProcessing():
 
     def set_rect_patches_sides(self, rects_dim):
         """
-        Set the dimension of each rectangular patch. There are 468 facial points you can
+        Sets the dimension of each rectangular patch. There are 468 facial points you can
         choose; for visualizing their identification number please use :py:meth:`pyVHR.plot.visualize.visualize_landmarks_list`.
 
         Args:
@@ -282,7 +299,7 @@ class SignalProcessing():
 
     def extract_patches(self, videoFileName, region_type, sig_extraction_method):
         """
-        This method compute the RGB-mean signal using specific skin regions (patches).
+        This method computes the RGB-mean signal using specific skin regions (patches).
 
         Args:
             videoFileName (str): video file name or path.
