@@ -26,6 +26,8 @@ setuptools.setup(
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
     ],
+    package_data={"": ['*.pth', '*.png', '*.hdf5']},
+    include_package_data = True,
     python_requires='>=3.6',
     install_requires=reqs,
 )
