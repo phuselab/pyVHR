@@ -1,11 +1,14 @@
+import pyVHR
+import numpy as np
 import tensorflow as tf
-from model import Attention_mask, MTTS_CAN
+from .MTTS_CAN.model import Attention_mask, MTTS_CAN
 from scipy.signal import butter
 import cv2
 from skimage.util import img_as_float
 import scipy.io
 from scipy.sparse import spdiags
 import h5py
+
 
 def preprocess_raw_video(frames, fs=30, dim=36):
   """A slightly different version from the original: 
@@ -78,7 +81,7 @@ def detrend(signal, Lambda):
 def MTTS_CAN_deep(frames, fs, model_checkpoint=None, batch_size=100, dim=36, img_rows=36, img_cols=36, frame_depth=10, verb=0):
 
   if model_checkpoint is None:
-    model_checkpoint = pyVHR_basedir +  '/deepRPPG/MTTS_CAN/checkpoint.hdf5'
+    model_checkpoint = pyVHR.__path__[0] +  '/deepRPPG/MTTS_CAN/checkpoint.hdf5'
 
   # frame preprocessing
   dXsub = preprocess_raw_video(frames, dim)
@@ -92,6 +95,9 @@ def MTTS_CAN_deep(frames, fs, model_checkpoint=None, batch_size=100, dim=36, img
   # apply pretrained model
   yptest = model.predict((dXsub[:, :, :, :3], dXsub[:, :, :, -3:]), batch_size=batch_size, verbose=verb)
 
+  # cleaning
+  tf.keras.backend.clear_session()
+	
   # filtering
   pulse_pred = yptest[0]
   pulse_pred = detrend(np.cumsum(pulse_pred), 100)

@@ -4,6 +4,5 @@ import pyVHR.BPM
 import pyVHR.datasets
 import pyVHR.plot
 import pyVHR.utils
-import  pyVHR
+import pyVHR.deepRPPG
 
-pyVHR_basedir = pyVHR.__path__[0]
