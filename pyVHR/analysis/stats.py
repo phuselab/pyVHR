@@ -42,13 +42,13 @@ class StatAnalysis():
             raise("Error: filepath is wrong!")
 
         self.join_data = join_data
-        self.available_metrics = ['MAE','RMSE','PCC','CCC']
+        self.available_metrics = ['MAE','RMSE','PCC','CCC','SNR']
         self.remove_ouliers = remove_ouliers
 
         # -- get data
         self.__getMethods()
-        self.metricSort = {'MAE':'min','RMSE':'min','PCC':'max', 'CCC': 'max'}
-        self.scale = {'MAE':'log','RMSE':'log','PCC':'linear', 'CCC':'linear'}
+        self.metricSort = {'MAE':'min','RMSE':'min','PCC':'max', 'CCC': 'max','SNR': 'max'}
+        self.scale = {'MAE':'log','RMSE':'log','PCC':'linear', 'CCC':'linear','SNR': 'linear'}}
         
         self.use_stats_pipeline = False
 
@@ -94,7 +94,7 @@ class StatAnalysis():
             Y = self.__getDataMono()
         self.ndataset = Y.shape[0]
 
-        if metric == 'MAE':
+        if metric == 'MAE' or metric == 'RMSE':
             order='ascending'
         else:
             order='descending'
@@ -271,7 +271,7 @@ class StatAnalysis():
                 print(f"Warning! Video {self.dataFrame[0]['videoFilename'][np.argwhere(np.isnan(yd)).flatten()[0]]} contains NaN value for method {name}")
                 continue
             # -- set color for box
-            if metric == 'MAE' or  metric == 'RMSE' or metric == 'TIME_REQUIREMENT':
+            if metric == 'MAE' or  metric == 'RMSE' or metric == 'TIME_REQUIREMENT' or metric == 'SNR':
                 med = np.median(yd)
                 col = str(min(200,5*int(med)+offset))
             if metric == 'CC' or metric == 'PCC' or metric == 'CCC':

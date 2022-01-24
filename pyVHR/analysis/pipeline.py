@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 import plotly.graph_objects as go
 from importlib import import_module, util
 from pyVHR.datasets.dataset import datasetFactory
-from pyVHR.utils.errors import getErrors, printErrors, displayErrors
+from pyVHR.utils.errors import getErrors, printErrors, displayErrors, get_SNR
 from pyVHR.extraction.sig_processing import *
 from pyVHR.extraction.sig_extraction_methods import *
 from pyVHR.extraction.skin_extraction_methods import *
@@ -417,7 +417,7 @@ class Pipeline():
                 #time_elapsed = [end_time - start_time]
 
                 # -- error metrics
-                RMSE, MAE, MAX, PCC, CCC = getErrors(
+                RMSE, MAE, MAX, PCC, CCC, SNR = getErrors(bvps, fps,
                     np.expand_dims(median_bpmES, axis=0), bpmGT, timesES, timesGT)
 
                 # -- save results
@@ -430,6 +430,7 @@ class Pipeline():
                 res.addData('MAX', MAX)
                 res.addData('PCC', PCC)
                 res.addData('CCC', CCC)
+                res.addData('SNR', SNR)
                 res.addData('bpmGT', bpmGT)
                 res.addData('bpmES', median_bpmES)
                 res.addData('bpmES_mad', mad_bpmES)
@@ -439,7 +440,7 @@ class Pipeline():
                 res.addDataSerie()
 
                 if verb:
-                    printErrors(RMSE, MAE, MAX, PCC, CCC)
+                    printErrors(RMSE, MAE, MAX, PCC, CCC, SNR)
 
         return res
 
@@ -518,6 +519,7 @@ class TestResult():
         D['MAE'] = ''
         D['PCC'] = ''
         D['CCC'] = ''
+        D['SNR'] = ''
         D['MAX'] = ''
         D['bpmGT'] = ''          # GT bpm
         D['bpmES'] = ''

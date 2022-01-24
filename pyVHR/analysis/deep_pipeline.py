@@ -167,7 +167,7 @@ class DeepPipeline():
                 #time_elapsed = [end_time - start_time]
 
                 # -- error metrics
-                RMSE, MAE, MAX, PCC, CCC = getErrors(
+                RMSE, MAE, MAX, PCC, CCC, SNR = getErrors(bvps, fps,
                     np.expand_dims(median_bpmES, axis=0), bpmGT, timesES, timesGT)
 
                 # -- save results
@@ -180,6 +180,7 @@ class DeepPipeline():
                 res.addData('MAX', MAX)
                 res.addData('PCC', PCC)
                 res.addData('CCC', CCC)
+                res.addData('SNR', SNR)
                 res.addData('bpmGT', bpmGT)
                 res.addData('bpmES', median_bpmES)
                 res.addData('bpmES_mad', mad_bpmES)
@@ -189,7 +190,7 @@ class DeepPipeline():
                 res.addDataSerie()
 
                 if verb:
-                    printErrors(RMSE, MAE, MAX, PCC, CCC)
+                    printErrors(RMSE, MAE, MAX, PCC, CCC, SNR)
 
         return res
 
@@ -266,6 +267,7 @@ class TestResult():
         D['MAE'] = ''
         D['PCC'] = ''
         D['CCC'] = ''
+        D['SNR'] = ''
         D['MAX'] = ''
         D['bpmGT'] = ''          # GT bpm
         D['bpmES'] = ''

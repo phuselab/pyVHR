@@ -1,9 +1,10 @@
 import numpy as np
 import plotly.graph_objects as go
 from pyVHR.plot.visualize import VisualizeParams
+from pyVHR.BPM.utils import Welch
 
 
-def getErrors(bpmES, bpmGT, timesES, timesGT):
+def getErrors(bvps, fps, bpmES, bpmGT, timesES, timesGT):
     
     if type(bpmES) == list:
         bpmES = np.expand_dims(bpmES, axis=0)
@@ -16,7 +17,8 @@ def getErrors(bpmES, bpmGT, timesES, timesGT):
     MAX = MAXError(bpmES, bpmGT, timesES, timesGT)
     PCC = PearsonCorr(bpmES, bpmGT, timesES, timesGT)
     CCC = LinCorr(bpmES, bpmGT, timesES, timesGT)
-    return RMSE, MAE, MAX, PCC, CCC
+    SNR = get_SNR(bvps, fps, bpmGT, timesES)
+    return RMSE, MAE, MAX, PCC, CCC, SNR
 
 
 def RMSEerror(bpmES, bpmGT, timesES=None, timesGT=None):
@@ -179,3 +181,71 @@ def concordance_correlation_coefficient(bpm_true, bpm_pred):
 
     return numerator/denominator
 
+
+def get_SNR(bvps, fps, reference_hrs, timesES):
+    '''Computes the signal-to-noise ratio of the BVP
+    signals according to the method by -- de Haan G. et al., IEEE Transactions on Biomedical Engineering (2013).
+    SNR calculated as the ratio (in dB) of power contained within +/- 0.1 Hz
+    of the reference heart rate frequency and +/- 0.2 of its first
+    harmonic and sum of all other power between 0.5 and 4 Hz.
+    Adapted from https://github.com/danmcduff/iphys-toolbox/blob/master/tools/bvpsnr.m
+    '''
+    interv1 = 0.2*60
+    interv2 = 0.4*60
+    NyquistF = fps/2.;
+    FResBPM = 0.5
+    nfft = np.ceil((60*2*NyquistF)/FResBPM)
+    SNRs = []
+    for idx, bvp in enumerate(bvps):
+        curr_ref = reference_hrs[int(timesES[idx])]
+        pfreqs, power = Welch(bvp, fps, nfft=nfft)
+        GTMask1 = np.logical_and(pfreqs>=curr_ref-interv1, pfreqs<=curr_ref+interv1)
+        GTMask2 = np.logical_and(pfreqs>=(curr_ref*2)-interv2, pfreqs<=(curr_ref*2)+interv2)
+        GTMask = np.logical_or(GTMask1, GTMask2)
+        FMask = np.logical_not(GTMask)
+        win_snr = []
+        for i in range(len(power)):
+            p = power[i,:]
+            SPower = np.sum(p[GTMask])
+            allPower = np.sum(p[FMask])
+            snr = 10*np.log10(SPower/allPower)
+            win_snr.append(snr)
+        SNRs.append(np.median(win_snr))
+    return np.array([np.mean(SNRs)])
+
+
+def _plot_PSD_snr(pfreqs, p, curr_ref, interv1, interv2):
+    import matplotlib.pyplot as plt
+    import numpy as np
+    plt.plot(pfreqs, np.squeeze(p))
+    x1 = pfreqs[np.argmin(np.abs(pfreqs-curr_ref))]
+    x2 = pfreqs[np.argmin(np.abs(pfreqs-curr_ref))]
+    y1 = 0
+    y2 = p[np.argmin(np.abs(pfreqs-curr_ref))]
+    plt.plot([x1, x2], [y1, y2], color='r', linestyle='-', linewidth=2)
+    x1 = pfreqs[np.argmin(np.abs(pfreqs-curr_ref*2))]
+    x2 = pfreqs[np.argmin(np.abs(pfreqs-curr_ref*2))]
+    y1 = 0
+    y2 = p[np.argmin(np.abs(pfreqs-curr_ref*2))]
+    plt.plot([x1, x2], [y1, y2], color='r', linestyle='-', linewidth=2)
+    x1 = pfreqs[np.argmin(np.abs(pfreqs-curr_ref-interv1))]
+    x2 = pfreqs[np.argmin(np.abs(pfreqs-curr_ref-interv1))]
+    y1 = 0
+    y2 = p[np.argmin(np.abs(pfreqs-curr_ref-interv1))]
+    plt.plot([x1, x2], [y1, y2], color='k', linestyle='-', linewidth=2)
+    x1 = pfreqs[np.argmin(np.abs(pfreqs-curr_ref+interv1))]
+    x2 = pfreqs[np.argmin(np.abs(pfreqs-curr_ref+interv1))]
+    y1 = 0
+    y2 = p[np.argmin(np.abs(pfreqs-curr_ref+interv1))]
+    plt.plot([x1, x2], [y1, y2], color='k', linestyle='-', linewidth=2)
+    x1 = pfreqs[np.argmin(np.abs(pfreqs-curr_ref*2-interv1))]
+    x2 = pfreqs[np.argmin(np.abs(pfreqs-curr_ref*2-interv1))]
+    y1 = 0
+    y2 = p[np.argmin(np.abs(pfreqs-curr_ref*2-interv1))]
+    plt.plot([x1, x2], [y1, y2], color='k', linestyle='-', linewidth=2)
+    x1 = pfreqs[np.argmin(np.abs(pfreqs-curr_ref*2+interv1))]
+    x2 = pfreqs[np.argmin(np.abs(pfreqs-curr_ref*2+interv1))]
+    y1 = 0
+    y2 = p[np.argmin(np.abs(pfreqs-curr_ref*2+interv1))]
+    plt.plot([x1, x2], [y1, y2], color='k', linestyle='-', linewidth=2)
+    plt.show()
