@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 import plotly.graph_objects as go
 from importlib import import_module, util
 from pyVHR.datasets.dataset import datasetFactory
-from pyVHR.utils.errors import getErrors, printErrors, displayErrors, get_SNR
+from pyVHR.utils.errors import getErrors, printErrors, displayErrors
 from pyVHR.extraction.sig_processing import *
 from pyVHR.extraction.sig_extraction_methods import *
 from pyVHR.extraction.skin_extraction_methods import *
