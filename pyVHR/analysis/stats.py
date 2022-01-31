@@ -48,7 +48,7 @@ class StatAnalysis():
         # -- get data
         self.__getMethods()
         self.metricSort = {'MAE':'min','RMSE':'min','PCC':'max', 'CCC': 'max','SNR': 'max'}
-        self.scale = {'MAE':'log','RMSE':'log','PCC':'linear', 'CCC':'linear','SNR': 'linear'}}
+        self.scale = {'MAE':'log','RMSE':'log','PCC':'linear', 'CCC':'linear','SNR': 'linear'}
         
         self.use_stats_pipeline = False
 
