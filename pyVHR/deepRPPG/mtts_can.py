@@ -26,8 +26,8 @@ def preprocess_raw_video(frames, fs=30, dim=36):
   for img in frames:
     t.append(1/fs*i)       # current timestamp in milisecond
     vidLxL = cv2.resize(img_as_float(img[:, int(width/2)-int(height/2 + 1):int(height/2)+int(width/2), :]), (dim, dim), interpolation = cv2.INTER_AREA)
-    vidLxL = cv2.rotate(vidLxL, cv2.ROTATE_90_CLOCKWISE) # rotate 90 degree
-    vidLxL = cv2.cvtColor(vidLxL.astype('float32'), cv2.COLOR_BGR2RGB)
+    #vidLxL = cv2.rotate(vidLxL, cv2.ROTATE_90_CLOCKWISE) # rotate 90 degree
+    #vidLxL = cv2.cvtColor(vidLxL.astype('float32'), cv2.COLOR_BGR2RGB)
     vidLxL[vidLxL > 1] = 1
     vidLxL[vidLxL < (1/255)] = 1/255
     Xsub[i, :, :, :] = vidLxL
@@ -89,7 +89,7 @@ def MTTS_CAN_deep(frames, fs, model_checkpoint=None, batch_size=100, dim=36, img
     model_checkpoint = pyVHR.__path__[0] +  '/deepRPPG/MTTS_CAN/checkpoint.hdf5'
 
   # frame preprocessing
-  dXsub = preprocess_raw_video(frames, dim)
+  dXsub = preprocess_raw_video(frames, fs=fs, dim=dim)
   dXsub_len = (dXsub.shape[0] // frame_depth)  * frame_depth
   dXsub = dXsub[:dXsub_len, :, :, :]
 
