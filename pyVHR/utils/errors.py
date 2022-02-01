@@ -85,9 +85,9 @@ def LinCorr(bpmES, bpmGT, timesES=None, timesGT=None):
     return CCC
 
 
-def printErrors(RMSE, MAE, MAX, PCC, CCC):
-    print("\n    * Errors: RMSE = %.2f, MAE = %.2f, MAX = %.2f, PCC = %.2f, CCC = %.2f" %
-          (RMSE, MAE, MAX, PCC, CCC))
+def printErrors(RMSE, MAE, MAX, PCC, CCC, SNR):
+    print("\n    * Errors: RMSE = %.2f, MAE = %.2f, MAX = %.2f, PCC = %.2f, CCC = %.2f SNR = %.2f" %
+          (RMSE, MAE, MAX, PCC, CCC, SNR))
 
 
 def displayErrors(bpmES, bpmGT, timesES=None, timesGT=None):
