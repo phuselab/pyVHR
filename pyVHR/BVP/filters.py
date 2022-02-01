@@ -7,7 +7,7 @@ from numba import prange, jit
 from scipy import stats
 import statistics
 from scipy.signal import butter, filtfilt, savgol_filter
-
+from scipy.sparse import spdiags
 
 """
 This module contains a collection of filter methods.

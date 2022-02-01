@@ -10,6 +10,7 @@ import math
 from autorank import autorank, plot_stats, create_report
 from matplotlib.colors import ListedColormap
 from matplotlib.colorbar import ColorbarBase, Colorbar
+import itertools
 
 
 class StatAnalysis():
@@ -48,9 +49,15 @@ class StatAnalysis():
         # -- get data
         self.__getMethods()
         self.metricSort = {'MAE':'min','RMSE':'min','PCC':'max', 'CCC': 'max','SNR': 'max'}
-        self.scale = {'MAE':'log','RMSE':'log','PCC':'linear', 'CCC':'linear','SNR': 'linear'}}
+        self.scale = {'MAE':'log','RMSE':'log','PCC':'linear', 'CCC':'linear','SNR': 'linear'}
         
         self.use_stats_pipeline = False
+
+    def any_equal(self, mylist):
+        equal = []
+        for a, b in itertools.combinations(mylist, 2):
+            equal.append(a==b)
+        return np.any(equal)
 
     def run_stats(self, methods=None, metric='CCC', approach='frequentist', print_report=True):
         """
@@ -64,6 +71,7 @@ class StatAnalysis():
                 - 'RMSE' - Root Mean Squared Error
                 - 'PCC' - Pearson's Correlation Coefficient
                 - 'CCC' - Concordance Correlation Coefficient
+                - 'SNR' - Signal to Noise Ratio
             approach:
                 - 'frequentist' - (default) Use frequentist hypotesis tests for the analysis
                 - 'bayesian' - Use bayesian hypotesis tests for the analysis
@@ -99,7 +107,10 @@ class StatAnalysis():
         else:
             order='descending'
 
-        Y_df = pd.DataFrame(Y, columns=self.methods)
+        m_names = [x.upper().replace('CUPY_', '').replace('CPU_','').replace('TORCH_','') for x in self.methods]
+        if self.any_equal(m_names):
+            m_names = self.methods
+        Y_df = pd.DataFrame(Y, columns=m_names)
 
         results = autorank(Y_df, alpha=0.05, order=order, verbose=False, approach=approach)
         self.stat_result = results
@@ -263,7 +274,9 @@ class StatAnalysis():
         offset = 50
         fig = go.Figure()
 
-        methodNames = [x.upper() for x in methods]
+        methodNames = [x.upper().replace('CUPY_', '').replace('CPU_','').replace('TORCH_','') for x in methods]
+        if self.any_equal(methodNames):
+            methodNames = methods
         for i in range(k):
             yd = Y[:,i]
             name = methodNames[i]
@@ -446,7 +459,7 @@ class StatAnalysis():
                 Y.append(np.mean(y,axis=1))
             else:
                 Y.append(y.T)   
-
+        
         if not self.join_data:
             res = np.array(Y)
         else:

@@ -85,9 +85,9 @@ def LinCorr(bpmES, bpmGT, timesES=None, timesGT=None):
     return CCC
 
 
-def printErrors(RMSE, MAE, MAX, PCC, CCC):
-    print("\n    * Errors: RMSE = %.2f, MAE = %.2f, MAX = %.2f, PCC = %.2f, CCC = %.2f" %
-          (RMSE, MAE, MAX, PCC, CCC))
+def printErrors(RMSE, MAE, MAX, PCC, CCC, SNR):
+    print("\n    * Errors: RMSE = %.2f, MAE = %.2f, MAX = %.2f, PCC = %.2f, CCC = %.2f, SNR = %.2f" %
+          (RMSE, MAE, MAX, PCC, CCC, SNR))
 
 
 def displayErrors(bpmES, bpmGT, timesES=None, timesGT=None):
@@ -191,7 +191,7 @@ def get_SNR(bvps, fps, reference_hrs, timesES):
     Adapted from https://github.com/danmcduff/iphys-toolbox/blob/master/tools/bvpsnr.m
     '''
     interv1 = 0.2*60
-    interv2 = 0.4*60
+    interv2 = 0.2*60
     NyquistF = fps/2.;
     FResBPM = 0.5
     nfft = np.ceil((60*2*NyquistF)/FResBPM)

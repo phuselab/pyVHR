@@ -19,6 +19,7 @@ from pyVHR.BVP.filters import *
 import time
 from inspect import getmembers, isfunction
 import os.path
+from pyVHR.deepRPPG.mtts_can import *
 
 class Pipeline():
     """ 
@@ -474,6 +475,292 @@ class Pipeline():
         self.methods = ast.literal_eval(self.bvpdict['methods'])
         for x in self.methods:
             self.methodsdict[x] = dict(self.parser[x].items())
+
+    def __merge(self, dict1, dict2):
+        for key in dict2:
+            if key not in dict1:
+                dict1[key] = dict2[key]
+
+    def __verbose(self, verb):
+        if verb == 'a':
+            print("** Run the test with the following config:")
+            print("      dataset: " + self.datasetdict['dataset'].upper())
+            print("      methods: " + str(self.methods))
+
+
+
+
+
+
+
+
+class DeepPipeline(Pipeline):
+    """ 
+    This class runs the pyVHR Deep pipeline on a single video or dataset
+    """
+
+    def __init__(self):
+        pass
+
+    def run_on_video(self, videoFileName, cuda=True, method='MTTS_CAN', bpm_type='welch', post_filt=False, verb=True, crop_face=False):
+        """ 
+        Runs the pipeline on a specific video file.
+
+        Args:
+            videoFileName:
+                - The path to the video file to analyse
+            cuda:
+                - True - Enable computations on GPU
+                - False - Use CPU only
+            method:
+                - One of the rPPG methods defined in pyVHR
+            bpm_type:
+                - the method for computing the BPM estimate on a time window
+            post_filt:
+                - True - Use Band pass filtering on the estimated BVP signal
+                - False - No post-filtering
+            verb:
+               - False - not verbose
+               - True - show the main steps  
+        """
+
+        if verb:
+            print('\nProcessing Video: ' + videoFileName)
+        fps = get_fps(videoFileName)
+        wsize = 6
+        
+        sp = SignalProcessing()
+        frames = sp.extract_raw(videoFileName)
+        print('Frames shape:', frames.shape)
+
+        # -- BVP extraction
+        if verb:
+            print("\nBVP extraction with method: %s" % (method))
+        if method == 'MTTS_CAN':
+            bvps_pred = MTTS_CAN_deep(frames, fps, verb=1, filter_pred=True)
+            bvps = []
+            N = bvps_pred.shape[0]
+            block_idx, timesES = sliding_straded_win_offline(N, wsize, 1, fps)
+            for e in block_idx:
+                st_frame = int(e[0])
+                end_frame = int(e[-1])
+                wind_signal = bvps_pred[st_frame: end_frame+1]
+                bvps.append(wind_signal[np.newaxis, :])
+        else:
+            print("Deep Method unsupported!")
+            return
+
+        if post_filt:
+            module = import_module('pyVHR.BVP.filters')
+            method_to_call = getattr(module, 'BPfilter')
+            bvps = apply_filter(bvps, 
+                                method_to_call, 
+                                fps=fps, 
+                                params={'minHz':0.65, 'maxHz':4.0, 'fps':'adaptive', 'order':6})
+
+        # -- BPM extraction
+        if verb:
+            print("\nBPM estimation with: %s" % (bpm_type))
+        if bpm_type == 'welch':
+            if cuda:
+                bpmES = BVP_to_BPM_cuda(bvps, fps, minHz=0.65, maxHz=4.0)
+            else:
+                bpmES = BVP_to_BPM(bvps, fps, minHz=0.65, maxHz=4.0)
+        else:
+            raise ValueError("The only 'bpm_type' supported for deep models is 'welch'")
+           
+        # median BPM from multiple estimators BPM
+        median_bpmES, mad_bpmES = multi_est_BPM_median(bpmES)
+
+        if verb:
+            print('\n...done!\n')
+
+        return timesES, median_bpmES
+
+    def run_on_dataset(self, configFilename, verb=True):
+        """ 
+        Runs the tests as specified in the loaded config file.
+
+        Args:
+            configFilename:
+                - The path to the configuration file
+            verb:
+                - False - not verbose
+                - True - show the main steps
+               
+               (use also combinations)
+        """
+        self.configFilename = configFilename
+        self.parse_cfg(self.configFilename)
+        # -- cfg parser
+        parser = configparser.ConfigParser(
+            inline_comment_prefixes=('#', ';'))
+        parser.optionxform = str
+        if not parser.read(self.configFilename):
+            raise FileNotFoundError(self.configFilename)
+
+        # -- verbose prints
+        if verb:
+            self.__verbose('a')
+
+        # -- dataset & cfg params
+        if 'path' in self.datasetdict and self.datasetdict['path'] != 'None':
+            dataset = datasetFactory(
+                self.datasetdict['dataset'], videodataDIR=self.datasetdict['videodataDIR'], BVPdataDIR=self.datasetdict['BVPdataDIR'], path=self.datasetdict['path'])
+        else:
+            dataset = datasetFactory(
+                self.datasetdict['dataset'], videodataDIR=self.datasetdict['videodataDIR'], BVPdataDIR=self.datasetdict['BVPdataDIR'])
+
+        # -- catch data (object)
+        res = TestResult()
+
+        # load all the videos
+        if self.videoIdx == []:
+            self.videoIdx = [int(v)
+                             for v in range(len(dataset.videoFilenames))]
+
+        # -- loop on videos
+        for v in self.videoIdx:
+            # multi-method -> list []
+
+            # -- verbose prints
+            if verb:
+                print("\n## videoID: %d" % (v))
+
+            # -- ground-truth signal
+            try:
+                fname = dataset.getSigFilename(v)
+                sigGT = dataset.readSigfile(fname)
+            except:
+                continue
+            winSizeGT = int(self.bvpdict['winSize'])
+            bpmGT, timesGT = sigGT.getBPM(winSizeGT)
+
+            # -- video file name
+            videoFileName = dataset.getVideoFilename(v)
+            print(videoFileName)
+            fps = get_fps(videoFileName)
+
+            
+            sp = SignalProcessing()
+            frames = sp.extract_raw(videoFileName)
+
+            #Start chronometer
+            #start_time = time.time()
+
+            # -- loop on methods
+            for m in self.methods:
+                if verb:
+                    print("## method: %s" % (str(m)))
+
+                # -- BVP extraction
+                if str(m) == 'MTTS_CAN':
+                    bvps_pred = MTTS_CAN_deep(frames, fps, verb=1, filter_pred=True)
+                    bvps = []
+                    N = bvps_pred.shape[0]
+                    block_idx, timesES = sliding_straded_win_offline(N, winSizeGT, 1, fps)
+                    for e in block_idx:
+                        st_frame = int(e[0])
+                        end_frame = int(e[-1])
+                        wind_signal = bvps_pred[st_frame: end_frame+1]                        
+                        bvps.append(wind_signal[np.newaxis, :])
+                else:
+                    print("Deep Method unsupported!")
+                    return
+
+                # POST FILTERING
+                postfilter_list = ast.literal_eval(
+                    self.bvpdict['post_filtering'])
+                if len(postfilter_list) > 0:
+                    for f in postfilter_list:
+                        if verb:
+                            print("  post-filter: %s" % f)
+                        fdict = dict(parser[f].items())
+                        if fdict['path'] != 'None':
+                            # custom path
+                            spec = util.spec_from_file_location(
+                                fdict['name'], fdict['path'])
+                            mod = util.module_from_spec(spec)
+                            spec.loader.exec_module(mod)
+                            method_to_call = getattr(
+                                mod, fdict['name'])
+                        else:
+                            # package path
+                            module = import_module(
+                                'pyVHR.BVP.filters')
+                            method_to_call = getattr(
+                                module, fdict['name'])
+                        bvps = apply_filter(
+                            bvps, method_to_call, fps=fps, params=ast.literal_eval(fdict['params']))
+
+                # -- BPM extraction
+                if self.bpmdict['type'] == 'welch':
+                    bpmES = BVP_to_BPM_cuda(bvps, fps, minHz=float(
+                        self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
+                elif self.bpmdict['type'] == 'psd_clustering':
+                    bpmES = BVP_to_BPM_PSD_clustering_cuda(bvps, fps, minHz=float(
+                        self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
+                   
+                # median BPM from multiple estimators BPM
+                median_bpmES, mad_bpmES = multi_est_BPM_median(bpmES)
+
+                #end_time = time.time()
+                #time_elapsed = [end_time - start_time]
+
+                # -- error metrics
+                RMSE, MAE, MAX, PCC, CCC, SNR = getErrors(bvps, fps, median_bpmES, bpmGT, timesES, timesGT)
+
+                # -- save results
+                res.newDataSerie()
+                res.addData('dataset', str(self.datasetdict['dataset']))
+                res.addData('method', str(m))
+                res.addData('videoIdx', v)
+                res.addData('RMSE', RMSE)
+                res.addData('MAE', MAE)
+                res.addData('MAX', MAX)
+                res.addData('PCC', PCC)
+                res.addData('CCC', CCC)
+                res.addData('SNR', SNR)
+                res.addData('bpmGT', bpmGT)
+                res.addData('bpmES', median_bpmES)
+                res.addData('bpmES_mad', mad_bpmES)
+                res.addData('timeGT', timesGT)
+                res.addData('timeES', timesES)
+                res.addData('videoFilename', videoFileName)
+                res.addDataSerie()
+
+                if verb:
+                    printErrors(RMSE, MAE, MAX, PCC, CCC, SNR)
+        return res
+
+    def parse_cfg(self, configFilename):
+        """ parses the given configuration file for loading the test's parameters.
+        
+        Args:
+            configFilename: configuation file (.cfg) name of path .
+
+        """
+
+        self.parser = configparser.ConfigParser(
+            inline_comment_prefixes=('#', ';'))
+        self.parser.optionxform = str
+        if not self.parser.read(configFilename):
+            raise FileNotFoundError(configFilename)
+
+        # load paramas
+        self.datasetdict = dict(self.parser['DATASET'].items())
+        self.bvpdict = dict(self.parser['BVP'].items())
+        self.bpmdict = dict(self.parser['BPM'].items())
+
+        # video idx list extraction
+        if isinstance(ast.literal_eval(self.datasetdict['videoIdx']), list):
+            self.videoIdx = [int(v) for v in ast.literal_eval(
+                self.datasetdict['videoIdx'])]
+
+        # method list extraction
+        if isinstance(ast.literal_eval(self.bvpdict['methods']), list):
+            self.methods = ast.literal_eval(
+                    self.bvpdict['methods'])
 
     def __merge(self, dict1, dict2):
         for key in dict2:
