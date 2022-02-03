@@ -11,14 +11,14 @@
 ## Description
 
 The methodological rationale behind the framework is that in order to study, develop and compare new rPPG methods in a principled and reproducible way, the following conditions should be met: *i)* a structured pipeline to monitor rPPG algorithms' input, output, and main control parameters; *ii)* the availability and the use of multiple datasets; *iii)* a sound statistical assessment of methods' performance.
-pyVHR allows to easily handle rPPGmethods  and  data,  while  simplifying  the  statistical  assessment. Its main features lie in the following.
+pyVHR allows to easily handle rPPGmethods  and  data,  while  simplifying  the  statistical  assessment. Its main features lie in the following:
 - **Analysis-oriented**. It  constitutes  a  platform  for  experiment design, involving an arbitrary number of methods applied to multiple video datasets. It provides a systemic end-to-end  pipeline,  allowing  to  assess  different  rPPG  algorithms, by easily setting parameters and meta-parameters.
 - **Openness**. It comprises both method and dataset factory, so to easily extend the pool of elements to be evaluatedwith newly developed rPPG methods and any kind of videodatasets.
 - **Robust assessment**. The outcomes are arranged intostructured data ready for in-depth analyses. Performance comparison is carried out based on robust nonparametric statistical tests.
 
-Eight well-known rPPG methods, namely  *ICA*,  *PCA*, *GREEN*, *CHROM*, *POS*, *SSR*, *LGI*, *PBV*, are evaluated through extensive experiments across five public video datasets,  i.e. *PURE*, *LGI*, *UBFC*, *MAHNOB* and *COHFACE*, and subsequent nonparametric statistical analysis.  
+Eight well-known classical rPPG methods, namely  *ICA*,  *PCA*, *GREEN*, *CHROM*, *POS*, *SSR*, *LGI*, *PBV*, as well as the recent DL-based model *MTTS-CAN* are evaluated through extensive experiments across five public video datasets,  i.e. *PURE*, *LGI*, *UBFC*, *MAHNOB* and *COHFACE*, and subsequent nonparametric statistical analysis.  
 
-![pipeline](https://user-images.githubusercontent.com/642555/138317542-41d4988a-bb68-4cd6-8abc-43ad86061c9b.png)
+![pipeline](https://user-images.githubusercontent.com/642555/152432564-12014442-d455-4462-9b1e-3082a3fdd5bf.png)
 
 ## Getting started
 
@@ -133,6 +133,8 @@ The framework contains the implementation of the most common methods for remote-
 **POS** / *Wang, W., den Brinker, A. C., Stuijk, S., & de Haan, G. (2016). Algorithmic principles of remote PPG. IEEE Transactions on Biomedical Engineering, 64(7), 1479-1491.*
 
 **SSR** / *Wang, W., Stuijk, S., & De Haan, G. (2015). A novel algorithm for remote photoplethysmography: Spatial subspace rotation. IEEE transactions on biomedical engineering, 63(9), 1974-1984.*
+
+**MTTS-CAN** / *Liu, X., Fromm, J., Patel, S., & McDuff, D. (2020). Multi-task temporal shift attention networks for on-device contactless vitals measurement. Advances in Neural Information Processing Systems, 33, 19400-19411.*
 
 ## Datasets
 
