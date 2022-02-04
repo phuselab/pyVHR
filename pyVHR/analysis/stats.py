@@ -53,7 +53,7 @@ class StatAnalysis():
         
         self.use_stats_pipeline = False
 
-    def any_equal(self, mylist):
+    def __any_equal(self, mylist):
         equal = []
         for a, b in itertools.combinations(mylist, 2):
             equal.append(a==b)
@@ -78,6 +78,10 @@ class StatAnalysis():
             print_report:
                 - 'True' - (default) print a report of the hypotesis testing procedure
                 - 'False' - Doesn't print any report
+
+        Returns:
+            Y_df: A pandas DataFrame containing the data on which the statistical analysis has been performed
+            fig: A matplotlib figure displaying the outcome of the statistical analysis (an empty figure if the wilcoxon test has been chosen)
         """
         metric = metric.upper()
         assert metric in self.available_metrics, 'Error! Available metrics are ' + str(self.available_metrics)
@@ -108,7 +112,7 @@ class StatAnalysis():
             order='descending'
 
         m_names = [x.upper().replace('CUPY_', '').replace('CPU_','').replace('TORCH_','') for x in self.methods]
-        if self.any_equal(m_names):
+        if self.__any_equal(m_names):
             m_names = self.methods
         Y_df = pd.DataFrame(Y, columns=m_names)
 
@@ -125,14 +129,17 @@ class StatAnalysis():
             create_report(results)
             print(' ')
 
-        _ = self.computeCD(approach=approach)
+        fig = plt.figure(figsize=(12, 5))
+        fig.set_facecolor('white')
+        ax = fig.add_axes([0, 0, 1, 1])  # reverse y axis
+        _, ax = self.computeCD(approach=approach, ax=ax)
 
-        return Y_df
+        return Y_df, fig
         
     
     def SignificancePlot(self, methods=None, metric='MAE'):
         """
-        Plots the results of hypotesis testing with the significance plot 
+        Returns a significance plot of the results of hypotesis testing
         """
 
         # -- Method(s) 
@@ -155,37 +162,31 @@ class StatAnalysis():
             Y = self.__getDataMono()
         
         # -- Significance plot, a heatmap of p values
-        methodNames = [x.upper() for x in self.methods]
+        methodNames = [x.upper().replace('CUPY_', '').replace('CPU_','').replace('TORCH_','') for x in self.methods]
+        if self.__any_equal(methodNames):
+            methodNames = self.methods
         Ypd = pd.DataFrame(Y, columns=methodNames)
         ph = sp.posthoc_nemenyi_friedman(Ypd)
         cmap = ['1', '#fb6a4a',  '#08306b',  '#4292c6', '#c6dbef']
         heatmap_args = {'cmap': cmap, 'linewidths': 0.25, 'linecolor': '0.5', 
                         'clip_on': False, 'square': True, 'cbar_ax_bbox': [0.85, 0.35, 0.04, 0.3]}
 
-        plt.figure(figsize=(5,4))
-        sp.sign_plot(ph, cbar=True, **heatmap_args)
-        plt.title('p-vals')
+        fig = plt.figure(figsize=(10,7))
+        ax, cbar = sp.sign_plot(ph, cbar=True, **heatmap_args)
+        ax.set_title('p-vals')
+        return fig
         
-        fname = 'SP_' + self.metric + '.pdf'
-        plt.savefig(fname)
-        plt.show()
-        
-    def computeCD(self, avranks=None, numDatasets=None, alpha='0.05', display=True, approach='frequentist'):
+    def computeCD(self, ax=None, avranks=None, numDatasets=None, alpha='0.05', display=True, approach='frequentist'):
         """
-        Returns critical difference for Nemenyi or Bonferroni-Dunn test according 
-        to given alpha (either alpha=”0.05” or alpha=”0.1”) for average ranks and 
-        number of tested datasets N. Test can be either “nemenyi” for for Nemenyi 
-        two tailed test or “bonferroni-dunn” for Bonferroni-Dunn test.
-        See Orange package docs.
+        Returns critical difference and critical difference diagram for Nemenyi post-hoc test if the frequentist approach has been chosen
+        Returns a Plot of the results of bayesian significance testing otherwise
         """
         cd = self.stat_result.cd
         if display and approach=='frequentist':
-            plot_stats(self.stat_result, allow_insignificant=True)
-            plt.show()
+            stats_fig = plot_stats(self.stat_result, allow_insignificant=True, ax=ax)
         elif display and approach=='bayesian':
-            self.plot_bayesian_res(self.stat_result)
-            plt.show()
-        return cd
+            stats_fig = self.plot_bayesian_res(self.stat_result)
+        return cd, stats_fig
 
     def plot_bayesian_res(self, stat_result):
         """
@@ -221,6 +222,7 @@ class StatAnalysis():
         cbar.outline.set_linewidth(1)
         cbar.outline.set_edgecolor('0.5')
         cbar.ax.tick_params(size=0)
+        return pl
 
     def displayBoxPlot(self, methods=None, metric='MAE', scale=None, title=True):
         """
@@ -275,7 +277,7 @@ class StatAnalysis():
         fig = go.Figure()
 
         methodNames = [x.upper().replace('CUPY_', '').replace('CPU_','').replace('TORCH_','') for x in methods]
-        if self.any_equal(methodNames):
+        if self.__any_equal(methodNames):
             methodNames = methods
         for i in range(k):
             yd = Y[:,i]
