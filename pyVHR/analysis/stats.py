@@ -385,15 +385,15 @@ class StatAnalysis():
         Y = np.vstack((Y,M))
         Y = np.vstack((Y,I))
         
+        methodNames = [x.upper() for x in self.methods]
+        dataseNames = self.datasetNames
+        dataseNames.append('Median')
+        dataseNames.append('IQR')
+        df = pd.DataFrame(Y, columns=methodNames, index=dataseNames)
         if printTable:
-            methodNames = [x.upper() for x in self.methods]
-            dataseNames = self.datasetNames
-            dataseNames.append('Median')
-            dataseNames.append('IQR')
-            df = pd.DataFrame(Y, columns=methodNames, index=dataseNames)
             display(df)
         
-        return Y
+        return Y, df
 
     def __remove_outliers(self, df, factor=3.5):
         """
