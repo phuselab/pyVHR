@@ -82,13 +82,12 @@ dependencies:
   - xz=5.2.5
   - zlib=1.2.11
   - zstd=1.5.0
-  - tensorflow=2.5.0
   - pip:
     - asposestorage==1.0.2
     - autorank==1.1.1
     - biosppy==0.7.3
     - cupy_cuda113==9.5.0
-    - h5py==3.5.0
+    - h5py==3.1.0
     - ipython==7.28.0
     - ipywidgets==7.6.5
     - lmfit==1.0.3
@@ -103,3 +102,4 @@ dependencies:
     - scikit_posthocs==0.6.7
     - scikit-image==0.18.3
     - tqdm==4.62.3
+    - tensorflow==2.5.0
