@@ -192,7 +192,7 @@ def get_SNR(bvps, fps, reference_hrs, timesES):
     harmonic and sum of all other power between 0.5 and 4 Hz.
     Adapted from https://github.com/danmcduff/iphys-toolbox/blob/master/tools/bvpsnr.m
     '''
-    if len()
+   
     interv1 = 0.2*60
     interv2 = 0.2*60
     NyquistF = fps/2.;
