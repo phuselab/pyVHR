@@ -488,12 +488,6 @@ class Pipeline():
             print("      methods: " + str(self.methods))
 
 
-
-
-
-
-
-
 class DeepPipeline(Pipeline):
     """ 
     This class runs the pyVHR Deep pipeline on a single video or dataset
