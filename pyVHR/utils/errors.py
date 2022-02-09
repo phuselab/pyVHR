@@ -236,8 +236,8 @@ def BVP_windowing(bvp, wsize, fps, stride=1):
   for e in block_idx:
       st_frame = int(e[0])
       end_frame = int(e[-1])
-      wind_signal = np.copy(bvp_data[:,st_frame: end_frame+1])
-      bvp_win.append(wind_signal)
+      wind_signal = np.copy(bvp[st_frame: end_frame+1])
+      bvp_win.append(wind_signal[np.newaxis, :])
 
   return bvp_win, timesES
 
