@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 import plotly.graph_objects as go
 from importlib import import_module, util
 from pyVHR.datasets.dataset import datasetFactory
-from pyVHR.utils.errors import getErrors, printErrors, displayErrors
+from pyVHR.utils.errors import getErrors, printErrors, displayErrors, BVP_windowing
 from pyVHR.extraction.sig_processing import *
 from pyVHR.extraction.sig_extraction_methods import *
 from pyVHR.extraction.skin_extraction_methods import *
@@ -532,14 +532,7 @@ class DeepPipeline(Pipeline):
             print("\nBVP extraction with method: %s" % (method))
         if method == 'MTTS_CAN':
             bvps_pred = MTTS_CAN_deep(frames, fps, verb=1, filter_pred=True)
-            bvps = []
-            N = bvps_pred.shape[0]
-            block_idx, timesES = sliding_straded_win_offline(N, wsize, 1, fps)
-            for e in block_idx:
-                st_frame = int(e[0])
-                end_frame = int(e[-1])
-                wind_signal = bvps_pred[st_frame: end_frame+1]
-                bvps.append(wind_signal[np.newaxis, :])
+            bvps, timesES = BVP_windowing(bvps_pred, wsize, fps, stride=1)
         else:
             print("Deep Method unsupported!")
             return
@@ -650,14 +643,7 @@ class DeepPipeline(Pipeline):
                 # -- BVP extraction
                 if str(m) == 'MTTS_CAN':
                     bvps_pred = MTTS_CAN_deep(frames, fps, verb=1, filter_pred=True)
-                    bvps = []
-                    N = bvps_pred.shape[0]
-                    block_idx, timesES = sliding_straded_win_offline(N, winSizeGT, 1, fps)
-                    for e in block_idx:
-                        st_frame = int(e[0])
-                        end_frame = int(e[-1])
-                        wind_signal = bvps_pred[st_frame: end_frame+1]                        
-                        bvps.append(wind_signal[np.newaxis, :])
+                    bvps, timesES = BVP_windowing(bvps_pred, winSizeGT, fps, stride=1)
                 else:
                     print("Deep Method unsupported!")
                     return
