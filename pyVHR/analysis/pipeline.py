@@ -268,9 +268,8 @@ class Pipeline():
             self.sigdict['skin_color_high_threshold'])
 
         # load all the videos
-        if self.videoIdx == []:
-            self.videoIdx = [int(v)
-                             for v in range(len(dataset.videoFilenames))]
+        if not self.videoIdx:
+            self.videoIdx = [int(v) for v in range(len(dataset.videoFilenames))]
 
         # -- loop on videos
         for v in self.videoIdx:
@@ -796,15 +795,17 @@ class TestResult():
         D['TIME_REQUIREMENT'] = ''
         self.dict = D
 
+
     def addData(self, key, value):
         self.dict[key] = value
+
 
     def saveResults(self, outFilename=None):
         """
         Save the test results in a HDF5 library that can be opened using pandas.
         You can analyze the results using :py:class:`pyVHR.analysis.stats.StatAnalysis`
         """
-        if outFilename == None:
+        if outFilename is None:
             outFilename = "testResults.h5"
         else:
             self.outFilename = outFilename
