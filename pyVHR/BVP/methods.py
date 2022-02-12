@@ -239,6 +239,7 @@ def cpu_PCA(signal,**kargs):
             bvp.append(pca.components_[1] * pca.explained_variance_[1])
     bvp = np.array(bvp)
     return bvp
+    
 
 def cpu_GREEN(signal):
     """
@@ -247,7 +248,23 @@ def cpu_GREEN(signal):
     Verkruysse, W., Svaasand, L. O., & Nelson, J. S. (2008). Remote plethysmographic imaging using ambient light. Optics express, 16(26), 21434-21445.
     """
     return signal[:,1,:]
+    
 
+def cpu_OMIT(signal):
+    """
+    OMIT method on CPU using Numpy.
+
+    Álvarez Casado, C., Bordallo López, M. (2022). Face2PPG: An unsupervised pipeline for blood volume pulse extraction from faces. arXiv (eprint 2202.04101).
+    """
+    X = signal
+    Q, R = np.linalg.qr(X)
+    S = Q[:, 0].reshape(1, -1)
+    P = np.identity(3) - np.matmul(S.T, S)
+    Y = np.dot(P, X)
+    bvp = Y[1, :]
+    return bvp
+    
+    
 def cpu_ICA(signal, **kargs):
     """
     ICA method on CPU using Numpy.
