@@ -131,10 +131,10 @@ def RGB_sig_to_BVP(windowed_sig, fps, device_type=None, method=None, params={}):
         for i in range(bvp.shape[0]):
            if not np.isnan(bvp[i]).any():
               bvp_nonan.append(bvp[i])
-           if len(bvp_nonan) == 0:            # if empty
-              bvps.append(np.zeros((0, 1), dtype=np.float32))
-           else:
-              bvps.append(np.array(bvp_nonan, dtype=np.float32))
+        if len(bvp_nonan) == 0:            # if empty
+           bvps.append(np.zeros((0, 1), dtype=np.float32))
+        else:
+           bvps.append(np.array(bvp_nonan, dtype=np.float32))
 
     return bvps
 
