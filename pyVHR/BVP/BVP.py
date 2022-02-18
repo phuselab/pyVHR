@@ -120,15 +120,22 @@ def RGB_sig_to_BVP(windowed_sig, fps, device_type=None, method=None, params={}):
         copy_signal = np.copy(sig)
         bvp = np.zeros((0, 1), dtype=np.float32)
         if device_type == 'cpu':
-            bvp = signals_to_bvps_cpu(
-                copy_signal, method, params)
+        	bvp = signals_to_bvps_cpu(copy_signal, method, params)
         elif device_type == 'torch':
-            bvp = signals_to_bvps_torch(
-                copy_signal, method, params)
+            bvp = signals_to_bvps_torch(copy_signal, method, params)
         elif device_type == 'cuda':
-            bvp = signals_to_bvps_cuda(
-                copy_signal, method, params)
-        bvps.append(bvp)
+            bvp = signals_to_bvps_cuda(copy_signal, method, params)
+
+	# check for nan  
+        bvp_nonan = []
+        for i in range(bvp.shape[0]):
+           if not np.isnan(bvp[i]).any():
+              bvp_nonan.append(bvp[i])
+           if len(bvp_nonan) == 0:            # if empty
+              bvps.append(np.zeros((0, 1), dtype=np.float32))
+           else:
+              bvps.append(np.array(bvp_nonan, dtype=np.float32))
+
     return bvps
 
 
