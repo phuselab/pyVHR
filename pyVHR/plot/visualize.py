@@ -137,21 +137,18 @@ def visualize_multi_est_BPM_vs_BPMs_list(multi_est_BPM, BPMs_list):
     fig = go.Figure()
     for idx, _ in enumerate(BPMs_list):
         name = str(BPMs_list[idx][2])
-        fig.add_trace(go.Scatter(x=BPMs_list[idx][1], y=BPMs_list[idx][0],
-                                 mode='lines', name=name))
+        fig.add_trace(go.Scatter(x=BPMs_list[idx][1], y=BPMs_list[idx][0], mode='lines', name=name))
     for w, _ in enumerate(multi_est_BPM[0]):
-        name = "multi_est_BPM_" + str(w+1)
+        name = "BPMs_" + str(w+1)
         data = multi_est_BPM[0][w]
         if data.shape == ():
             t = [multi_est_BPM[1][w], ]
             data = [multi_est_BPM[0][w], ]
         else:
             t = multi_est_BPM[1][w] * np.ones(data.shape[0])
-        fig.add_trace(go.Scatter(x=t, y=data,
-                                 mode='markers', marker=dict(size=2,), name=name))
-    fig.update_layout(title="BPMs_estimators vs BPMs_list")
+        fig.add_trace(go.Scatter(x=t, y=data,mode='markers', marker=dict(size=2), name=name))
+    fig.update_layout(title="BPMs estimators vs BPMs list", xaxis_title="Time", yaxis_title="BPM")
     fig.show(renderer=VisualizeParams.renderer)
-
 
 def visualize_BPMs(BPMs_list):
     """
@@ -216,7 +213,7 @@ def visualize_BVPs_PSD(BVPs, window, fps, minHz=0.65, maxHz=4.0):
             x=F*60, y=P[idx], name="PSD_"+str(idx)+" no band"))
         fig.add_trace(go.Scatter(
             x=Pfreqs, y=Power[idx], name="PSD_"+str(idx)+" band"))
-    fig.update_layout(title="PSD #" + str(window))
+    fig.update_layout(title="PSD #" + str(window), xaxis_title='Beats per minute [BPM]')
     fig.show(renderer=VisualizeParams.renderer)
 
 
