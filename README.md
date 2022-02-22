@@ -16,7 +16,7 @@ pyVHR allows to easily handle rPPGmethods  and  data,  while  simplifying  the  
 - **Openness**. It comprises both method and dataset factory, so to easily extend the pool of elements to be evaluatedwith newly developed rPPG methods and any kind of videodatasets.
 - **Robust assessment**. The outcomes are arranged intostructured data ready for in-depth analyses. Performance comparison is carried out based on robust nonparametric statistical tests.
 
-Eight well-known classical rPPG methods, namely  *ICA*,  *PCA*, *GREEN*, *CHROM*, *POS*, *SSR*, *LGI*, *PBV*, as well as the recent DL-based model *MTTS-CAN* are evaluated through extensive experiments across five public video datasets,  i.e. *PURE*, *LGI*, *UBFC*, *MAHNOB* and *COHFACE*, and subsequent nonparametric statistical analysis.  
+Nine classical rPPG methods, namely  *ICA*,  *PCA*, *GREEN*, *CHROM*, *POS*, *SSR*, *LGI*, *PBV*, *OMIT*, as well as the recent DL-based model *MTTS-CAN* are evaluated through extensive experiments across five public video datasets,  i.e. *PURE*, *LGI*, *UBFC*, *MAHNOB* and *COHFACE*, and subsequent nonparametric statistical analysis.  
 
 ![pipeline](https://user-images.githubusercontent.com/642555/152432564-12014442-d455-4462-9b1e-3082a3fdd5bf.png)
 
@@ -116,7 +116,7 @@ If you want to create your environment from scratch you should follow these step
 
 ## Methods
 
-The framework contains the implementation of the most common methods for remote-PPG measurement, and are located in the `methods` folder. Currently implemented methods with reference publications are:
+The framework contains the implementation of many common methods for remote-PPG measurement. Currently implemented methods with reference publications are:
 
 **Green** / *Verkruysse, W., Svaasand, L. O., & Nelson, J. S. (2008). Remote plethysmographic imaging using ambient light. Optics express, 16(26), 21434-21445.*
 
@@ -133,6 +133,8 @@ The framework contains the implementation of the most common methods for remote-
 **POS** / *Wang, W., den Brinker, A. C., Stuijk, S., & de Haan, G. (2016). Algorithmic principles of remote PPG. IEEE Transactions on Biomedical Engineering, 64(7), 1479-1491.*
 
 **SSR** / *Wang, W., Stuijk, S., & De Haan, G. (2015). A novel algorithm for remote photoplethysmography: Spatial subspace rotation. IEEE transactions on biomedical engineering, 63(9), 1974-1984.*
+
+**OMIT** / *Álvarez Casado, C., Bordallo López, M. (2022). Face2PPG: An unsupervised pipeline for blood volume pulse extraction from faces. arXiv (eprint 2202.04101).*
 
 **MTTS-CAN** / *Liu, X., Fromm, J., Patel, S., & McDuff, D. (2020). Multi-task temporal shift attention networks for on-device contactless vitals measurement. Advances in Neural Information Processing Systems, 33, 19400-19411.*
 
