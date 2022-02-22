@@ -16,7 +16,7 @@ pyVHR allows to easily handle rPPGmethods  and  data,  while  simplifying  the  
 - **Openness**. It comprises both method and dataset factory, so to easily extend the pool of elements to be evaluatedwith newly developed rPPG methods and any kind of videodatasets.
 - **Robust assessment**. The outcomes are arranged intostructured data ready for in-depth analyses. Performance comparison is carried out based on robust nonparametric statistical tests.
 
-Nine classical rPPG methods, namely  *ICA*,  *PCA*, *GREEN*, *CHROM*, *POS*, *SSR*, *LGI*, *PBV*, *OMIT*, as well as the recent Deep Learning-based model *MTTS-CAN* can be easily evaluated across five public video datasets,  i.e. *PURE*, *LGI*, *UBFC*, *MAHNOB* and *COHFACE*, through rigorous statistical analysis.  
+Nine classical rPPG methods, namely  *ICA*,  *PCA*, *GREEN*, *CHROM*, *POS*, *SSR*, *LGI*, *PBV*, *OMIT*, as well as the recent Deep Learning-based model *MTTS-CAN* can be easily evaluated across five public video datasets,  i.e. *PURE*, *LGI-PPGI-DB*, *UBFC*, *MAHNOB* and *COHFACE*, through rigorous statistical analysis.  
 
 ![pipeline](https://user-images.githubusercontent.com/642555/152432564-12014442-d455-4462-9b1e-3082a3fdd5bf.png)
 
