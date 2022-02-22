@@ -18,7 +18,7 @@ class StatAnalysis():
     Statistic analyses for multiple datasets and multiple rPPG methods
     """
     
-    def __init__(self, filepath, join_data=False, remove_ouliers=False):
+    def __init__(self, filepath, join_data=False, remove_outliers=False):
         """
         Args:
             filepath:
@@ -26,7 +26,7 @@ class StatAnalysis():
             join_data: 
                 - 'True' - If filepath is a folder, join the dataframes contained in the folder (to be used when wanting to merge multiple results from the same pipeline on the same dataset)
                 - 'False' - (default) To be used if you want to test the same pipeline (eventually with multiple methods) on multiple datasets
-            remove_ouliers:
+            remove_outliers:
                 - 'True' -  Remove outliers from data prior to statistical testing
                 - 'False' - (default) no outlier removal
         """
@@ -44,7 +44,7 @@ class StatAnalysis():
 
         self.join_data = join_data
         self.available_metrics = ['MAE','RMSE','PCC','CCC','SNR']
-        self.remove_ouliers = remove_ouliers
+        self.remove_outliers = remove_outliers
 
         # -- get data
         self.__getMethods()
@@ -424,7 +424,7 @@ class StatAnalysis():
                 data = [v[np.argmax(v)] for v in vals]
             Y.append(data)
 
-        if self.remove_ouliers:
+        if self.remove_outliers:
             res = pd.DataFrame(np.array(Y).T)
             res = self.__remove_outliers(res)
             res = res.to_numpy()
@@ -471,7 +471,7 @@ class StatAnalysis():
                 raise("There should be the exact same number of elements in each dataset to join when 'join_data=True'")
             res = np.hstack(Y)
 
-        if self.remove_ouliers:
+        if self.remove_outliers:
             res = pd.DataFrame(res)
             res = self.__remove_outliers(res)
             res = res.to_numpy()
