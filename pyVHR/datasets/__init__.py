@@ -5,3 +5,5 @@ from .pure import *
 from .sample import *
 from .ubfc1 import *
 from .ubfc2 import *
+from .ubfc_phys import *
+from .ecg_fitness import *
