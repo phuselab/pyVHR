@@ -18,7 +18,8 @@ pyVHR allows to easily handle rPPGmethods  and  data,  while  simplifying  the  
 
 Nine classical rPPG methods, namely  *ICA*,  *PCA*, *GREEN*, *CHROM*, *POS*, *SSR*, *LGI*, *PBV*, *OMIT*, as well as the recent Deep Learning-based model *MTTS-CAN* are implemented. Moreover, pyVHR provides APIs for handling seven publicly available video datasets,  i.e. *PURE*, *LGI-PPGI-DB*, *UBFC*, *UBFC-Phys*, *ECG-Fitness*, *MAHNOB* and *COHFACE*, usually adopted to benchmark rPPG methods. Eventually, extensive rigorous statistical analyses can be effortlessly performed via the pyVHR stats APIs.
 
-![pipeline](https://user-images.githubusercontent.com/642555/138317542-41d4988a-bb68-4cd6-8abc-43ad86061c9b.png)
+<!--![pipeline](https://user-images.githubusercontent.com/642555/138317542-41d4988a-bb68-4cd6-8abc-43ad86061c9b.png)-->
+![pipeline](https://user-images.githubusercontent.com/642555/152432564-12014442-d455-4462-9b1e-3082a3fdd5bf.png)
 
 ## Getting started
 
