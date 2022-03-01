@@ -16,7 +16,7 @@ pyVHR allows to easily handle rPPGmethods  and  data,  while  simplifying  the  
 - **Openness**. It comprises both method and dataset factory, so to easily extend the pool of elements to be evaluatedwith newly developed rPPG methods and any kind of videodatasets.
 - **Robust assessment**. The outcomes are arranged intostructured data ready for in-depth analyses. Performance comparison is carried out based on robust nonparametric statistical tests.
 
-Eight well-known rPPG methods, namely  *ICA*,  *PCA*, *GREEN*, *CHROM*, *POS*, *SSR*, *LGI*, *PBV*, are evaluated through extensive experiments across five public video datasets,  i.e. *PURE*, *LGI*, *UBFC*, *MAHNOB* and *COHFACE*, and subsequent nonparametric statistical analysis.  
+Nine classical rPPG methods, namely  *ICA*,  *PCA*, *GREEN*, *CHROM*, *POS*, *SSR*, *LGI*, *PBV*, *OMIT*, as well as the recent Deep Learning-based model *MTTS-CAN* are implemented. Moreover, pyVHR provides APIs for handling seven publicly available video datasets,  i.e. *PURE*, *LGI-PPGI-DB*, *UBFC*, *UBFC-Phys*, *ECG-Fitness*, *MAHNOB* and *COHFACE*, usually adopted to benchmark rPPG methods. Eventually, extensive rigorous statistical analyses can be effortlessly performed via the pyVHR stats APIs.
 
 ![pipeline](https://user-images.githubusercontent.com/642555/138317542-41d4988a-bb68-4cd6-8abc-43ad86061c9b.png)
 
@@ -131,6 +131,10 @@ The framework contains the implementation of the most common methods for remote-
 
 **SSR** / *Wang, W., Stuijk, S., & De Haan, G. (2015). A novel algorithm for remote photoplethysmography: Spatial subspace rotation. IEEE transactions on biomedical engineering, 63(9), 1974-1984.*
 
+**OMIT** / *Álvarez Casado, C., Bordallo López, M. (2022). Face2PPG: An unsupervised pipeline for blood volume pulse extraction from faces. arXiv (eprint 2202.04101).*
+
+**MTTS-CAN** / *Liu, X., Fromm, J., Patel, S., & McDuff, D. (2020). Multi-task temporal shift attention networks for on-device contactless vitals measurement. Advances in Neural Information Processing Systems, 33, 19400-19411.*
+
 ## Datasets
 
 Interfaces for five different datasets are provided in the `datasets` folder. Once the datasets are obtained, the respective files must be edited to match the correct path.  
@@ -147,6 +151,10 @@ Currently supported datasets are:
 **UBFC1** / *https://sites.google.com/view/ybenezeth/ubfcrppg*
 
 **UBFC2** / *https://sites.google.com/view/ybenezeth/ubfcrppg*
+
+**UBFC-Phys** / *https://sites.google.com/view/ybenezeth/ubfc-phys*
+
+**ECG-Fitness** / *https://cmp.felk.cvut.cz/~spetlrad/ecg-fitness/*
 
 ## Documentation
 
