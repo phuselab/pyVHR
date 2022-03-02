@@ -15,11 +15,9 @@ This module contains all the class and the methods for transforming
 a BVP signal in a BPM signal.
 """
 
-
 class BVPsignal:
     """
-    Manage (multi-channel, row-wise) BVP signals, and transforms it in BPM.
-    This class is used to obtain BPM signal from ground truth BVP signal.
+    Manage (multi-channel, row-wise) BVP signals, and transforms them in BPMs.
     """
     nFFT = 2048  # freq. resolution for STFTs
     step = 1       # step in seconds
@@ -109,7 +107,7 @@ class BVPsignal:
 
 class BPMcuda:
     """
-    This class transforms a BVP signal in a BPM signal using GPU.
+    Provides BPMs estimate from BVP signals using GPU.
 
     BVP signal must be a float32 cupy.ndarray with shape [num_estimators, num_frames].
     """
@@ -149,7 +147,7 @@ class BPMcuda:
         return Pfreqs[Pmax.squeeze()]
 
     
-    def BVP_to_BPM_PSD_clustering(self, out_fact=1):
+    def BVP_to_BPM_PSD_clustering(self, opt_factor=0.1):
         """
         Return the BPM signal as a numpy.float32. 
 
@@ -162,43 +160,55 @@ class BPMcuda:
         if self.data.shape[0] == 0:
             return np.float32(0.0)
         Pfreqs, Power = Welch_cuda(self.data, self.fps, self.minHz, self.maxHz, self.nFFT)
+        
         # F are frequencies, PSD is Power Spectrum Density of all estimators
         F = cupy.asnumpy(Pfreqs)
         PSD = cupy.asnumpy(Power)
-        # Less then 3 estimators -  don't need clustering
-        # we choose the maximum Amplitude frequency
+        
+        # Less then 3 estimators, choose the maximum Amplitude frequency
         if PSD.shape[0] < 3:
           IDmax = np.unravel_index(np.argmax(PSD, axis=None), PSD.shape)
           Fmax = F[IDmax[1]]
           return np.float32(Fmax)
 
+        # distance matrix among PSDs
         W = pairwise_distances(PSD, PSD, metric='cosine')
         theta = circle_clustering(W, eps=0.01)
+
         # bi-partition, sum and normalization
-        PSD0, PSD1, PSD_outlayers, median_PSD0, median_PSD1 = optimize_partition(theta, out_fact=out_fact)
+        P, Q, Z, _, _ = optimize_partition(theta, opt_factor=opt_factor)
 
-        P0 = np.sum(PSD[PSD0,:], axis=0)
-        max = np.max(P0, axis=0)
+        # clusters
+        C0 = PSD[P,:]
+        C1 = PSD[Q,:]
+        
+        PSD0_mean = np.sum(C0, axis=0)   # sum of PSDs in P
+        max = np.max(PSD0_mean, axis=0)
         max = np.expand_dims(max, axis=0)
-        P0 = np.squeeze(np.divide(P0, max))
+        PSD0_mean = np.squeeze(np.divide(PSD0_mean, max))
+        #PSD0_mean = shrink(PSD0_mean)
 
-        P1 = np.sum(PSD[PSD1,:], axis=0)
-        max = np.max(P1, axis=0)
+        PSD1_mean = np.sum(C1, axis=0)    # sum of PSDs in Q
+        max = np.max(PSD1_mean, axis=0)
         max = np.expand_dims(max, axis=0)
-        P1 = np.squeeze(np.divide(P1, max))
+        PSD1_mean = np.squeeze(np.divide(PSD1_mean, max))
+        #PSD1_mean = shrink(PSD1_mean)
 
         # peaks
-        peak0_idx = np.argmax(P0) 
-        P0_max = P0[peak0_idx]
+        peak0_idx = np.argmax(PSD0_mean) 
+        PSD0_mean_max = PSD0_mean[peak0_idx]
         F0 = F[peak0_idx]
 
-        peak1_idx = np.argmax(P1) 
-        P1_max = P1[peak1_idx]
+        peak1_idx = np.argmax(PSD1_mean) 
+        PSD1_mean_max = PSD1_mean[peak1_idx]
         F1 = F[peak1_idx]
-    
+
+        peak_all_idx = np.argmax(PSD, axis=1)
+        MED = np.median(F[peak_all_idx])
+        
         # Gaussian fitting
-        result0, G1, sigma0 = gaussian_fit(self.gmodel, P0, F, F0, 1)  # Gaussian fit 
-        result1, G2, sigma1 = gaussian_fit(self.gmodel, P1, F, F1, 1)  # Gaussian fit 
+        result0, G0, sigma0 = gaussian_fit(PSD0_mean, F, F0, 1)  # Gaussian fit 
+        result1, G1, sigma1 = gaussian_fit(PSD1_mean, F, F1, 1)  # Gaussian fit 
         chis0 = result0.chisqr
         chis1 = result1.chisqr
         rchis0 = result0.redchi
@@ -207,20 +217,38 @@ class BPMcuda:
         aic1 = result1.aic
         bic0 = result0.bic
         bic1 = result1.bic
-
+        SNR0, mask0 = PSD_SNR(PSD0_mean, F0, sigma0, F) 
+        SNR0 = SNR0/sigma0  # normalization with respect to sigma
+        SNR1, mask1 = PSD_SNR(PSD1_mean, F1, sigma1, F) 
+        SNR1 = SNR1/sigma1  # normalization with respect to sigma
+        
         # ranking
         rankP0 = 0
         rankP1 = 0
-        rankP0 = rankP0 + 1 if chis0 < chis1 else rankP0
-        rankP1 = rankP1 + 1 if chis0 >= chis1 else rankP1
-        rankP0 = rankP0 + 1 if rchis0 < rchis1 else rankP0
-        rankP1 = rankP1 + 1 if rchis0 >= rchis1 else rankP1
-        rankP0 = rankP0 + 1 if aic0 < aic1 else rankP0
-        rankP1 = rankP1 + 1 if aic0 >= aic1 else rankP1
-        rankP0 = rankP0 + 1 if bic0 < bic1 else rankP0
-        rankP1 = rankP1 + 1 if bic0 >= bic1 else rankP1
-        rankP0 = rankP0 + 1 if sigma0 < sigma1 else rankP0
-        rankP1 = rankP1 + 1 if sigma0 >= sigma1 else rankP1
+        if abs(sigma0-sigma1) > .1:  # exclude
+            if sigma0 < sigma1:
+                rankP0 = rankP0 + np.max([1, sigma1/sigma0])
+            else:
+                rankP1 = rankP1 + np.max([1, sigma0/sigma1])
+        if abs(chis0 - chis1) > .1:  # exclude
+            if chis0 < chis1:
+                rankP0 = rankP0 + 1
+            else:
+                rankP1 = rankP1 + 1 
+        if -abs(aic0 - aic1)/min(aic0, aic1) > 0.1:  # exclude
+            if aic0 < aic1:
+                rankP0 = rankP0 + 1
+            else:
+                rankP1 = rankP1 + 1  
+        if abs(SNR0-SNR1) > .1:  # exclude
+            if SNR0 > SNR1:
+                rankP0 = rankP0 + 1 
+            else:
+                rankP1 = rankP1 + 1 
+        if abs(MED-F0) < abs(MED-F1):  
+            rankP0 = rankP0 + 1
+        else:
+            rankP1 = rankP1 + 1
 
         # best fit
         bpm = None
@@ -233,7 +261,7 @@ class BPMcuda:
 
 class BPM:
     """
-    This class transforms a BVP signal in a BPM signal using CPU.
+    Provides BPMs estimate from BVP signals using CPU.
 
     BVP signal must be a float32 numpy.ndarray with shape [num_estimators, num_frames].
     """
@@ -268,7 +296,7 @@ class BPM:
         Pmax = np.argmax(Power, axis=1)  # power max
         return Pfreqs[Pmax.squeeze()]
 
-    def BVP_to_BPM_PSD_clustering(self, out_fact=1):
+    def BVP_to_BPM_PSD_clustering(self, opt_factor=0.1):
         """
         Return the BPM signal as a numpy.float32. 
 
@@ -293,31 +321,41 @@ class BPM:
 
         W = pairwise_distances(PSD, PSD, metric='cosine')
         theta = circle_clustering(W, eps=0.01)
+
         # bi-partition, sum and normalization
-        PSD0, PSD1, PSD_outlayers, median_PSD0, median_PSD1 = optimize_partition(theta, out_fact=out_fact)
+        P, Q, Z, _, _ = optimize_partition(theta, opt_factor=opt_factor)
 
-        P0 = np.sum(PSD[PSD0,:], axis=0)
-        max = np.max(P0, axis=0)
+        # clusters
+        C0 = PSD[P,:]
+        C1 = PSD[Q,:]
+        
+        PSD0_mean = np.sum(C0, axis=0)   # sum of PSDs in P
+        max = np.max(PSD0_mean, axis=0)
         max = np.expand_dims(max, axis=0)
-        P0 = np.squeeze(np.divide(P0, max))
+        PSD0_mean = np.squeeze(np.divide(PSD0_mean, max))
+        #PSD0_mean = shrink(PSD0_mean)
 
-        P1 = np.sum(PSD[PSD1,:], axis=0)
-        max = np.max(P1, axis=0)
+        PSD1_mean = np.sum(C1, axis=0)    # sum of PSDs in Q
+        max = np.max(PSD1_mean, axis=0)
         max = np.expand_dims(max, axis=0)
-        P1 = np.squeeze(np.divide(P1, max))
+        PSD1_mean = np.squeeze(np.divide(PSD1_mean, max))
+        #PSD1_mean = shrink(PSD1_mean)
 
         # peaks
-        peak0_idx = np.argmax(P0) 
-        P0_max = P0[peak0_idx]
+        peak0_idx = np.argmax(PSD0_mean) 
+        PSD0_mean_max = PSD0_mean[peak0_idx]
         F0 = F[peak0_idx]
 
-        peak1_idx = np.argmax(P1) 
-        P1_max = P1[peak1_idx]
+        peak1_idx = np.argmax(PSD1_mean) 
+        PSD1_mean_max = PSD1_mean[peak1_idx]
         F1 = F[peak1_idx]
-    
+
+        peak_all_idx = np.argmax(PSD, axis=1)
+        MED = np.median(F[peak_all_idx])
+        
         # Gaussian fitting
-        result0, G1, sigma0 = gaussian_fit(self.gmodel, P0, F, F0, 1)  # Gaussian fit 
-        result1, G2, sigma1 = gaussian_fit(self.gmodel, P1, F, F1, 1)  # Gaussian fit 
+        result0, G0, sigma0 = gaussian_fit(PSD0_mean, F, F0, 1)  # Gaussian fit 
+        result1, G1, sigma1 = gaussian_fit(PSD1_mean, F, F1, 1)  # Gaussian fit 
         chis0 = result0.chisqr
         chis1 = result1.chisqr
         rchis0 = result0.redchi
@@ -326,20 +364,39 @@ class BPM:
         aic1 = result1.aic
         bic0 = result0.bic
         bic1 = result1.bic
+        SNR0, mask0 = PSD_SNR(PSD0_mean, F0, sigma0, F) 
+        SNR0 = SNR0/sigma0  # normalization with respect to sigma
+        SNR1, mask1 = PSD_SNR(PSD1_mean, F1, sigma1, F) 
+        SNR1 = SNR1/sigma1  # normalization with respect to sigma
 
+    
         # ranking
         rankP0 = 0
         rankP1 = 0
-        rankP0 = rankP0 + 1 if chis0 < chis1 else rankP0
-        rankP1 = rankP1 + 1 if chis0 >= chis1 else rankP1
-        rankP0 = rankP0 + 1 if rchis0 < rchis1 else rankP0
-        rankP1 = rankP1 + 1 if rchis0 >= rchis1 else rankP1
-        rankP0 = rankP0 + 1 if aic0 < aic1 else rankP0
-        rankP1 = rankP1 + 1 if aic0 >= aic1 else rankP1
-        rankP0 = rankP0 + 1 if bic0 < bic1 else rankP0
-        rankP1 = rankP1 + 1 if bic0 >= bic1 else rankP1
-        rankP0 = rankP0 + 1 if sigma0 < sigma1 else rankP0
-        rankP1 = rankP1 + 1 if sigma0 >= sigma1 else rankP1
+        if abs(sigma0-sigma1) > .1:  # exclude
+            if sigma0 < sigma1:
+                rankP0 = rankP0 + np.max([1, sigma1/sigma0])
+            else:
+                rankP1 = rankP1 + np.max([1, sigma0/sigma1])
+        if abs(chis0 - chis1) > .1:  # exclude
+            if chis0 < chis1:
+                rankP0 = rankP0 + 1
+            else:
+                rankP1 = rankP1 + 1 
+        if -abs(aic0 - aic1)/min(aic0, aic1) > 0.1:  # exclude
+            if aic0 < aic1:
+                rankP0 = rankP0 + 1
+            else:
+                rankP1 = rankP1 + 1  
+        if abs(SNR0-SNR1) > .1:  # exclude
+            if SNR0 > SNR1:
+                rankP0 = rankP0 + 1 
+            else:
+                rankP1 = rankP1 + 1 
+        if abs(MED-F0) < abs(MED-F1):  
+            rankP0 = rankP0 + 1
+        else:
+            rankP1 = rankP1 + 1
 
         # best fit
         bpm = None
@@ -385,10 +442,7 @@ def multi_est_BPM_median(bpms):
 
 def BVP_to_BPM(bvps, fps, minHz=0.65, maxHz=4.):
     """
-    Transform a BVP windowed signal in a BPM signal using CPU.
-
-    This method use the Welch's method to estimate the spectral density of the BVP signal,
-    then it chooses as BPM the maximum Amplitude frequency.
+    Computes BPMs from multiple BVPs (window) using PSDs maxima (CPU version)
 
     Args:
         bvps (list): list of length num_windows of BVP signal defined as float32 Numpy.ndarray with shape [num_estimators, num_frames].
@@ -415,10 +469,7 @@ def BVP_to_BPM(bvps, fps, minHz=0.65, maxHz=4.):
 
 def BVP_to_BPM_cuda(bvps, fps, minHz=0.65, maxHz=4.):
     """
-    Transform a BVP windowed signal in a BPM signal using GPU.
-
-    This method use the Welch's method to estimate the spectral density of the BVP signal,
-    then it chooses as BPM the maximum Amplitude frequency.
+    Computes BPMs from multiple BVPs (window) using PSDs maxima (GPU version)
 
     Args:
         bvps (list): list of length num_windows of BVP signal defined as float32 Numpy.ndarray with shape [num_estimators, num_frames].
@@ -445,14 +496,9 @@ def BVP_to_BPM_cuda(bvps, fps, minHz=0.65, maxHz=4.):
     return bpms
 
 
-def BVP_to_BPM_PSD_clustering(bvps, fps, minHz=0.65, maxHz=4., out_fact=1):
+def BVP_to_BPM_PSD_clustering(bvps, fps, minHz=0.65, maxHz=4., opt_factor=.1):
     """
-    Transform a BVP windowed signal in a BPM signal using CPU.
-
-    TODO: riscrivere descrizione
-    This method use the Welch's method to estimate the spectral density of the BVP signal; in case
-    of multiple estimators the method sum all the Power Spectums, then it chooses as BPM the 
-    maximum Amplitude frequency.
+    Computes each BPM from multiple BVPs (window) using circle clustering (CPU version)
 
     Args:
         bvps (list): list of length num_windows of BVP signal defined as float32 Numpy.ndarray with shape [num_estimators, num_frames].
@@ -472,19 +518,14 @@ def BVP_to_BPM_PSD_clustering(bvps, fps, minHz=0.65, maxHz=4., out_fact=1):
             obj = BPM(bvp, fps, minHz=minHz, maxHz=maxHz)
         else:
             obj.data = bvp
-        bpm_es = obj.BVP_to_BPM_PSD_clustering(out_fact=out_fact)
+        bpm_es = obj.BVP_to_BPM_PSD_clustering(opt_factor=opt_factor)
         bpms.append(bpm_es)
     return bpms
 
 
-def BVP_to_BPM_PSD_clustering_cuda(bvps, fps, minHz=0.65, maxHz=4., out_fact=1):
+def BVP_to_BPM_PSD_clustering_cuda(bvps, fps, minHz=0.65, maxHz=4., opt_factor=.1):
     """
-    Transform a BVP windowed signal in a BPM signal using GPU.
-
-    TODO: riscrivere descrizione
-    This method use the Welch's method to estimate the spectral density of the BVP signal; in case
-    of multiple estimators the method sum all the Power Spectums, then it chooses as BPM the 
-    maximum Amplitude frequency.
+    Computes each BPM from multiple BVPs (window) using circle clustering (GPU version)
 
     Args:
         bvps (list): list of length num_windows of BVP signal defined as float32 Numpy.ndarray with shape [num_estimators, num_frames].
@@ -504,6 +545,110 @@ def BVP_to_BPM_PSD_clustering_cuda(bvps, fps, minHz=0.65, maxHz=4., out_fact=1):
             obj = BPMcuda(bvp, fps, minHz=minHz, maxHz=maxHz)
         else:
             obj.data = bvp
-        bpm_es = obj.BVP_to_BPM_PSD_clustering(out_fact=out_fact)
+        bpm_es = obj.BVP_to_BPM_PSD_clustering(opt_factor=opt_factor)
         bpms.append(bpm_es)
     return bpms
+
+#--------------------------------
+
+def BVP_to_BPM_PSD_clustering_OLD(patch_bvps, fps, opt_factor=0.1):
+    print('** NEW **')
+    bmpES = []
+    for X in patch_bvps:
+        if len(X) == 0:
+            return 0.0
+            continue
+        
+        # Circle clustering
+        F, PSD = Welch(X, fps)
+        W = pairwise_distances(PSD, PSD, metric='cosine')
+        theta = circle_clustering(W, eps=0.01)
+
+        # bi-partition, sum and normalization
+        P, Q, Z, _,_ = optimize_partition(theta, opt_factor=opt_factor)
+
+        # clusters
+        C0 = PSD[P,:]
+        C1 = PSD[Q,:]
+        
+        PSD0_mean = np.sum(C0, axis=0)   # sum of PSDs in P
+        max = np.max(PSD0_mean, axis=0)
+        max = np.expand_dims(max, axis=0)
+        PSD0_mean = np.squeeze(np.divide(PSD0_mean, max))
+        # PSD0_mean = shrink(PSD0_mean)
+
+        PSD1_mean = np.sum(C1, axis=0)    # sum of PSDs in Q
+        max = np.max(PSD1_mean, axis=0)
+        max = np.expand_dims(max, axis=0)
+        PSD1_mean = np.squeeze(np.divide(PSD1_mean, max))
+        #PSD1_mean = shrink(PSD1_mean)
+
+        # peaks
+        peak0_idx = np.argmax(PSD0_mean) 
+        PSD0_mean_max = PSD0_mean[peak0_idx]
+        F0 = F[peak0_idx]
+
+        peak1_idx = np.argmax(PSD1_mean) 
+        PSD1_mean_max = PSD1_mean[peak1_idx]
+        F1 = F[peak1_idx]
+
+        peak_all_idx = np.argmax(PSD, axis=1)
+        MED = np.median(F[peak_all_idx])
+        
+        # Gaussian fitting
+        result0, G0, sigma0 = gaussian_fit(PSD0_mean, F, F0, 1)  # Gaussian fit 
+        result1, G1, sigma1 = gaussian_fit(PSD1_mean, F, F1, 1)  # Gaussian fit 
+        chis0 = result0.chisqr
+        chis1 = result1.chisqr
+        rchis0 = result0.redchi
+        rchis1 = result1.redchi
+        aic0 = result0.aic
+        aic1 = result1.aic
+        bic0 = result0.bic
+        bic1 = result1.bic
+        SNR0, mask0 = PSD_SNR(PSD0_mean, F0, sigma0, F) 
+        SNR0 = SNR0/sigma0  # normalization with respect to sigma
+        SNR1, mask1 = PSD_SNR(PSD1_mean, F1, sigma1, F) 
+        SNR1 = SNR1/sigma1  # normalization with respect to sigma
+
+        # ranking
+        rankP0 = 0
+        rankP1 = 0
+        if abs(sigma0-sigma1) > .1:  # exclude
+            if sigma0 < sigma1:
+                rankP0 = rankP0 + np.max([1, sigma1/sigma0])
+            else:
+                rankP1 = rankP1 + np.max([1, sigma0/sigma1])
+        if abs(chis0 - chis1) > .1:  # exclude
+            if chis0 < chis1:
+                rankP0 = rankP0 + 1
+            else:
+                rankP1 = rankP1 + 1 
+
+        if -abs(aic0 - aic1)/min(aic0, aic1) > 0.1:  # exclude
+            if aic0 < aic1:
+                rankP0 = rankP0 + 1
+            else:
+                rankP1 = rankP1 + 1  
+        if abs(SNR0-SNR1) > .1:  # exclude
+            if SNR0 > SNR1:
+                rankP0 = rankP0 + 1 #np.max([1, SNR0/SNR1])
+            else:
+                rankP1 = rankP1 + 1 #np.max([1, SNR1/SNR0]) 
+        if abs(MED-F0) < abs(MED-F1):  
+            rankP0 = rankP0 + 1
+        else:
+            rankP1 = rankP1 + 1
+    
+        # winner
+        if rankP0 > rankP1:
+            bmpES.append(F0)
+        elif rankP1 > rankP0:
+            bmpES.append(F1)
+        else:
+            if SNR0/sigma0 < SNR1/sigma1:
+                bmpES.append(F0)
+            else:
+                bmpES.append(F1)
+
+    return bmpES

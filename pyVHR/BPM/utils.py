@@ -137,7 +137,7 @@ def circle_clustering(W, eps=0.01, theta0=None, normalize=False):
 
     return theta
 
-def optimize_partition(theta, out_fact=1):
+def optimize_partition(theta, opt_factor=1):
     n = theta.shape[0]
     T = theta[:,None] - theta # x[:,None] adds a second axis to the array
     T = np.cos(T) - np.eye(n)
@@ -207,9 +207,25 @@ def optimize_partition(theta, out_fact=1):
 def gaussian(x,a,mu,sigma):
     return a*np.exp(-(x-mu)**2/(2*sigma**2))
 
-def gaussian_fit(model,p, x, mu, max):
-    result = model.fit(p, x=x, a=max, mu=mu, sigma=1)
-    sigma = result.params['sigma'].value
-    g = gaussian(x, max, mu, sigma)
-    return result, g, sigma
+def gaussian_fit(p, x, mu, max):
+  gmodel = Model(gaussian, independent_vars=['x', 'mu', 'a'])
+  result = gmodel.fit(p, x=x, a=max, mu=mu, sigma=1)
+  sigma = result.params['sigma'].value
+  g = gaussian(x, max, mu, sigma)
+  return result, g, sigma
+
+def PSD_SNR(PSD, f_peak, sigma, freqs):
+  """ PSD estimate based SNR """
   
+  ERR_mask = np.logical_or(freqs < f_peak-3*sigma, freqs > f_peak+3*sigma)
+  SIG_mask = np.logical_not(ERR_mask)
+  SIG_power = np.sum(PSD[SIG_mask]) # signal power
+  ERR_power = np.sum(PSD[ERR_mask]) # noise power
+  if ERR_power < 10e-8:
+    SNR = 0    # it denotes anomaly
+  else:
+    SNR = SIG_power/ERR_power  # linear SNR
+  return SNR, SIG_mask
+
+def shrink(x, alpha=4):
+    return np.multiply(x,1-np.exp(-alpha*x))
