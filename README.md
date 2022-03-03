@@ -140,7 +140,7 @@ The framework contains the implementation of many common methods for remote-PPG 
 
 ## Datasets
 
-Interfaces for five different datasets are provided in the `datasets` folder. Once the datasets are obtained, the respective files must be edited to match the correct path.  
+Interfaces for seven different datasets are provided in the `datasets` folder. Once the datasets are obtained, the respective files must be edited to match the correct path.  
 Currently supported datasets are:
 
 **COHFACE** / *https://www.idiap.ch/dataset/cohface*
