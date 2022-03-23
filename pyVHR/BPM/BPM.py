@@ -496,7 +496,7 @@ def BVP_to_BPM_cuda(bvps, fps, minHz=0.65, maxHz=4.):
     return bpms
 
 
-def BVP_to_BPM_PSD_clustering(bvps, fps, minHz=0.65, maxHz=4., opt_factor=.1):
+def BVP_to_BPM_PSD_clustering_OLD(bvps, fps, minHz=0.65, maxHz=4., opt_factor=.1):
     """
     Computes each BPM from multiple BVPs (window) using circle clustering (CPU version)
 
@@ -551,7 +551,7 @@ def BVP_to_BPM_PSD_clustering_cuda(bvps, fps, minHz=0.65, maxHz=4., opt_factor=.
 
 #--------------------------------
 
-def BVP_to_BPM_PSD_clustering_OLD(patch_bvps, fps, opt_factor=0.1):
+def BVP_to_BPM_PSD_clustering(patch_bvps, fps, opt_factor=0.1):
     print('** NEW **')
     bmpES = []
     for X in patch_bvps:

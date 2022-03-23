@@ -140,7 +140,7 @@ class MultiMethodSuite():
                 int(self.sigdict['tot_sec'])*fps)
 
             sig = []
-            if str(self.sigdict['approach']) == 'hol':
+            if str(self.sigdict['approach']) == 'holistic':
                 # SIG extraction with holistic
                 sig = sig_processing.extract_holistic(videoFileName)
             elif str(self.sigdict['approach']) == 'patches':
@@ -260,7 +260,7 @@ class MultiMethodSuite():
                     else:
                         bpmES = BVP_to_BPM(bvp_element, fps, minHz=float(
                             self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
-                elif str(self.bpmdict['type']) == 'psd_clustering':
+                elif str(self.bpmdict['type']) == 'clustering':
                     if bool(self.sigdict['cuda']):
                         bpmES = BVP_to_BPM_PSD_clustering_cuda(bvp_element, fps, minHz=float(
                             self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))

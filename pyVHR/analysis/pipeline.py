@@ -29,7 +29,7 @@ class Pipeline():
     def __init__(self):
         pass
 
-    def run_on_video(self, videoFileName, cuda=True, roi_method='convexhull', roi_approach='hol', method='cupy_POS', bpm_type='welch', pre_filt=False, post_filt=True, verb=True):
+    def run_on_video(self, videoFileName, cuda=True, roi_method='convexhull', roi_approach='holistic', method='cupy_POS', bpm_type='welch', pre_filt=False, post_filt=True, verb=True):
         """ 
         Runs the pipeline on a specific video file.
 
@@ -43,7 +43,7 @@ class Pipeline():
                 - 'convexhull' - Uses MediaPipe's lanmarks to compute the convex hull of the face and segment the skin
                 - 'faceparsing' - Uses BiseNet to parse face components and segment the skin
             roi_approach:
-                - 'hol' - Use the Holistic approach (one single ROI defined as the whole face skin region of the subject)
+                - 'holistic' - Use the Holistic approach (one single ROI defined as the whole face skin region of the subject)
                 - 'patches' - Use multiple patches as Regions of Interest
             method:
                 - One of the rPPG methods defined in pyVHR
@@ -83,7 +83,7 @@ class Pipeline():
         else:
             raise ValueError("Unknown 'roi_method'")
         
-        assert roi_approach == 'patches' or roi_approach=='hol', "\nROI extraction approach not recognized!"
+        assert roi_approach == 'patches' or roi_approach=='holistic', "\nROI extraction approach not recognized!"
         
         # set patches
         if roi_approach == 'patches':
@@ -106,7 +106,7 @@ class Pipeline():
 
         # -- ROI selection
         sig = []
-        if roi_approach == 'hol':
+        if roi_approach == 'holistic':
             # SIG extraction with holistic
             sig = sig_processing.extract_holistic(videoFileName)
         elif roi_approach == 'patches':
@@ -173,7 +173,7 @@ class Pipeline():
                 bpmES = BVP_to_BPM_cuda(bvps, fps, minHz=0.65, maxHz=4.0)
             else:
                 bpmES = BVP_to_BPM(bvps, fps, minHz=0.65, maxHz=4.0)
-        elif bpm_type == 'psd_clustering':
+        elif bpm_type == 'clustering':
             if cuda:
                 bpmES = BVP_to_BPM_PSD_clustering_cuda(bvps, fps, minHz=0.65, maxHz=4.0)
             else:
@@ -300,7 +300,7 @@ class Pipeline():
                 int(self.sigdict['tot_sec'])*fps)
 
             sig = []
-            if str(self.sigdict['approach']) == 'hol':
+            if str(self.sigdict['approach']) == 'holistic':
                 # SIG extraction with holistic
                 sig = sig_processing.extract_holistic(videoFileName)
             elif str(self.sigdict['approach']) == 'patches':
@@ -403,7 +403,7 @@ class Pipeline():
                     else:
                         bpmES = BVP_to_BPM(bvps, fps, minHz=float(
                             self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
-                elif self.bpmdict['type'] == 'psd_clustering':
+                elif self.bpmdict['type'] == 'clustering':
                     if eval(self.sigdict['cuda']):
                         bpmES = BVP_to_BPM_PSD_clustering_cuda(bvps, fps, minHz=float(
                             self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
@@ -676,7 +676,7 @@ class DeepPipeline(Pipeline):
                 if self.bpmdict['type'] == 'welch':
                     bpmES = BVP_to_BPM_cuda(bvps, fps, minHz=float(
                         self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
-                elif self.bpmdict['type'] == 'psd_clustering':
+                elif self.bpmdict['type'] == 'clustering':
                     bpmES = BVP_to_BPM_PSD_clustering_cuda(bvps, fps, minHz=float(
                         self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
                    
