@@ -16,7 +16,7 @@ def datasetFactory(datasetName, videodataDIR, BVPdataDIR, path=None):
         BVPdataDIR (str): path of the ground truth BVP data directory.
     """
     try:
-        if path == None:
+        if path == None:            
             moduleName = datasetName.lower()
             className = datasetName.upper()
             datasetModule = import_module(
@@ -73,6 +73,11 @@ class Dataset(metaclass=ABCMeta):
                 if filename.endswith(self.video_EXT) and (name.find(self.VIDEO_SUBSTRING) >= 0):
                     self.videoFilenames.append(filename)
 
+        # -- loop on the dir struct of the dataset getting BVP filenames
+        for root, dirs, files in os.walk(self.BVPdataDIR):
+            for f in files:
+                filename = os.path.join(root, f)
+                path, name = os.path.split(filename)
                 # -- select signal
                 if filename.endswith(self.SIG_EXT) and (name.find(self.SIG_SUBSTRING) >= 0):
                     self.sigFilenames.append(filename)

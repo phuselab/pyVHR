@@ -19,7 +19,7 @@ class BVPsignal:
     """
     Manage (multi-channel, row-wise) BVP signals, and transforms them in BPMs.
     """
-    nFFT = 2048  # freq. resolution for STFTs
+    #nFFT = 2048  # freq. resolution for STFTs
     step = 1       # step in seconds
 
     def __init__(self, data, fs, startTime=0, minHz=0.75, maxHz=4., verb=False):
@@ -32,6 +32,9 @@ class BVPsignal:
         self.verb = verb
         self.minHz = minHz
         self.maxHz = maxHz
+        nyquistF = self.fs/2
+        fRes = 0.5
+        self.nFFT = max(2048, (60*2*nyquistF) / fRes)
 
     def spectrogram(self, winsize=5):
         """
