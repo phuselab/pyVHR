@@ -449,9 +449,9 @@ class SignalProcessing():
 
     def get_landmarks(self):
         """
-        Returns landmarks ndarray with shape [num_frames, num_estimators, 2-coords] or empty list 
+        Returns landmarks ndarray with shape [num_frames, num_estimators, 2-coords] or empty array 
         """
         if hasattr(self, 'patch_landmarks'):
-            return self.patch_landmarks
+            return np.array(self.patch_landmarks)
         else:
-            return []
+            return np.empty(0)
