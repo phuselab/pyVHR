@@ -14,7 +14,7 @@ dependencies:
   - boost-cpp=1.76.0
   - bzip2=1.0.8
   - ca-certificates=2020.10.14
-  - cudatoolkit=11.3.1
+  - cudatoolkit=11.6
   - cusignal=21.08.00
   - ffmpeg=4.3
   - freetype=2.10.4
@@ -86,7 +86,7 @@ dependencies:
     - asposestorage==1.0.2
     - autorank==1.1.1
     - biosppy==0.7.3
-    - cupy_cuda113==9.5.0
+    - cupy_cuda115
     - h5py==3.1.0
     - ipython==7.28.0
     - ipywidgets==7.6.5

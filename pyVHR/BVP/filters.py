@@ -33,6 +33,7 @@ def apply_filter(windowed_sig, filter_func, fps=None, params={}):
     Returns:
         A filtered signal with the same shape as the input signal.
     """
+    
     if 'fps' in params and params['fps'] == 'adaptive' and fps is not None:
         params['fps'] = np.float32(fps)
     filtered_windowed_sig = []
@@ -48,7 +49,9 @@ def apply_filter(windowed_sig, filter_func, fps=None, params={}):
             filt_temp = filter_func(sig, **params)
         if transform:
             filt_temp = np.squeeze(filt_temp, axis=1)
+        
         filtered_windowed_sig.append(filt_temp)
+
     return filtered_windowed_sig
 
 
@@ -145,8 +148,8 @@ def kernel_rgb_filter_th(sig, RGB_LOW_TH, RGB_HIGH_TH):
     for idx in prange(sig.shape[0]):
         b_in = 1
         for f in prange(sig.shape[2]):
-            if ((sig[idx][0][f] <= RGB_LOW_TH and sig[idx][1][f] <= RGB_LOW_TH and sig[idx][2][f] <= RGB_LOW_TH) or
-                    (sig[idx][0][f] >= RGB_HIGH_TH and sig[idx][1][f] >= RGB_HIGH_TH and sig[idx][2][f] >= RGB_HIGH_TH)):
+            if ((sig[idx][0][f] < RGB_LOW_TH and sig[idx][1][f] < RGB_LOW_TH and sig[idx][2][f] < RGB_LOW_TH) or
+                    (sig[idx][0][f] > RGB_HIGH_TH and sig[idx][1][f] > RGB_HIGH_TH and sig[idx][2][f] > RGB_HIGH_TH)):
                 b_in = 0
         goodidx[idx] = b_in
     return goodidx
@@ -156,14 +159,14 @@ def rgb_filter_th(sig, **kargs):
     """
     Color Threshold filter for RGB signal only.
 
-    The i_th estimators is filterd if its signal is outside the
+    The i_th estimator is filterd if its signal is outside the
     LOW/HIGH thresholds color interval in at least one frame.
 
     The dictionary parameters are: {'RGB_LOW_TH':int, 'RGB_HIGH_TH':int}.
-    Where 'RGB_LOW_TH' and 'RGB_HIGH_TH' are RGB value ([0,255]) which describe the filter thresholds.
+    Where 'RGB_LOW_TH' and 'RGB_HIGH_TH' are RGB values ([0,255]) representing the filter thresholds.
     """
     goodidx = kernel_rgb_filter_th(
         sig, np.int32(kargs['RGB_LOW_TH']), np.int32(kargs['RGB_HIGH_TH']))
     if np.sum(goodidx) == 0:
-        return np.zeros((0, sig.shape[1], sig.shape[2]))
+        raise Exception(f"Too tight thresholds {(kargs['RGB_LOW_TH'], kargs['RGB_HIGH_TH'])} for pixel colors, blank face mask!")
     return np.copy(sig[np.argwhere(goodidx).flatten()])

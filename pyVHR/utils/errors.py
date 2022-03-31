@@ -2,7 +2,7 @@ import numpy as np
 import plotly.graph_objects as go
 from pyVHR.plot.visualize import VisualizeParams
 from pyVHR.BPM.utils import Welch
-from pyVHR.extraction.utils import sliding_straded_win_offline
+from pyVHR.extraction.utils import sliding_straded_win_idx
 
 def getErrors(bvps, fps, bpmES, bpmGT, timesES, timesGT):
     """ Computes various error/quality measures"""
@@ -231,7 +231,7 @@ def BVP_windowing(bvp, wsize, fps, stride=1):
   """
   
   bvp = np.array(bvp).squeeze()
-  block_idx, timesES = sliding_straded_win_offline(bvp.shape[0], wsize, stride, fps)
+  block_idx, timesES = sliding_straded_win_idx(bvp.shape[0], wsize, stride, fps)
   bvp_win  = []
   for e in block_idx:
       st_frame = int(e[0])

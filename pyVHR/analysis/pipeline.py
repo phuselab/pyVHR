@@ -155,7 +155,7 @@ class Pipeline():
 
         bvps = RGB_sig_to_BVP(windowed_sig, fps,
                               device_type=method_device, method=method_to_call, params=pars)
-        
+
         # -- POST FILTERING
         if post_filt:
             module = import_module('pyVHR.BVP.filters')
@@ -206,8 +206,7 @@ class Pipeline():
         self.configFilename = configFilename
         self.parse_cfg(self.configFilename)
         # -- cfg parser
-        parser = configparser.ConfigParser(
-            inline_comment_prefixes=('#', ';'))
+        parser = configparser.ConfigParser(inline_comment_prefixes=('#', ';'))
         parser.optionxform = str
         if not parser.read(self.configFilename):
             raise FileNotFoundError(self.configFilename)
@@ -293,24 +292,20 @@ class Pipeline():
             print(videoFileName)
             fps = get_fps(videoFileName)
 
-            #Start chronometer
-            #start_time = time.time()
-
             sig_processing.set_total_frames(
                 int(self.sigdict['tot_sec'])*fps)
 
             sig = []
             if str(self.sigdict['approach']) == 'holistic':
-                # SIG extraction with holistic
+                # mean extraction with holistic
                 sig = sig_processing.extract_holistic(videoFileName)
             elif str(self.sigdict['approach']) == 'patches':
-                # SIG extraction with patches
+                # mean extraction with patches
                 sig = sig_processing.extract_patches(
                     videoFileName, str(self.sigdict['patches']), str(self.sigdict['type']))
 
             # -- sig windowing
-            windowed_sig, timesES = sig_windowing(
-                sig, int(self.sigdict['winSize']), 1, fps)
+            windowed_sig, timesES = sig_windowing(sig, int(self.sigdict['winSize']), 1, fps)
 
             # -- loop on methods
             for m in self.methods:
@@ -322,11 +317,17 @@ class Pipeline():
 
                 # -- color threshold - applied only with patches
                 if str(self.sigdict['approach']) == 'patches':
-                    filtered_windowed_sig = apply_filter(
-                        windowed_sig,
-                        rgb_filter_th,
+                    filtered_windowed_sig = apply_filter(windowed_sig, rgb_filter_th,
                         params={'RGB_LOW_TH':  np.int32(self.bvpdict['color_low_threshold']),
                                 'RGB_HIGH_TH': np.int32(self.bvpdict['color_high_threshold'])})
+
+                # da qui
+
+                # check for empty windows after color thresholding
+                
+
+
+                # a qui
 
                 # -- custom filters
                 prefilter_list = ast.literal_eval(
@@ -338,18 +339,14 @@ class Pipeline():
                         fdict = dict(parser[f].items())
                         if fdict['path'] != 'None':
                             # custom path
-                            spec = util.spec_from_file_location(
-                                fdict['name'], fdict['path'])
+                            spec = util.spec_from_file_location(fdict['name'], fdict['path'])
                             mod = util.module_from_spec(spec)
                             spec.loader.exec_module(mod)
-                            method_to_call = getattr(
-                                mod, fdict['name'])
+                            method_to_call = getattr(mod, fdict['name'])
                         else:
                             # package path
-                            module = import_module(
-                                'pyVHR.BVP.filters')
-                            method_to_call = getattr(
-                                module, fdict['name'])
+                            module = import_module('pyVHR.BVP.filters')
+                            method_to_call = getattr(module, fdict['name'])
                         filtered_windowed_sig = apply_filter(
                             filtered_windowed_sig, method_to_call, fps=fps, params=ast.literal_eval(fdict['params']))
 
@@ -363,12 +360,12 @@ class Pipeline():
                     method_to_call = getattr(mod, self.methodsdict[m]['name'])
                 else:
                     # package path
-                    module = import_module(
-                        'pyVHR.BVP.methods')
-                    method_to_call = getattr(
-                        module, self.methodsdict[m]['name'])
+                    module = import_module('pyVHR.BVP.methods')
+                    method_to_call = getattr(module, self.methodsdict[m]['name'])
                 bvps = RGB_sig_to_BVP(filtered_windowed_sig, fps,
-                                      device_type=self.methodsdict[m]['device_type'], method=method_to_call, params=ast.literal_eval(self.methodsdict[m]['params']))
+                                      device_type=self.methodsdict[m]['device_type'], 
+                                      method=method_to_call, 
+                                      params=ast.literal_eval(self.methodsdict[m]['params']))
 
                 # POST FILTERING
                 postfilter_list = ast.literal_eval(
@@ -384,16 +381,13 @@ class Pipeline():
                                 fdict['name'], fdict['path'])
                             mod = util.module_from_spec(spec)
                             spec.loader.exec_module(mod)
-                            method_to_call = getattr(
-                                mod, fdict['name'])
+                            method_to_call = getattr(mod, fdict['name'])
                         else:
                             # package path
-                            module = import_module(
-                                'pyVHR.BVP.filters')
-                            method_to_call = getattr(
-                                module, fdict['name'])
-                        bvps = apply_filter(
-                            bvps, method_to_call, fps=fps, params=ast.literal_eval(fdict['params']))
+                            module = import_module('pyVHR.BVP.filters')
+                            method_to_call = getattr(module, fdict['name'])
+                        
+                        bvps = apply_filter(bvps, method_to_call, fps=fps, params=ast.literal_eval(fdict['params']))
 
                 # -- BPM extraction
                 if self.bpmdict['type'] == 'welch':
@@ -412,9 +406,6 @@ class Pipeline():
                             self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
                 # median BPM from multiple estimators BPM
                 median_bpmES, mad_bpmES = multi_est_BPM_median(bpmES)
-
-                #end_time = time.time()
-                #time_elapsed = [end_time - start_time]
 
                 # -- error metrics
                 RMSE, MAE, MAX, PCC, CCC, SNR = getErrors(bvps, fps,
@@ -452,8 +443,7 @@ class Pipeline():
 
         """
 
-        self.parser = configparser.ConfigParser(
-            inline_comment_prefixes=('#', ';'))
+        self.parser = configparser.ConfigParser(inline_comment_prefixes=('#', ';'))
         self.parser.optionxform = str
         if not self.parser.read(configFilename):
             raise FileNotFoundError(configFilename)
@@ -626,13 +616,9 @@ class DeepPipeline(Pipeline):
             videoFileName = dataset.getVideoFilename(v)
             print(videoFileName)
             fps = get_fps(videoFileName)
-
             
             sp = SignalProcessing()
             frames = sp.extract_raw(videoFileName)
-
-            #Start chronometer
-            #start_time = time.time()
 
             # -- loop on methods
             for m in self.methods:
@@ -682,9 +668,6 @@ class DeepPipeline(Pipeline):
                    
                 # median BPM from multiple estimators BPM
                 median_bpmES, mad_bpmES = multi_est_BPM_median(bpmES)
-
-                #end_time = time.time()
-                #time_elapsed = [end_time - start_time]
 
                 # -- error metrics
                 RMSE, MAE, MAX, PCC, CCC, SNR = getErrors(bvps, fps, median_bpmES, bpmGT, timesES, timesGT)

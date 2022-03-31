@@ -110,11 +110,11 @@ def sig_windowing(sig, wsize, stride, fps):
         fps (float): frames per seconds.
 
     Returns:
-        windowed signal as a list of length num_windows of float32 ndarray with shape [num_estimators, rgb_channels, window_frames],
-        and a 1D ndarray of times in seconds,where each one is the center of a window.
+        A list of ndarray (float32) with shape [num_estimators, rgb_channels, window_frames],
+        an array (float32) of times in seconds (win centers)
     """
     N = sig.shape[0]
-    block_idx, timesES = sliding_straded_win_offline(N, wsize, stride, fps)
+    block_idx, timesES = sliding_straded_win_idx(N, wsize, stride, fps)
     block_signals = []
     for e in block_idx:
         st_frame = int(e[0])
@@ -124,6 +124,31 @@ def sig_windowing(sig, wsize, stride, fps):
         wind_signal = np.swapaxes(wind_signal, 1, 2)
         block_signals.append(wind_signal)
     return block_signals, timesES
+
+def landmarks_windowing(landmarks, wsize, stride, fps):
+    """
+    Calculation of overlapping windows of landmarks coordinates.
+
+    Args:
+        landmarks (float32 ndarray): ndarray with shape [num_frames, num_estimators, 2-coords].
+        wsize (float)              : window size in seconds.
+        stride (float)             : stride between overlapping windows in seconds.
+        fps (float)                : frames per seconds.
+
+    Returns:
+        A list of ndarray (float32) with shape [wsize, num_estimators, 2-coords]
+        and an array (float32) of times in seconds (win centers)
+    """
+    N = landmarks.shape[0]
+    block_idx, timesLmks = sliding_straded_win_idx(N, wsize, stride, fps)
+    lmks_xy = []
+    for e in block_idx:
+        st_frame = int(e[0])
+        end_frame = int(e[-1])
+        coords = np.copy(landmarks[st_frame: end_frame+1])
+        lmks_xy.append(coords)
+    return np.array(lmks_xy), timesLmks
+
 
 def raw_windowing(raw_signal, wsize, stride, fps):
     """
@@ -140,18 +165,24 @@ def raw_windowing(raw_signal, wsize, stride, fps):
         and a 1D ndarray of times in seconds,where each one is the center of a window.
     """
     N = raw_signal.shape[0]
-    block_idx, timesES = sliding_straded_win_offline(N, wsize, stride, fps)
+    block_idx, timesES = sliding_straded_win_idx(N, wsize, stride, fps)
     block_signals = []
     for e in block_idx:
         st_frame = int(e[0])
         end_frame = int(e[-1])
         wind_signal = np.copy(raw_signal[st_frame: end_frame+1])
-        block_signals.append(wind_signal)
+        # check for zero traces
+        sum_wind = np.sum(wind_signal, axis=(1,2))
+        zero_idx = np.argwhere(sum_wind == 0).squeeze()
+        est_idx = np.ones(wind_signal.shape[0], dtype=bool)
+        est_idx[zero_idx] = False
+        # append traces
+        block_signals.append(wind_signal[est_idx])
     return block_signals, timesES
 
-def sliding_straded_win_offline(N, wsize, stride, fps):
+def sliding_straded_win_idx(N, wsize, stride, fps):
     """
-    This method is used to compute all the info for creating an overlapping windows signal.
+    This method is used to compute the indices for creating an overlapping windows signal.
 
     Args:
         N (int): length of the signal.

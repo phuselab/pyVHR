@@ -369,7 +369,7 @@ class SignalProcessing():
 
         sig = []
         processed_frames_count = 0
-
+        self.patch_landmarks = []
         with mp_face_mesh.FaceMesh(
                 max_num_faces=1,
                 min_detection_confidence=0.5,
@@ -399,19 +399,25 @@ class SignalProcessing():
                             if coords:
                                 ldmks[idx, 0] = coords[1]
                                 ldmks[idx, 1] = coords[0]
+                                
                     ### skin extraction ###
-                    cropped_skin_im, full_skin_im = skin_ex.extract_skin(
-                        image, ldmks)
+                    cropped_skin_im, full_skin_im = skin_ex.extract_skin(image, ldmks)
                 else:
                     cropped_skin_im = np.zeros_like(image)
                     full_skin_im = np.zeros_like(image)
+
                 ### sig computing ###
                 for idx in self.ldmks:
                     magic_ldmks.append(ldmks[idx])
                 magic_ldmks = np.array(magic_ldmks, dtype=np.float32)
                 temp = sig_ext_met(magic_ldmks, full_skin_im, ldmks_regions,
-                                   np.int32(SignalProcessingParams.RGB_LOW_TH), np.int32(SignalProcessingParams.RGB_HIGH_TH))
+                                   np.int32(SignalProcessingParams.RGB_LOW_TH), 
+                                   np.int32(SignalProcessingParams.RGB_HIGH_TH))
                 sig.append(temp)
+
+                # save landmarks coordinates
+                self.patch_landmarks.append(magic_ldmks[:,0:2])
+
                 # visualize patches and skin
                 if self.visualize_skin == True:
                     self.visualize_skin_collection.append(full_skin_im)
@@ -440,3 +446,12 @@ class SignalProcessing():
                     break
         sig = np.array(sig, dtype=np.float32)
         return np.copy(sig[:, :, 2:])
+
+    def get_landmarks(self):
+        """
+        Returns landmarks ndarray with shape [num_frames, num_estimators, 2-coords] or empty list 
+        """
+        if hasattr(self, 'patch_landmarks'):
+            return self.patch_landmarks
+        else:
+            return []
