@@ -6,7 +6,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - cudatoolkit=11.6
+  - cudatoolkit=11.3
   - cusignal=21.08.00
   - pip=21.3.1
   - pytables=3.6.1
