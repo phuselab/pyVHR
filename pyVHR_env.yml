@@ -9,6 +9,7 @@ dependencies:
   - cudatoolkit=11.6
   - cusignal=21.08.00
   - pip=21.3.1
+  - pytables=3.6.1
   - pytorch=1.10.0
   - pytorch-mutex=1.0
   - python=3.9.7
