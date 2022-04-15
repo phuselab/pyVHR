@@ -16,7 +16,7 @@ pyVHR allows to easily handle rPPGmethods  and  data,  while  simplifying  the  
 - **Openness**. It comprises both method and dataset factory, so to easily extend the pool of elements to be evaluatedwith newly developed rPPG methods and any kind of videodatasets.
 - **Robust assessment**. The outcomes are arranged intostructured data ready for in-depth analyses. Performance comparison is carried out based on robust nonparametric statistical tests.
 
-Nine classical rPPG methods, namely  *ICA*,  *PCA*, *GREEN*, *CHROM*, *POS*, *SSR*, *LGI*, *PBV*, *OMIT*, as well as the recent Deep Learning-based model *MTTS-CAN* are implemented. Moreover, pyVHR provides APIs for handling 10 publicly available video datasets,  i.e. *PURE*, *LGI-PPGI-DB*, *UBFC-1*, , *UBFC-2*, *UBFC-Phys*, *ECG-Fitness*, *MAHNOB* *Vicar-PPG-2*, *V4V* and *COHFACE*, usually adopted to benchmark rPPG methods. Eventually, extensive rigorous statistical analyses can be effortlessly performed via the pyVHR stats APIs.  
+Nine classical rPPG methods, namely  *ICA*,  *PCA*, *GREEN*, *CHROM*, *POS*, *SSR*, *LGI*, *PBV*, *OMIT*, as well as the recent Deep Learning-based model *MTTS-CAN* are implemented. Moreover, pyVHR provides APIs for handling 11 publicly available video datasets,  i.e. *PURE*, *LGI-PPGI-DB*, *UBFC-1*, , *UBFC-2*, *UBFC-Phys*, *ECG-Fitness*, *MAHNOB* *Vicar-PPG-2*, *V4V* , *VIPL-HR* and *COHFACE*, usually adopted to benchmark rPPG methods. Eventually, extensive rigorous statistical analyses can be effortlessly performed via the pyVHR stats APIs.  
 
 ![pipeline](https://user-images.githubusercontent.com/642555/152432564-12014442-d455-4462-9b1e-3082a3fdd5bf.png)
 
@@ -162,6 +162,8 @@ Currently supported datasets are:
 **Vicar-PPG-2** / *https://docs.google.com/forms/d/e/1FAIpQLScwnW_D5M4JVovPzpxA0Bf1ZCTaG5vh7sYu48I0MVSpgltvdw/viewform*
 
 **V4V** / *https://vision4vitals.github.io/*
+
+**VIPL-HR** *https://arxiv.org/abs/1810.04927*
 
 ## Reference
 
