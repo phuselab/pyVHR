@@ -170,6 +170,18 @@ Currently supported datasets are:
 If you use this code, please cite the paper:
 
 ```
+@article{boccignone2022pyvhr,
+  title={pyVHR: a Python framework for remote photoplethysmography},
+  author={Boccignone, Giuseppe and Conte, Donatello and Cuculo, Vittorio and D’Amelio, Alessandro and Grossi, Giuliano and Lanzarotti, Raffaella and Mortara, Edoardo},
+  journal={PeerJ Computer Science},
+  volume={8},
+  pages={e929},
+  year={2022},
+  publisher={PeerJ Inc.}
+}
+```
+
+```
 @article{Boccignone2020,
   doi = {10.1109/access.2020.3040936},
   url = {https://doi.org/10.1109/access.2020.3040936},
