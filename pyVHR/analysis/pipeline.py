@@ -20,6 +20,7 @@ import time
 from inspect import getmembers, isfunction
 import os.path
 from pyVHR.deepRPPG.mtts_can import *
+from pyVHR.deepRPPG.hr_cnn import *
 
 class Pipeline():
     """ 
@@ -129,7 +130,7 @@ class Pipeline():
         if pre_filt:
             module = import_module('pyVHR.BVP.filters')
             method_to_call = getattr(module, 'BPfilter')
-            bvps = apply_filter(bvps, 
+            bvps = apply_filter(filtered_windowed_sig,
                                 method_to_call, 
                                 fps=fps, 
                                 params={'minHz':0.65, 'maxHz':4.0, 'fps':'adaptive', 'order':6})
@@ -521,6 +522,9 @@ class DeepPipeline(Pipeline):
             print("\nBVP extraction with method: %s" % (method))
         if method == 'MTTS_CAN':
             bvps_pred = MTTS_CAN_deep(frames, fps, verb=1, filter_pred=True)
+            bvps, timesES = BVP_windowing(bvps_pred, wsize, fps, stride=1)
+        elif method == 'HR_CNN':
+            bvps_pred = HR_CNN_bvp_pred(frames)
             bvps, timesES = BVP_windowing(bvps_pred, wsize, fps, stride=1)
         else:
             print("Deep Method unsupported!")
