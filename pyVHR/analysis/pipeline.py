@@ -633,6 +633,9 @@ class DeepPipeline(Pipeline):
                 if str(m) == 'MTTS_CAN':
                     bvps_pred = MTTS_CAN_deep(frames, fps, verb=1, filter_pred=True)
                     bvps, timesES = BVP_windowing(bvps_pred, winSizeGT, fps, stride=1)
+                elif str(m) == 'HR_CNN':
+                    bvps_pred = HR_CNN_bvp_pred(frames)
+                    bvps, timesES = BVP_windowing(bvps_pred, wsize, fps, stride=1)
                 else:
                     print("Deep Method unsupported!")
                     return
