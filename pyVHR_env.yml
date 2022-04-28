@@ -8,6 +8,7 @@ channels:
 dependencies:
   - cudatoolkit=11.3
   - cusignal=21.08.00
+  - hdf5=1.10.6
   - pip=21.3.1
   - pytables=3.6.1
   - pytorch=1.10.0
