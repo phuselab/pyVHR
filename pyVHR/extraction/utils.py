@@ -125,12 +125,13 @@ def sig_windowing(sig, wsize, stride, fps):
         block_signals.append(wind_signal)
     return block_signals, timesES
 
-def landmarks_windowing(landmarks, wsize, stride, fps):
+def movements_windowing(landmarks, area_x, wsize, stride, fps):
     """
     Calculation of overlapping windows of landmarks coordinates.
 
     Args:
         landmarks (float32 ndarray): ndarray with shape [num_frames, num_estimators, 2-coords].
+        area_x (float32 ndarray)   : ndarray with shape [num_frames]
         wsize (float)              : window size in seconds.
         stride (float)             : stride between overlapping windows in seconds.
         fps (float)                : frames per seconds.
@@ -142,12 +143,15 @@ def landmarks_windowing(landmarks, wsize, stride, fps):
     N = landmarks.shape[0]
     block_idx, timesLmks = sliding_straded_win_idx(N, wsize, stride, fps)
     lmks_xy = []
+    win_area_x = []
     for e in block_idx:
         st_frame = int(e[0])
         end_frame = int(e[-1])
         coords = np.copy(landmarks[st_frame: end_frame+1])
+        area_x_coords = np.copy(area_x[st_frame: end_frame+1])
         lmks_xy.append(coords)
-    return np.array(lmks_xy), timesLmks
+        win_area_x.append(area_x_coords)
+    return np.array(lmks_xy), np.array(win_area_x), timesLmks
 
 
 def raw_windowing(raw_signal, wsize, stride, fps):

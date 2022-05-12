@@ -370,6 +370,7 @@ class SignalProcessing():
         sig = []
         processed_frames_count = 0
         self.patch_landmarks = []
+        self.cropped_skin_im_shapes = [[], []]
         with mp_face_mesh.FaceMesh(
                 max_num_faces=1,
                 min_detection_confidence=0.5,
@@ -402,6 +403,10 @@ class SignalProcessing():
                                 
                     ### skin extraction ###
                     cropped_skin_im, full_skin_im = skin_ex.extract_skin(image, ldmks)
+
+                    self.cropped_skin_im_shapes[0].append(cropped_skin_im.shape[0])
+                    self.cropped_skin_im_shapes[1].append(cropped_skin_im.shape[1])
+
                 else:
                     cropped_skin_im = np.zeros_like(image)
                     full_skin_im = np.zeros_like(image)
@@ -416,7 +421,7 @@ class SignalProcessing():
                 sig.append(temp)
 
                 # save landmarks coordinates
-                self.patch_landmarks.append(magic_ldmks[:,0:2])
+                self.patch_landmarks.append(magic_ldmks[:,0:3])
 
                 # visualize patches and skin
                 if self.visualize_skin == True:
@@ -455,3 +460,12 @@ class SignalProcessing():
             return np.array(self.patch_landmarks)
         else:
             return np.empty(0)
+
+    def get_cropped_skin_im_shapes(self):
+        """
+        Returns cropped skin shapes with shape [height, width] or empty array
+        """
+        if hasattr(self, "cropped_skin_im_shapes"):
+            return np.array(self.cropped_skin_im_shapes)
+        else:
+            return np.empty((0, 0))
