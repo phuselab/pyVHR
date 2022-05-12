@@ -1,4 +1,3 @@
-import numpy as np
 import torch
 from torch.utils.data import Dataset
 from PIL import Image
@@ -31,14 +30,11 @@ class PulseDataset(Dataset):
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
             idx = idx.tolist()
-        mm = []
+            
         fr = self.frames_list[idx]
         image = Image.fromarray(fr)
         image = image.resize((self.img_w, self.img_h))
 
-        _, b, _ = image.split()
-        mean_img = np.mean(b)
-        mm.append(mean_img)
         if self.transform:
             image = self.transform(image)
 
