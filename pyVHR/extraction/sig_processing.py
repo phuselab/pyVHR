@@ -421,7 +421,7 @@ class SignalProcessing():
                 sig.append(temp)
 
                 # save landmarks coordinates
-                self.patch_landmarks.append(magic_ldmks[:,0:3])
+                self.patch_landmarks.append(magic_ldmks[:,0:2])
 
                 # visualize patches and skin
                 if self.visualize_skin == True:
