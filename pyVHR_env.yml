@@ -30,4 +30,4 @@ dependencies:
     - scikit_posthocs==0.6.7
     - scikit-image==0.18.3
     - tqdm==4.62.3
-    - tensorflow==2.4.0
+    - tensorflow==2.5.0

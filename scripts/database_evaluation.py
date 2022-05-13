@@ -15,12 +15,12 @@ def main():
 
     # Evaluation
     evaluation = Pipeline()
-    results = evaluation.run_on_dataset(configFilename="pyVHR/analysis/ubfc1_evaluation.cfg", verb=True)
-    results.saveResults("results/ufc1_quick_evaluation.h5")
+    results = evaluation.run_on_dataset(configFilename="../pyVHR/analysis/ubfc1_evaluation.cfg", verb=True)
+    results.saveResults("../results/ubfc1_quick_evaluation.h5")
     print(" #### Time consumed in the evaluation: {} seconds...".format(time.time() - t1))
 
     # Visulization of results
-    st = StatAnalysis(filepath="results/ufc1_quick_evaluation.h5")
+    st = StatAnalysis(filepath="../results/ubfc1_quick_evaluation.h5")
     y_df, fig_stats = st.run_stats()
     fig = st.displayBoxPlot(metric='MAE')
     fig.show()
