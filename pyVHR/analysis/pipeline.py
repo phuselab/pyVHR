@@ -760,8 +760,8 @@ class TestResult():
     def addDataSerie(self):
         # -- store serie
         if self.dict != None:
-            self.dataFrame = pd.concat([dataFrame,
-                self.dict], ignore_index=True)
+            self.dataFrame = self.dataFrame.append(
+                 self.dict, ignore_index=True)
 
     def newDataSerie(self):
         # -- new dict
