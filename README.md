@@ -28,6 +28,21 @@ Nine classical rPPG methods, namely  *ICA*,  *PCA*, *GREEN*, *CHROM*, *POS*, *SS
 
 The quickest way to get started is to install the [miniconda](http://conda.pydata.org/miniconda.html) distribution, a lightweight minimal installation of Anaconda Python.
 
+First of all, install fortran compiler following sections:
+**Ubuntu**
+```bash
+sudo apt update
+sudo apt install gfortran
+```
+
+**Windows**
+1. Install [MinGW](https://www.mingw-w64.org/)
+2. After install MinGW, then open MinGW Installation Manager.
+3. Select `mingw32-gcc-fortran` in MinGW Installation Manager.
+4. Installation - Apply Changes
+5. Add `C:\MinGW\bin`(This is a default location) to PATH environment variable
+
+
 Once installed, create a new `conda` environment and automatically fetch all the dependencies based on your architecture (with or without GPU), using one of the following commands:
 
 **CPU-only version**
