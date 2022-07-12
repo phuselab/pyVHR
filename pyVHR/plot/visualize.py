@@ -43,25 +43,28 @@ def interactive_image_plot(images_list, scaling=1):
     """
     if images_list is None or len(images_list) == 0:
         return
+    
+    PIL_image = PIL.Image.fromarray(np.uint8(images_list[0]))
+    width, height = PIL_image.size
+    print(print(f'Frame Shape (W,H) = ({width, height})'))
 
     def f(x):
         PIL_image = PIL.Image.fromarray(np.uint8(images_list[x]))
         width, height = PIL_image.size
-        PIL_image = PIL_image.resize(
-            (int(width*scaling), int(height*scaling)), PIL.Image.NEAREST)
+        PIL_image = PIL_image.resize((int(width*scaling), int(height*scaling)), PIL.Image.NEAREST)
         display(PIL_image)
-    interact(f, x=widgets.IntSlider(
-        min=0, max=len(images_list)-1, step=1, value=0))
-
+    
+    # show interactively
+    interact(f, x=widgets.IntSlider(min=0, max=len(images_list)-1, step=1, value=0))
 
 def display_video(video_file_name, scaling=1):
     """
-    This method create an interactive plot for visualizing the frames of a video. This method must be called
-    inside a Jupyter notebook or a Colab notebook.
+    This method creates an interactive plot for visualizing the frames of a video.
+    It must be called inside a Jupyter or a Colab notebook.
 
     Args:
         video_file_name (str): video file name or path.
-        scaling (float): scale factor useful for enlarging or decreasing the resolution of the image.
+        scaling (float): scale factor for changing the size of the image.
     
     """
     original_frames = [cv2.cvtColor(_, cv2.COLOR_BGR2RGB)
@@ -71,7 +74,7 @@ def display_video(video_file_name, scaling=1):
 
 def visualize_windowed_sig(windowed_sig, window):
     """
-    This method create a plotly plot for visualizing a window of a windowed signal. This method must be called
+    This method creates a plotly plot for visualizing a window of a windowed signal. This method must be called
     inside a Jupyter notebook or a Colab notebook.
 
     Args:
