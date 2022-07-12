@@ -410,6 +410,7 @@ class SignalProcessing():
                 else:
                     cropped_skin_im = np.zeros_like(image)
                     full_skin_im = np.zeros_like(image)
+                    self.cropped_skin_im_shapes[0].append(cropped_skin_im.shape[0])
                     self.cropped_skin_im_shapes[1].append(cropped_skin_im.shape[1])
 
                 ### sig computing ###
