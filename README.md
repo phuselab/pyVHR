@@ -36,7 +36,7 @@ sudo apt install gfortran
 ```
 
 **Windows**
-1. Install [MinGW](https://www.mingw-w64.org/)
+1. Install [MinGW](https://sourceforge.net/projects/mingw/)
 2. After install MinGW, then open MinGW Installation Manager.
 3. Select `mingw32-gcc-fortran` in MinGW Installation Manager.
 4. Installation - Apply Changes
