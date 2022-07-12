@@ -410,6 +410,7 @@ class SignalProcessing():
                 else:
                     cropped_skin_im = np.zeros_like(image)
                     full_skin_im = np.zeros_like(image)
+                    self.cropped_skin_im_shapes[1].append(cropped_skin_im.shape[1])
 
                 ### sig computing ###
                 for idx in self.ldmks:
@@ -421,7 +422,7 @@ class SignalProcessing():
                 sig.append(temp)
 
                 # save landmarks coordinates
-                self.patch_landmarks.append(magic_ldmks[:,0:2])
+                self.patch_landmarks.append(magic_ldmks[:,0:3])
 
                 # visualize patches and skin
                 if self.visualize_skin == True:
@@ -463,9 +464,11 @@ class SignalProcessing():
 
     def get_cropped_skin_im_shapes(self):
         """
-        Returns cropped skin shapes with shape [height, width] or empty array
+        Returns cropped skin shapes with shape [height, width, rgb] or empty array
         """
         if hasattr(self, "cropped_skin_im_shapes"):
             return np.array(self.cropped_skin_im_shapes)
         else:
-            return np.empty((0, 0))
+            return np.empty((0, 0, 0))
+
+
