@@ -11,8 +11,7 @@ from pyVHR.BPM.utils import *
 from scipy.stats import median_absolute_deviation as mad
 
 """
-This module contains all the class and the methods for transforming 
-a BVP signal in a BPM signal.
+This module contains classes and methods for transforming a BVP signal in a BPM signal.
 """
 
 class BVPsignal:
@@ -106,7 +105,6 @@ class BVPsignal:
         """
         self.spectrogram(winsize)
         return self.bpm, self.times
-
 
 class BPMcuda:
     """
@@ -410,11 +408,10 @@ class BPM:
 
         return np.float32(bpm)
 
-
 # --------------------------------------------------------------------- #
 
+def BPM_median(bpms):
 
-def multi_est_BPM_median(bpms):
     """
     This method is used for computing the median of a multi-estimators BPM windowed signal.
 
@@ -442,7 +439,6 @@ def multi_est_BPM_median(bpms):
 
     return median_bpms, MAD
 
-
 def BVP_to_BPM(bvps, fps, minHz=0.65, maxHz=4.):
     """
     Computes BPMs from multiple BVPs (window) using PSDs maxima (CPU version)
@@ -468,7 +464,6 @@ def BVP_to_BPM(bvps, fps, minHz=0.65, maxHz=4.):
         bpm_es = obj.BVP_to_BPM()
         bpms.append(bpm_es)
     return bpms
-
 
 def BVP_to_BPM_cuda(bvps, fps, minHz=0.65, maxHz=4.):
     """
@@ -498,34 +493,6 @@ def BVP_to_BPM_cuda(bvps, fps, minHz=0.65, maxHz=4.):
         bpms.append(bpm_es)
     return bpms
 
-
-def BVP_to_BPM_PSD_clustering_OLD(bvps, fps, minHz=0.65, maxHz=4., opt_factor=.1):
-    """
-    Computes each BPM from multiple BVPs (window) using circle clustering (CPU version)
-
-    Args:
-        bvps (list): list of length num_windows of BVP signal defined as float32 Numpy.ndarray with shape [num_estimators, num_frames].
-        fps (float): frames per seconds.
-        minHz (float): frequency in Hz used to isolate a specific subband [minHz, maxHz] (esclusive).
-        maxHz (float): frequency in Hz used to isolate a specific subband [minHz, maxHz] (esclusive).
-
-    Returns:
-        A list of length num_windows of BPM signals defined as a numpy.float32.
-        If any BPM can't be found in a window, then the BPM is 0.0.
-        
-    """
-    bpms = []
-    obj = None
-    for bvp in bvps:
-        if obj is None:
-            obj = BPM(bvp, fps, minHz=minHz, maxHz=maxHz)
-        else:
-            obj.data = bvp
-        bpm_es = obj.BVP_to_BPM_PSD_clustering(opt_factor=opt_factor)
-        bpms.append(bpm_es)
-    return bpms
-
-
 def BVP_to_BPM_PSD_clustering_cuda(bvps, fps, minHz=0.65, maxHz=4., opt_factor=.1):
     """
     Computes each BPM from multiple BVPs (window) using circle clustering (GPU version)
@@ -552,10 +519,8 @@ def BVP_to_BPM_PSD_clustering_cuda(bvps, fps, minHz=0.65, maxHz=4., opt_factor=.
         bpms.append(bpm_es)
     return bpms
 
-#--------------------------------
-
 def BVP_to_BPM_PSD_clustering(patch_bvps, fps, opt_factor=0.1):
-    print('** NEW **')
+    """OLD"""
     bmpES = []
     for X in patch_bvps:
         if len(X) == 0:
@@ -655,3 +620,136 @@ def BVP_to_BPM_PSD_clustering(patch_bvps, fps, opt_factor=0.1):
                 bmpES.append(F1)
 
     return bmpES
+
+def BPM_clustering(sig_extractor, patch_bvps, movement_thrs=[15, 15, 15], fps=30, opt_factor=0.1):
+  SNR = []     # SNRs
+  bmpES = []   # BPM estimation
+  
+  landmarks = sig_extractor.get_landmarks()
+  shapes = sig_extractor.get_cropped_skin_im_shapes()
+  win_landmks, win_x, win_y, timesLmks = movements_windowing(landmarks, shapes, wsize, 1, fps)
+  landmarks_idx = sig_extractor.ldmks
+
+  for i,X in enumerate(patch_bvps):
+    if len(X) == 0:
+      bmpES.append(0.0)
+      continue      
+    F, PSD = Welch(X, fps)
+      
+    # filtering based on motion
+    XFmov, YFmov, ZFmov, XEnergy, YEnergy, ZEnergy = motion_filtring(i, landmarks_idx, win_landmks, win_x, win_y)
+    MOTION_X_FILT = False
+    if XEnergy > movement_thrs[0]:
+      MOTION_X_FILT = True
+      PSD = np.multiply(PSD,XFmov) 
+      if MOTION_X_FILT: print('MOTION_X_FILT applied!')
+    MOTION_Y_FILT = False
+    if YEnergy > movement_thrs[1]:
+      MOTION_Y_FILT = True
+      PSD = np.multiply(PSD,YFmov) 
+      if MOTION_Y_FILT: print('MOTION_Y_FILT applied!')
+    MOTION_Z_FILT = False
+    if ZEnergy > movement_thrs[2]:
+      MOTION_Z_FILT = True
+      PSD = np.multiply(PSD,ZFmov)
+      if MOTION_Z_FILT: print('MOTION_Z_FILT applied!')
+
+    # compute the distance matrix and theta angles
+    W = pairwise_distances(PSD, PSD, metric='cosine')
+    theta = circleClustering(W, eps=0.01)
+
+    # bi-partition, sum and normalization
+    P, Q, Z, med_elem_P, med_elem_Q = optimize_partition(theta, opt_factor=opt_factor)
+
+    # clusters
+    C0 = PSD[P,:]
+    C1 = PSD[Q,:]    
+    PSD0_mean = np.sum(C0, axis=0)   # sum of PSDs in P
+    max = np.max(PSD0_mean, axis=0)
+    max = np.expand_dims(max, axis=0)
+    PSD0_mean = np.squeeze(np.divide(PSD0_mean, max))
+    # PSD0_mean = shrink(PSD0_mean)
+
+    PSD1_mean = np.sum(C1, axis=0)    # sum of PSDs in Q
+    max = np.max(PSD1_mean, axis=0)
+    max = np.expand_dims(max, axis=0)
+    PSD1_mean = np.squeeze(np.divide(PSD1_mean, max))
+    #PSD1_mean = shrink(PSD1_mean)
+
+    # peaks
+    peak0_idx = np.argmax(PSD0_mean) 
+    PSD0_mean_max = PSD0_mean[peak0_idx]
+    F0 = F[peak0_idx]
+
+    peak1_idx = np.argmax(PSD1_mean) 
+    PSD1_mean_max = PSD1_mean[peak1_idx]
+    F1 = F[peak1_idx]
+
+    peak_all_idx = np.argmax(PSD, axis=1)
+    MED = np.median(F[peak_all_idx])
+    
+    # Gaussian fitting
+    result0, G0, sigma0 = gaussian_fit(PSD0_mean, F, F0, 1)  # Gaussian fit 
+    result1, G1, sigma1 = gaussian_fit(PSD1_mean, F, F1, 1)  # Gaussian fit 
+    chis0 = result0.chisqr
+    chis1 = result1.chisqr
+    rchis0 = result0.redchi
+    rchis1 = result1.redchi
+    aic0 = result0.aic
+    aic1 = result1.aic
+    bic0 = result0.bic
+    bic1 = result1.bic
+    SNR0, mask0 = PSD_SNR(PSD0_mean, F0, sigma0, F) 
+    SNR0 = SNR0/sigma0**2  # normalization with respect to sigma
+    SNR1, mask1 = PSD_SNR(PSD1_mean, F1, sigma1, F) 
+    SNR1 = SNR1/sigma1**2  # normalization with respect to sigma
+
+    # ranking
+    rankP0 = 0
+    rankP1 = 0
+    if abs(sigma0-sigma1) > .1:  # exclude
+      if sigma0 < sigma1:
+        rankP0 = rankP0 + np.max([1, sigma1/sigma0])
+      else:
+        rankP1 = rankP1 + np.max([1, sigma0/sigma1])
+    if abs(chis0 - chis1) > .1:  # exclude
+      if chis0 < chis1:
+        rankP0 = rankP0 + 1
+      else:
+        rankP1 = rankP1 + 1 
+    #if abs(rchis0 - rchis1) > .01:  # exclude
+    #  if rchis0 < rchis1:
+    #    rankP0 = rankP0 + 1
+    #  else:
+    #    rankP1 = rankP1 + 1 
+    if -abs(aic0 - aic1)/min(aic0, aic1) > 0.1:  # exclude
+      if aic0 < aic1:
+        rankP0 = rankP0 + 1
+      else:
+        rankP1 = rankP1 + 1  
+    if abs(SNR0-SNR1) > .1:  # exclude
+      if SNR0 > SNR1:
+        rankP0 = rankP0 + 1 #np.max([1, SNR0/SNR1])
+      else:
+        rankP1 = rankP1 + 1 #np.max([1, SNR1/SNR0]) 
+    if abs(MED-F0) < abs(MED-F1):  
+      rankP0 = rankP0 + 1
+    else:
+      rankP1 = rankP1 + 1
+  
+    # winner
+    if rankP0 > rankP1:
+      bmpES.append(F0)
+      WINNER = 0
+    elif rankP1 > rankP0:
+      bmpES.append(F1)
+      WINNER = 1
+    else:
+      if SNR0/sigma0 < SNR1/sigma1:
+        bmpES.append(F0)
+        WINNER = 0
+      else:
+        bmpES.append(F1)
+        WINNER = 1
+
+  return bmpES

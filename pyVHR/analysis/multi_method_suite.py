@@ -272,8 +272,7 @@ class MultiMethodSuite():
                     continue
                 # median BPM from multiple estimators BPM
                 # this doesn't affect holistic approach
-                #median_bpmES = multi_est_BPM_median(bpmES)
-                median_bpmES, mad_bpmES = multi_est_BPM_median(bpmES)
+                median_bpmES, mad_bpmES = BPM_median(bpmES)
 
                 # -- error metrics
                 RMSE, MAE, MAX, PCC, CCC = getErrors(median_bpmES, bpmGT, timesES, timesGT)
@@ -342,7 +341,6 @@ class MultiMethodSuite():
             print("** Run the test with the following config:")
             print("      dataset: " + self.datasetdict['dataset'].upper())
             print("      methods: " + str(self.methods))
-
 
 class TestResult():
     """ 

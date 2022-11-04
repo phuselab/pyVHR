@@ -15,12 +15,9 @@ from pyVHR.extraction.sig_processing import extract_frames_yield
 from scipy.signal import welch
 import random
 
-
-
 """
 This module defines classes or methods used for plotting outputs.
 """
-
 
 class VisualizeParams:
     """

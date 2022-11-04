@@ -1,11 +1,11 @@
 import configparser
 import ast
 from numpy.lib.arraysetops import isin
-import cv2
-import pandas as pd
+#import cv2
+#import pandas as pd
 import numpy as np
-from matplotlib import pyplot as plt
-import plotly.graph_objects as go
+#from matplotlib import pyplot as plt
+#import plotly.graph_objects as go
 from importlib import import_module, util
 from pyVHR.datasets.dataset import datasetFactory
 from pyVHR.utils.errors import getErrors, printErrors, displayErrors, BVP_windowing
@@ -183,7 +183,7 @@ class Pipeline():
             raise ValueError("Unknown 'bpm_type'")
 
         # median BPM from multiple estimators BPM
-        median_bpmES, mad_bpmES = multi_est_BPM_median(bpmES)
+        median_bpmES, mad_bpmES = BPM_median(bpmES)
 
         if verb:
             print('\n...done!\n')
@@ -406,7 +406,7 @@ class Pipeline():
                         bpmES = BVP_to_BPM_PSD_clustering(bvps, fps, minHz=float(
                             self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
                 # median BPM from multiple estimators BPM
-                median_bpmES, mad_bpmES = multi_est_BPM_median(bpmES)
+                median_bpmES, mad_bpmES = BPM_median(bpmES)
 
                 # -- error metrics
                 RMSE, MAE, MAX, PCC, CCC, SNR = getErrors(bvps, fps,
@@ -550,7 +550,7 @@ class DeepPipeline(Pipeline):
             raise ValueError("The only 'bpm_type' supported for deep models is 'welch'")
            
         # median BPM from multiple estimators BPM
-        median_bpmES, mad_bpmES = multi_est_BPM_median(bpmES)
+        median_bpmES, mad_bpmES = BPM_median(bpmES)
 
         if verb:
             print('\n...done!\n')
@@ -674,7 +674,7 @@ class DeepPipeline(Pipeline):
                         self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
                    
                 # median BPM from multiple estimators BPM
-                median_bpmES, mad_bpmES = multi_est_BPM_median(bpmES)
+                median_bpmES, mad_bpmES = BPM_median(bpmES)
 
                 # -- error metrics
                 RMSE, MAE, MAX, PCC, CCC, SNR = getErrors(bvps, fps, median_bpmES, bpmGT, timesES, timesGT)
