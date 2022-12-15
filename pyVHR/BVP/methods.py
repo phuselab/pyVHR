@@ -28,7 +28,8 @@ def cpu_CHROM(signal):
     """
     CHROM method on CPU using Numpy.
 
-    De Haan, G., & Jeanne, V. (2013). Robust pulse rate from chrominance-based rPPG. IEEE Transactions on Biomedical Engineering, 60(10), 2878-2886.
+    De Haan, G., & Jeanne, V. (2013). Robust pulse rate from chrominance-based rPPG. 
+    IEEE Transactions on Biomedical Engineering, 60(10), 2878-2886.
     """
     X = signal
     Xcomp = 3*X[:, 0] - 2*X[:, 1]
@@ -45,7 +46,8 @@ def cupy_CHROM(signal):
     """
     CHROM method on GPU using Cupy.
 
-    De Haan, G., & Jeanne, V. (2013). Robust pulse rate from chrominance-based rPPG. IEEE Transactions on Biomedical Engineering, 60(10), 2878-2886.
+    De Haan, G., & Jeanne, V. (2013). Robust pulse rate from chrominance-based rPPG. 
+    IEEE Transactions on Biomedical Engineering, 60(10), 2878-2886.
     """
     X = signal
     Xcomp = 3*X[:, 0] - 2*X[:, 1]

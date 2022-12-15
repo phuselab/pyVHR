@@ -1,9 +1,8 @@
 import numpy as np
-from biosppy.signals import ecg
 from pyVHR.datasets.dataset import Dataset
 from pyVHR.utils.ecg import ECGsignal
 import csv
-import os, itertools
+import os
 
 """
 In order to use this module you need a Fortran Compiler.
@@ -70,15 +69,6 @@ class ECG_FITNESS(Dataset):
             end_ecg = int(d[-1][1]) + 1
 
         data = data[start_ecg:end_ecg]
-
-        '''import matplotlib.pyplot as plt
-        plt.plot(data)
-        plt.show()'''
-
-        #ecg_dur = data.shape[0] / ecg_sr
-        #print(ecg_dur)
-
-        #import code; code.interact(local=locals())
 
         return ECGsignal(data, self.SIG_SampleRate)
         

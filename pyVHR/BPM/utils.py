@@ -10,11 +10,6 @@ from scipy.signal import welch
 import cusignal
 import cupy
 
-"""
-This module contains usefull methods used in pyVHR.BPM.BPM and
-pyVHR.plot.visualize.
-"""
-
 def Welch(bvps, fps, minHz=0.65, maxHz=4.0, nfft=2048):
     """
     This function computes Welch'method for spectral density estimation.
@@ -213,7 +208,7 @@ def gaussian_fit(p, x, mu, max):
 def PSD_SNR(PSD, f_peak, sigma, freqs):
   """ PSD estimate based SNR """
   
-  ERR_mask = np.logical_or(freqs < f_peak-3*sigma, freqs > f_peak+3*sigma)
+  ERR_mask = np.logical_or(freqs < f_peak-2*sigma, freqs > f_peak+2*sigma)
   SIG_mask = np.logical_not(ERR_mask)
   SIG_power = np.sum(PSD[SIG_mask]) # signal power
   ERR_power = np.sum(PSD[ERR_mask]) # noise power

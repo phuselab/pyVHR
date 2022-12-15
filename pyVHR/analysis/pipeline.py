@@ -1,11 +1,8 @@
 import configparser
 import ast
 from numpy.lib.arraysetops import isin
-#import cv2
-#import pandas as pd
+import pandas as pd
 import numpy as np
-#from matplotlib import pyplot as plt
-#import plotly.graph_objects as go
 from importlib import import_module, util
 from pyVHR.datasets.dataset import datasetFactory
 from pyVHR.utils.errors import getErrors, printErrors, displayErrors, BVP_windowing
@@ -16,52 +13,308 @@ from pyVHR.BVP.BVP import *
 from pyVHR.BPM.BPM import *
 from pyVHR.BVP.methods import *
 from pyVHR.BVP.filters import *
-import time
 from inspect import getmembers, isfunction
 import os.path
 from pyVHR.deepRPPG.mtts_can import *
 from pyVHR.deepRPPG.hr_cnn import *
+from pyVHR.extraction.utils import *
 
 class Pipeline():
     """ 
     This class runs the pyVHR pipeline on a single video or dataset
     """
 
+    minHz = 0.65 # min heart frequency in Hz
+    maxHz = 4.0  # max heart frequency in Hz
+
     def __init__(self):
         pass
 
-    def run_on_video(self, videoFileName, cuda=True, roi_method='convexhull', roi_approach='holistic', method='cupy_POS', bpm_type='welch', pre_filt=False, post_filt=True, verb=True):
+
+    def run_on_video_multimethods(self, videoFileName, 
+                    winsize, 
+                    ldmks_list=None,
+                    cuda=True, 
+                    roi_method='convexhull', 
+                    roi_approach='holistic', 
+                    methods=['cpu_CHROM, cpu_POS, cpu_LGI'], 
+                    estimate='holistic', 
+                    movement_thrs=[10, 5, 2],
+                    patch_size=30, 
+                    RGB_LOW_HIGH_TH = (75,230),
+                    Skin_LOW_HIGH_TH = (75, 230),
+                    pre_filt=False, 
+                    post_filt=True, 
+                    verb=True):
         """ 
         Runs the pipeline on a specific video file.
 
         Args:
             videoFileName:
-                - The path to the video file to analyse
+                - The video filenane to analyse
+            winsize:
+                - The size of the window in frame
+            ldmks_list:
+                - (default None) a list of MediaPipe's landmarks to use, the range is: [0:467]
             cuda:
                 - True - Enable computations on GPU
-                - False - Use CPU only
             roi_method:
-                - 'convexhull' - Uses MediaPipe's lanmarks to compute the convex hull of the face and segment the skin
-                - 'faceparsing' - Uses BiseNet to parse face components and segment the skin
+                - 'convexhull', uses MediaPipe's lanmarks to compute the convex hull on the face skin
+                - 'faceparsing', uses BiseNet to parse face components and segment the skin
             roi_approach:
-                - 'holistic' - Use the Holistic approach (one single ROI defined as the whole face skin region of the subject)
-                - 'patches' - Use multiple patches as Regions of Interest
+                - 'holistic', uses the holistic approach, i.e. the whole face skin
+                - 'patches', uses multiple patches as Regions of Interest
+            methods:
+                - A collection of rPPG methods defined in pyVHR
+            estimate:
+                - if patches: 'medians', 'clustering', the method for BPM estimate on each window 
+            movement_thrs:
+                - Thresholds for movements filtering (eg.:[10, 5, 2])
+            patch_size:
+                - the size of the square patch, in pixels
+            RGB_LOW_HIGH_TH: 
+                - default (75,230), thresholds for RGB channels 
+            Skin_LOW_HIGH_TH:
+                - default (75,230), thresholds for skin pixel values 
+            pre_filt:
+                - True, uses bandpass filter on the windowed RGB signal
+            post_filt:
+                - True, uses bandpass filter on the estimated BVP signal
+            verb:
+                - True, shows the main steps  
+        """
+
+        # set landmark list
+        if not ldmks_list:
+            ldmks_list = [2, 3, 4, 5, 6, 8, 9, 10, 18, 21, 32, 35, 36, 43, 46, 47, 48, 50, 54, 58, 67, 68, 69, 71, 92, 93, 101, 103, 104, 108, 109, 116, 117, 118, 123, 132, 134, 135, 138, 139, 142, 148, 149, 150, 151, 152, 182, 187, 188, 193, 197, 201, 205, 206, 207, 210, 211, 212, 216, 234, 248, 251, 262, 265, 266, 273, 277, 278, 280, 284, 288, 297, 299, 322, 323, 330, 332, 333, 337, 338, 345, 346, 361, 363, 364, 367, 368, 371, 377, 379, 411, 412, 417, 421, 425, 426, 427, 430, 432, 436]
+        
+        # test video filename
+        assert os.path.isfile(videoFileName), "The video file does not exists!"
+        
+        sig_processing = SignalProcessing()
+        av_meths = getmembers(pyVHR.BVP.methods, isfunction)
+        available_methods = [am[0] for am in av_meths]
+
+        for m in methods:
+            assert m in available_methods, "\nrPPG method not recognized!!"
+
+        if cuda:
+            sig_processing.display_cuda_device()
+            sig_processing.choose_cuda_device(0)
+        
+        ## 1. set skin extractor
+        target_device = 'GPU' if cuda else 'CPU'
+        if roi_method == 'convexhull':
+            sig_processing.set_skin_extractor(SkinExtractionConvexHull(target_device))
+        elif roi_method == 'faceparsing':
+            sig_processing.set_skin_extractor(SkinExtractionFaceParsing(target_device))
+        else:
+            raise ValueError("Unknown 'roi_method'")
+              
+        ## 2. set patches
+        if roi_approach == 'patches':
+            sig_processing.set_landmarks(ldmks_list)
+            sig_processing.set_square_patches_side(np.float(patch_size))
+        
+        # set sig-processing and skin-processing params
+        SignalProcessingParams.RGB_LOW_TH = RGB_LOW_HIGH_TH[0]
+        SignalProcessingParams.RGB_HIGH_TH = RGB_LOW_HIGH_TH[1]
+        SkinProcessingParams.RGB_LOW_TH = Skin_LOW_HIGH_TH[0]
+        SkinProcessingParams.RGB_HIGH_TH = Skin_LOW_HIGH_TH[1]
+
+        if verb:
+            print('\nProcessing Video ' + videoFileName)
+        fps = get_fps(videoFileName)
+        sig_processing.set_total_frames(0)
+
+        ## 3. ROI selection
+        if verb:
+            print('\nRoi processing...')
+        sig = []
+        if roi_approach == 'holistic':
+            # SIG extraction with holistic
+            sig = sig_processing.extract_holistic(videoFileName)
+        elif roi_approach == 'patches':
+            # SIG extraction with patches
+            sig = sig_processing.extract_patches(videoFileName, 'squares', 'mean')
+        if verb:
+            print(' - Extraction approach: ' + roi_approach)
+
+        ## 4. sig windowing
+        windowed_sig, timesES = sig_windowing(sig, winsize, 1, fps)
+        if verb:
+            print(f' - Number of windows: {len(windowed_sig)}')
+            print(' - Win size: (#ROI, #landmarks, #frames) = ', windowed_sig[0].shape)
+
+
+        ## 5. PRE FILTERING
+        if verb:
+            print('\nPre filtering...')
+        filtered_windowed_sig = windowed_sig
+        
+        # -- color threshold - applied only with patches
+        #if roi_approach == 'patches':
+        #    filtered_windowed_sig = apply_filter(windowed_sig,
+        #                                        rgb_filter_th,
+        #                                        params={'RGB_LOW_TH': RGB_LOW_HIGH_TH[0],
+        #                                                'RGB_HIGH_TH': RGB_LOW_HIGH_TH[1]})
+
+        if pre_filt:
+            module = import_module('pyVHR.BVP.filters')
+            method_to_call = getattr(module, 'BPfilter')
+            filtered_windowed_sig = apply_filter(filtered_windowed_sig,
+                                                    method_to_call, 
+                                                    fps=fps, 
+                                                    params={'minHz':Pipeline.minHz, 
+                                                            'maxHz':Pipeline.maxHz, 
+                                                            'fps':'adaptive', 
+                                                            'order':6})
+        if verb:
+            print(f' - Pre-filter applied: {method_to_call.__name__}')
+
+        ## 6. BVP extraction multimethods
+        bvps_win = []
+        for method in methods:
+            if verb:
+                print("\nBVP extraction...")
+                print(" - Extraction method: " + method)
+            module = import_module('pyVHR.BVP.methods')
+            method_to_call = getattr(module, method)
+            
+            if 'cpu' in method:
+                method_device = 'cpu'
+            elif 'torch' in method:
+                method_device = 'torch'
+            elif 'cupy' in method:
+                method_device = 'cuda'
+
+            if 'POS' in method:
+                pars = {'fps':'adaptive'}
+            elif 'PCA' in method or 'ICA' in method:
+                pars = {'component': 'all_comp'}
+            else:
+                pars = {}
+
+            bvps_win_m = RGB_sig_to_BVP(filtered_windowed_sig, 
+                                    fps, device_type=method_device, 
+                                    method=method_to_call, params=pars)
+
+            ## 7. POST FILTERING
+            if post_filt:
+                module = import_module('pyVHR.BVP.filters')
+                method_to_call = getattr(module, 'BPfilter')
+                bvps_win_m = apply_filter(bvps_win_m, 
+                                    method_to_call, 
+                                    fps=fps, 
+                                    params={'minHz':Pipeline.minHz, 'maxHz':Pipeline.maxHz, 'fps':'adaptive', 'order':6})
+            if verb:
+                print(f' - Post-filter applied: {method_to_call.__name__}')
+            # collect
+            if len(bvps_win) == 0:
+                bvps_win = bvps_win_m
+            else:
+                for i in range(len(bvps_win_m)):
+                    bvps_win[i] = np.concatenate((bvps_win[i], bvps_win_m[i]))
+                    if i == 0: print(bvps_win[i].shape)
+            
+
+        ## 8. BPM extraction
+        if verb:
+            print("\nBPM estimation...")  
+            print(f" - roi appproach: {roi_approach}")  
+
+        if roi_approach == 'holistic':
+            if cuda:
+                bpmES = BVP_to_BPM_cuda(bvps_win, fps, minHz=Pipeline.minHz, maxHz=Pipeline.maxHz)
+            else:
+                bpmES = BVP_to_BPM(bvps_win, fps, minHz=Pipeline.minHz, maxHz=Pipeline.maxHz)
+
+        elif roi_approach == 'patches':
+            if estimate == 'clustering':
+                #if cuda and False:
+                #    bpmES = BVP_to_BPM_PSD_clustering_cuda(bvps_win, fps, minHz=Pipeline.minHz, maxHz=Pipeline.maxHz)
+                #else:
+                #bpmES = BPM_clustering(sig_processing, bvps_win, winsize, movement_thrs=[15, 15, 15], fps=fps, opt_factor=0.5)
+                ma = MotionAnalysis(sig_processing, winsize, fps)
+                bpmES = BPM_clustering(ma, bvps_win, fps, winsize, movement_thrs=movement_thrs, opt_factor=0.5)
+
+
+
+            elif estimate == 'median':
+                if cuda:
+                    bpmES = BVP_to_BPM_cuda(bvps_win, fps, minHz=Pipeline.minHz, maxHz=Pipeline.maxHz)
+                else:
+                    bpmES = BVP_to_BPM(bvps_win, fps, minHz=Pipeline.minHz, maxHz=Pipeline.maxHz)
+                bpmES,_ = BPM_median(bpmES)
+            if verb:
+                print(f" - BPM estimation with: {estimate}")
+        else:
+            raise ValueError("Estimation approach unknown!")
+
+        if verb:
+            print('\n...done!\n')
+
+        return bvps_win, timesES, bpmES
+
+    def run_on_video(self, videoFileName, 
+                    winsize, 
+                    ldmks_list=None,
+                    cuda=True, 
+                    roi_method='convexhull', 
+                    roi_approach='holistic', 
+                    method='cupy_POS', 
+                    estimate='holistic', 
+                    movement_thrs=[10, 5, 2],
+                    patch_size=30, 
+                    RGB_LOW_HIGH_TH = (75,230),
+                    Skin_LOW_HIGH_TH = (75, 230),
+                    pre_filt=False, 
+                    post_filt=True, 
+                    verb=True):
+        """ 
+        Runs the pipeline on a specific video file.
+
+        Args:
+            videoFileName:
+                - The video filenane to analyse
+            winsize:
+                - The size of the window in frame
+            ldmks_list:
+                - (default None) a list of MediaPipe's landmarks to use, the range is: [0:467]
+            cuda:
+                - True - Enable computations on GPU
+            roi_method:
+                - 'convexhull', uses MediaPipe's lanmarks to compute the convex hull on the face skin
+                - 'faceparsing', uses BiseNet to parse face components and segment the skin
+            roi_approach:
+                - 'holistic', uses the holistic approach, i.e. the whole face skin
+                - 'patches', uses multiple patches as Regions of Interest
             method:
                 - One of the rPPG methods defined in pyVHR
-            bpm_type:
-                - the method for computing the BPM estimate on a time window
+            estimate:
+                - if patches: 'medians', 'clustering', the method for BPM estimate on each window 
+            movement_thrs:
+                - Thresholds for movements filtering (eg.:[10, 5, 2])
+            patch_size:
+                - the size of the square patch, in pixels
+            RGB_LOW_HIGH_TH: 
+                - default (75,230), thresholds for RGB channels 
+            Skin_LOW_HIGH_TH:
+                - default (75,230), thresholds for skin pixel values 
             pre_filt:
-                - True - Use Band pass filtering on the windowed RGB signal
-                - False - No pre-filtering
+                - True, uses bandpass filter on the windowed RGB signal
             post_filt:
-                - True - Use Band pass filtering on the estimated BVP signal
-                - False - No post-filtering
+                - True, uses bandpass filter on the estimated BVP signal
             verb:
-               - False - not verbose
-               - True - show the main steps  
+                - True, shows the main steps  
         """
-        ldmks_list = [2, 3, 4, 5, 6, 8, 9, 10, 18, 21, 32, 35, 36, 43, 46, 47, 48, 50, 54, 58, 67, 68, 69, 71, 92, 93, 101, 103, 104, 108, 109, 116, 117, 118, 123, 132, 134, 135, 138, 139, 142, 148, 149, 150, 151, 152, 182, 187, 188, 193, 197, 201, 205, 206, 207, 210, 211, 212, 216, 234, 248, 251, 262, 265, 266, 273, 277, 278, 280, 284, 288, 297, 299, 322, 323, 330, 332, 333, 337, 338, 345, 346, 361, 363, 364, 367, 368, 371, 377, 379, 411, 412, 417, 421, 425, 426, 427, 430, 432, 436]
-        assert os.path.isfile(videoFileName), "\nThe provided video file does not exists!"
+
+        # set landmark list
+        if not ldmks_list:
+            ldmks_list = [2, 3, 4, 5, 6, 8, 9, 10, 18, 21, 32, 35, 36, 43, 46, 47, 48, 50, 54, 58, 67, 68, 69, 71, 92, 93, 101, 103, 104, 108, 109, 116, 117, 118, 123, 132, 134, 135, 138, 139, 142, 148, 149, 150, 151, 152, 182, 187, 188, 193, 197, 201, 205, 206, 207, 210, 211, 212, 216, 234, 248, 251, 262, 265, 266, 273, 277, 278, 280, 284, 288, 297, 299, 322, 323, 330, 332, 333, 337, 338, 345, 346, 361, 363, 364, 367, 368, 371, 377, 379, 411, 412, 417, 421, 425, 426, 427, 430, 432, 436]
+        
+        # test video filename
+        assert os.path.isfile(videoFileName), "The video file does not exists!"
         
         sig_processing = SignalProcessing()
         av_meths = getmembers(pyVHR.BVP.methods, isfunction)
@@ -73,39 +326,34 @@ class Pipeline():
             sig_processing.display_cuda_device()
             sig_processing.choose_cuda_device(0)
         
-        # set skin extractor
+        ## 1. set skin extractor
         target_device = 'GPU' if cuda else 'CPU'
         if roi_method == 'convexhull':
-            sig_processing.set_skin_extractor(
-                SkinExtractionConvexHull(target_device))
+            sig_processing.set_skin_extractor(SkinExtractionConvexHull(target_device))
         elif roi_method == 'faceparsing':
-            sig_processing.set_skin_extractor(
-                SkinExtractionFaceParsing(target_device))
+            sig_processing.set_skin_extractor(SkinExtractionFaceParsing(target_device))
         else:
             raise ValueError("Unknown 'roi_method'")
-        
-        assert roi_approach == 'patches' or roi_approach=='holistic', "\nROI extraction approach not recognized!"
-        
-        # set patches
+              
+        ## 2. set patches
         if roi_approach == 'patches':
-            #ldmks_list = ast.literal_eval(landmarks_list)
-            #if len(ldmks_list) > 0:
             sig_processing.set_landmarks(ldmks_list)
-            # set squares patches side dimension
-            sig_processing.set_square_patches_side(28.0)
+            sig_processing.set_square_patches_side(np.float(patch_size))
         
         # set sig-processing and skin-processing params
-        SignalProcessingParams.RGB_LOW_TH = 75
-        SignalProcessingParams.RGB_HIGH_TH = 230
-        SkinProcessingParams.RGB_LOW_TH = 75
-        SkinProcessingParams.RGB_HIGH_TH = 230
+        SignalProcessingParams.RGB_LOW_TH = RGB_LOW_HIGH_TH[0]
+        SignalProcessingParams.RGB_HIGH_TH = RGB_LOW_HIGH_TH[1]
+        SkinProcessingParams.RGB_LOW_TH = Skin_LOW_HIGH_TH[0]
+        SkinProcessingParams.RGB_HIGH_TH = Skin_LOW_HIGH_TH[1]
 
         if verb:
-            print('\nProcessing Video: ' + videoFileName)
+            print('\nProcessing Video ' + videoFileName)
         fps = get_fps(videoFileName)
         sig_processing.set_total_frames(0)
 
-        # -- ROI selection
+        ## 3. ROI selection
+        if verb:
+            print('\nRoi processing...')
         sig = []
         if roi_approach == 'holistic':
             # SIG extraction with holistic
@@ -113,33 +361,48 @@ class Pipeline():
         elif roi_approach == 'patches':
             # SIG extraction with patches
             sig = sig_processing.extract_patches(videoFileName, 'squares', 'mean')
+        if verb:
+            print(' - Extraction approach: ' + roi_approach)
 
-        # -- sig windowing
-        windowed_sig, timesES = sig_windowing(sig, 6, 1, fps)
+        ## 4. sig windowing
+        windowed_sig, timesES = sig_windowing(sig, winsize, 1, fps)
+        if verb:
+            print(f' - Number of windows: {len(windowed_sig)}')
+            print(' - Win size: (#ROI, #landmarks, #frames) = ', windowed_sig[0].shape)
 
-        # -- PRE FILTERING
+
+        ## 5. PRE FILTERING
+        if verb:
+            print('\nPre filtering...')
         filtered_windowed_sig = windowed_sig
-
+        
         # -- color threshold - applied only with patches
-        if roi_approach == 'patches':
-            filtered_windowed_sig = apply_filter(windowed_sig,
-                                                 rgb_filter_th,
-                                                 params={'RGB_LOW_TH':  75,
-                                                         'RGB_HIGH_TH': 230})
+        #if roi_approach == 'patches':
+        #    filtered_windowed_sig = apply_filter(windowed_sig,
+        #                                        rgb_filter_th,
+        #                                        params={'RGB_LOW_TH': RGB_LOW_HIGH_TH[0],
+        #                                                'RGB_HIGH_TH': RGB_LOW_HIGH_TH[1]})
 
         if pre_filt:
             module = import_module('pyVHR.BVP.filters')
             method_to_call = getattr(module, 'BPfilter')
-            bvps = apply_filter(filtered_windowed_sig,
-                                method_to_call, 
-                                fps=fps, 
-                                params={'minHz':0.65, 'maxHz':4.0, 'fps':'adaptive', 'order':6})
+            filtered_windowed_sig = apply_filter(filtered_windowed_sig,
+                                                    method_to_call, 
+                                                    fps=fps, 
+                                                    params={'minHz':Pipeline.minHz, 
+                                                            'maxHz':Pipeline.maxHz, 
+                                                            'fps':'adaptive', 
+                                                            'order':6})
         if verb:
-            print("\nBVP extraction with method: %s" % (method))
+            print(f' - Pre-filter applied: {method_to_call.__name__}')
 
-        # -- BVP Extraction
+        ## 6. BVP extraction
+        if verb:
+            print("\nBVP extraction...")
+            print(" - Extraction method: " + method)
         module = import_module('pyVHR.BVP.methods')
         method_to_call = getattr(module, method)
+        
         if 'cpu' in method:
             method_device = 'cpu'
         elif 'torch' in method:
@@ -154,46 +417,63 @@ class Pipeline():
         else:
             pars = {}
 
-        bvps = RGB_sig_to_BVP(windowed_sig, fps,
-                              device_type=method_device, method=method_to_call, params=pars)
+        bvps_win = RGB_sig_to_BVP(filtered_windowed_sig, 
+                                fps, device_type=method_device, 
+                                method=method_to_call, params=pars)
 
-        # -- POST FILTERING
+        ## 7. POST FILTERING
         if post_filt:
             module = import_module('pyVHR.BVP.filters')
             method_to_call = getattr(module, 'BPfilter')
-            bvps = apply_filter(bvps, 
+            bvps_win = apply_filter(bvps_win, 
                                 method_to_call, 
                                 fps=fps, 
-                                params={'minHz':0.65, 'maxHz':4.0, 'fps':'adaptive', 'order':6})
-
+                                params={'minHz':Pipeline.minHz, 'maxHz':Pipeline.maxHz, 'fps':'adaptive', 'order':6})
         if verb:
-            print("\nBPM estimation with: %s" % (bpm_type))
-        # -- BPM Estimation
-        if bpm_type == 'welch':
-            if cuda:
-                bpmES = BVP_to_BPM_cuda(bvps, fps, minHz=0.65, maxHz=4.0)
-            else:
-                bpmES = BVP_to_BPM(bvps, fps, minHz=0.65, maxHz=4.0)
-        elif bpm_type == 'clustering':
-            if cuda:
-                bpmES = BVP_to_BPM_PSD_clustering_cuda(bvps, fps, minHz=0.65, maxHz=4.0)
-            else:
-                bpmES = BVP_to_BPM_PSD_clustering(bvps, fps, minHz=0.65, maxHz=4.0)
-        else:
-            raise ValueError("Unknown 'bpm_type'")
+            print(f' - Post-filter applied: {method_to_call.__name__}')
 
-        # median BPM from multiple estimators BPM
-        median_bpmES, mad_bpmES = BPM_median(bpmES)
+        ## 8. BPM extraction
+        if verb:
+            print("\nBPM estimation...")  
+            print(f" - roi appproach: {roi_approach}")  
+
+        if roi_approach == 'holistic':
+            if cuda:
+                bpmES = BVP_to_BPM_cuda(bvps_win, fps, minHz=Pipeline.minHz, maxHz=Pipeline.maxHz)
+            else:
+                bpmES = BVP_to_BPM(bvps_win, fps, minHz=Pipeline.minHz, maxHz=Pipeline.maxHz)
+
+        elif roi_approach == 'patches':
+            if estimate == 'clustering':
+                #if cuda and False:
+                #    bpmES = BVP_to_BPM_PSD_clustering_cuda(bvps_win, fps, minHz=Pipeline.minHz, maxHz=Pipeline.maxHz)
+                #else:
+                #bpmES = BPM_clustering(sig_processing, bvps_win, winsize, movement_thrs=[15, 15, 15], fps=fps, opt_factor=0.5)
+                ma = MotionAnalysis(sig_processing, winsize, fps)
+                bpmES = BPM_clustering(ma, bvps_win, fps, winsize, movement_thrs=movement_thrs, opt_factor=0.5)
+
+
+
+            elif estimate == 'median':
+                if cuda:
+                    bpmES = BVP_to_BPM_cuda(bvps_win, fps, minHz=Pipeline.minHz, maxHz=Pipeline.maxHz)
+                else:
+                    bpmES = BVP_to_BPM(bvps_win, fps, minHz=Pipeline.minHz, maxHz=Pipeline.maxHz)
+                bpmES,_ = BPM_median(bpmES)
+            if verb:
+                print(f" - BPM estimation with: {estimate}")
+        else:
+            raise ValueError("Estimation approach unknown!")
 
         if verb:
             print('\n...done!\n')
 
-        return timesES, median_bpmES, mad_bpmES
-
+        return bvps_win, timesES, bpmES
 
     def run_on_dataset(self, configFilename, verb=True):
         """ 
-        Runs the tests as specified in the loaded config file.
+        Like the 'run_on_video' function, it runs on all videos of a specific 
+        dataset as specified by the loaded configuration file.
 
         Args:
             configFilename:
@@ -201,28 +481,29 @@ class Pipeline():
             verb:
                 - False - not verbose
                 - True - show the main steps
-               
-               (use also combinations)
         """
+        # -- cfg file  
         self.configFilename = configFilename
         self.parse_cfg(self.configFilename)
+        
         # -- cfg parser
         parser = configparser.ConfigParser(inline_comment_prefixes=('#', ';'))
         parser.optionxform = str
         if not parser.read(self.configFilename):
             raise FileNotFoundError(self.configFilename)
-
-        # -- verbose prints
         if verb:
             self.__verbose('a')
 
         # -- dataset & cfg params
         if 'path' in self.datasetdict and self.datasetdict['path'] != 'None':
-            dataset = datasetFactory(
-                self.datasetdict['dataset'], videodataDIR=self.datasetdict['videodataDIR'], BVPdataDIR=self.datasetdict['BVPdataDIR'], path=self.datasetdict['path'])
+            dataset = datasetFactory(self.datasetdict['dataset'], 
+                                    videodataDIR=self.datasetdict['videodataDIR'], 
+                                    BVPdataDIR=self.datasetdict['BVPdataDIR'], 
+                                    path=self.datasetdict['path'])
         else:
-            dataset = datasetFactory(
-                self.datasetdict['dataset'], videodataDIR=self.datasetdict['videodataDIR'], BVPdataDIR=self.datasetdict['BVPdataDIR'])
+            dataset = datasetFactory(self.datasetdict['dataset'], 
+                                    videodataDIR=self.datasetdict['videodataDIR'], 
+                                    BVPdataDIR=self.datasetdict['BVPdataDIR'])
 
         # -- catch data (object)
         res = TestResult()
@@ -232,7 +513,10 @@ class Pipeline():
         if eval(self.sigdict['cuda']):
             sig_processing.display_cuda_device()
             sig_processing.choose_cuda_device(int(self.sigdict['cuda_device']))
-        # set skin extractor
+        if verb:
+            print(f" -  cuda device: {self.sigdict['cuda']}")
+
+        ## 1. set skin extractor
         target_device = 'GPU' if eval(self.sigdict['cuda']) else 'CPU'
         if self.sigdict['skin_extractor'] == 'convexhull':
             sig_processing.set_skin_extractor(
@@ -240,7 +524,12 @@ class Pipeline():
         elif self.sigdict['skin_extractor'] == 'faceparsing':
             sig_processing.set_skin_extractor(
                 SkinExtractionFaceParsing(target_device))
-        # set patches
+        else:
+            raise ValueError("Unknown roi method extraction!")
+        if verb:
+            print(f" -  skin extractor: {self.sigdict['skin_extractor']}")
+ 
+        ## 2. set patches
         if self.sigdict['approach'] == 'patches':
             ldmks_list = ast.literal_eval(
                 self.sigdict['landmarks_list'])
@@ -257,6 +546,9 @@ class Pipeline():
                 if len(rects_dims) > 0:
                     sig_processing.set_rect_patches_sides(
                         np.array(rects_dims, dtype=np.float32))
+        if verb:
+            print(f" -  ROI approach: {self.sigdict['approach']}")
+        
         # set sig-processing and skin-processing params
         SignalProcessingParams.RGB_LOW_TH = np.int32(
             self.sigdict['sig_color_low_threshold'])
@@ -267,15 +559,14 @@ class Pipeline():
         SkinProcessingParams.RGB_HIGH_TH = np.int32(
             self.sigdict['skin_color_high_threshold'])
 
-        # load all the videos
-        if not self.videoIdx:
-            self.videoIdx = [int(v) for v in range(len(dataset.videoFilenames))]
+        # set video idx
+        self.videoIdx = [int(v) for v in range(len(dataset.videoFilenames))]
 
         # -- loop on videos
         for v in self.videoIdx:
-            # multi-method -> list []
 
-            # -- verbose prints
+            ####if v != 5: continue     ##### to remove
+
             if verb:
                 print("\n## videoID: %d" % (v))
 
@@ -296,6 +587,7 @@ class Pipeline():
             sig_processing.set_total_frames(
                 int(self.sigdict['tot_sec'])*fps)
 
+            ## 3. ROI selection
             sig = []
             if str(self.sigdict['approach']) == 'holistic':
                 # mean extraction with holistic
@@ -305,34 +597,26 @@ class Pipeline():
                 sig = sig_processing.extract_patches(
                     videoFileName, str(self.sigdict['patches']), str(self.sigdict['type']))
 
-            # -- sig windowing
+            ## 4. sig windowing
             windowed_sig, timesES = sig_windowing(sig, int(self.sigdict['winSize']), 1, fps)
 
             # -- loop on methods
             for m in self.methods:
                 if verb:
-                    print("## method: %s" % (str(m)))
+                    app = str(self.sigdict['approach'])
+                    print(f'## method: {str(m)} ({app})')
 
-                # -- PRE FILTERING
+                ## 5. PRE FILTERING
                 filtered_windowed_sig = windowed_sig
 
                 # -- color threshold - applied only with patches
-                if str(self.sigdict['approach']) == 'patches':
-                    filtered_windowed_sig = apply_filter(windowed_sig, rgb_filter_th,
-                        params={'RGB_LOW_TH':  np.int32(self.bvpdict['color_low_threshold']),
-                                'RGB_HIGH_TH': np.int32(self.bvpdict['color_high_threshold'])})
-
-                # da qui
-
-                # check for empty windows after color thresholding
-                
-
-
-                # a qui
+                #if str(self.sigdict['approach']) == 'patches':
+                #    filtered_windowed_sig = apply_filter(windowed_sig, rgb_filter_th,
+                #        params={'RGB_LOW_TH':  np.int32(self.bvpdict['color_low_threshold']),
+                #                'RGB_HIGH_TH': np.int32(self.bvpdict['color_high_threshold'])})
 
                 # -- custom filters
-                prefilter_list = ast.literal_eval(
-                    self.methodsdict[m]['pre_filtering'])
+                prefilter_list = ast.literal_eval(self.methodsdict[m]['pre_filtering'])
                 if len(prefilter_list) > 0:
                     for f in prefilter_list:
                         if verb:
@@ -348,14 +632,12 @@ class Pipeline():
                             # package path
                             module = import_module('pyVHR.BVP.filters')
                             method_to_call = getattr(module, fdict['name'])
-                        filtered_windowed_sig = apply_filter(
-                            filtered_windowed_sig, method_to_call, fps=fps, params=ast.literal_eval(fdict['params']))
+                        filtered_windowed_sig = apply_filter(filtered_windowed_sig, method_to_call, fps=fps, params=ast.literal_eval(fdict['params']))
 
-                # -- BVP extraction
+                ## 6. BVP extraction
                 if self.methodsdict[m]['path'] != 'None':
                     # custom path
-                    spec = util.spec_from_file_location(
-                        self.methodsdict[m]['name'], self.methodsdict[m]['path'])
+                    spec = util.spec_from_file_location(self.methodsdict[m]['name'], self.methodsdict[m]['path'])
                     mod = util.module_from_spec(spec)
                     spec.loader.exec_module(mod)
                     method_to_call = getattr(mod, self.methodsdict[m]['name'])
@@ -363,14 +645,13 @@ class Pipeline():
                     # package path
                     module = import_module('pyVHR.BVP.methods')
                     method_to_call = getattr(module, self.methodsdict[m]['name'])
-                bvps = RGB_sig_to_BVP(filtered_windowed_sig, fps,
+                bvps_win = RGB_sig_to_BVP(filtered_windowed_sig, fps,
                                       device_type=self.methodsdict[m]['device_type'], 
                                       method=method_to_call, 
                                       params=ast.literal_eval(self.methodsdict[m]['params']))
 
-                # POST FILTERING
-                postfilter_list = ast.literal_eval(
-                    self.methodsdict[m]['post_filtering'])
+                ## 7. POST FILTERING
+                postfilter_list = ast.literal_eval(self.methodsdict[m]['post_filtering'])
                 if len(postfilter_list) > 0:
                     for f in postfilter_list:
                         if verb:
@@ -388,29 +669,38 @@ class Pipeline():
                             module = import_module('pyVHR.BVP.filters')
                             method_to_call = getattr(module, fdict['name'])
                         
-                        bvps = apply_filter(bvps, method_to_call, fps=fps, params=ast.literal_eval(fdict['params']))
+                        bvps_win = apply_filter(bvps_win, method_to_call, fps=fps, params=ast.literal_eval(fdict['params']))
 
-                # -- BPM extraction
-                if self.bpmdict['type'] == 'welch':
+                ## 8. BPM extraction
+                MAD = []
+                if self.bpmdict['estimate'] == 'holistic' or self.bpmdict['estimate'] == 'median':
                     if eval(self.sigdict['cuda']):
-                        bpmES = BVP_to_BPM_cuda(bvps, fps, minHz=float(
+                        bpmES = BVP_to_BPM_cuda(bvps_win, fps, minHz=float(
                             self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
                     else:
-                        bpmES = BVP_to_BPM(bvps, fps, minHz=float(
+                        bpmES = BVP_to_BPM(bvps_win, fps, minHz=float(
                             self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
-                elif self.bpmdict['type'] == 'clustering':
-                    if eval(self.sigdict['cuda']):
-                        bpmES = BVP_to_BPM_PSD_clustering_cuda(bvps, fps, minHz=float(
-                            self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
-                    else:
-                        bpmES = BVP_to_BPM_PSD_clustering(bvps, fps, minHz=float(
-                            self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
-                # median BPM from multiple estimators BPM
-                median_bpmES, mad_bpmES = BPM_median(bpmES)
+                      
+                    if self.bpmdict['estimate'] == 'median':
+                        # median BPM from multiple estimators BPM
+                        bpmES, MAD = BPM_median(bpmES)
 
-                # -- error metrics
-                RMSE, MAE, MAX, PCC, CCC, SNR = getErrors(bvps, fps,
-                    np.expand_dims(median_bpmES, axis=0), bpmGT, timesES, timesGT)
+                elif self.bpmdict['estimate'] == 'clustering':
+                    # if eval(self.sigdict['cuda']):
+                    #     bpmES = BVP_to_BPM_PSD_clustering_cuda(bvps_win, fps, minHz=float(
+                    #         self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
+                    # else:
+                    #bpmES = BPM_clustering(sig_processing, bvps_win, winSizeGT, movement_thrs=[15, 15, 15], fps=fps, opt_factor=0.5)
+                    ma = MotionAnalysis(sig_processing, winSizeGT, fps)
+                    mthrs = self.bpmdict['movement_thrs']
+                    mthrs = mthrs.replace('[', '')
+                    mthrs = mthrs.replace(']', '')
+                    movement_thrs = [float(i) for i in mthrs.split(",")]
+                    bpmES = BPM_clustering(ma, bvps_win, fps, winSizeGT, movement_thrs=movement_thrs, opt_factor=0.5)
+              
+
+                ## 9. error metrics
+                RMSE, MAE, MAX, PCC, CCC, SNR = getErrors(bvps_win, fps, bpmES, bpmGT, timesES, timesGT)
 
                 # -- save results
                 res.newDataSerie()
@@ -423,17 +713,15 @@ class Pipeline():
                 res.addData('PCC', PCC)
                 res.addData('CCC', CCC)
                 res.addData('SNR', SNR)
+                res.addData('MAD', MAD)
                 res.addData('bpmGT', bpmGT)
-                res.addData('bpmES', median_bpmES)
-                res.addData('bpmES_mad', mad_bpmES)
+                res.addData('bpmES', bpmES)
                 res.addData('timeGT', timesGT)
                 res.addData('timeES', timesES)
                 res.addData('videoFilename', videoFileName)
                 res.addDataSerie()
-
                 if verb:
                     printErrors(RMSE, MAE, MAX, PCC, CCC, SNR)
-
         return res
 
     def parse_cfg(self, configFilename):
@@ -476,7 +764,6 @@ class Pipeline():
             print("** Run the test with the following config:")
             print("      dataset: " + self.datasetdict['dataset'].upper())
             print("      methods: " + str(self.methods))
-
 
 class DeepPipeline(Pipeline):
     """ 
@@ -543,9 +830,9 @@ class DeepPipeline(Pipeline):
             print("\nBPM estimation with: %s" % (bpm_type))
         if bpm_type == 'welch':
             if cuda:
-                bpmES = BVP_to_BPM_cuda(bvps, fps, minHz=0.65, maxHz=4.0)
+                bpmES = BVP_to_BPM_cuda(bvps, fps, minHz=minHz, maxHz=maxHz)
             else:
-                bpmES = BVP_to_BPM(bvps, fps, minHz=0.65, maxHz=4.0)
+                bpmES = BVP_to_BPM(bvps, fps, minHz=minHz, maxHz=maxHz)
         else:
             raise ValueError("The only 'bpm_type' supported for deep models is 'welch'")
            
@@ -662,22 +949,21 @@ class DeepPipeline(Pipeline):
                                 'pyVHR.BVP.filters')
                             method_to_call = getattr(
                                 module, fdict['name'])
-                        bvps = apply_filter(
-                            bvps, method_to_call, fps=fps, params=ast.literal_eval(fdict['params']))
+                        bvps_win = apply_filter(bvps_win, method_to_call, fps=fps, params=ast.literal_eval(fdict['params']))
 
                 # -- BPM extraction
                 if self.bpmdict['type'] == 'welch':
-                    bpmES = BVP_to_BPM_cuda(bvps, fps, minHz=float(
+                    bpmES = BVP_to_BPM_cuda(bvps_win, fps, minHz=float(
                         self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
                 elif self.bpmdict['type'] == 'clustering':
-                    bpmES = BVP_to_BPM_PSD_clustering_cuda(bvps, fps, minHz=float(
+                    bpmES = BVP_to_BPM_PSD_clustering_cuda(bvps_win, fps, minHz=float(
                         self.bpmdict['minHz']), maxHz=float(self.bpmdict['maxHz']))
                    
                 # median BPM from multiple estimators BPM
                 median_bpmES, mad_bpmES = BPM_median(bpmES)
 
                 # -- error metrics
-                RMSE, MAE, MAX, PCC, CCC, SNR = getErrors(bvps, fps, median_bpmES, bpmGT, timesES, timesGT)
+                RMSE, MAE, MAX, PCC, CCC, SNR = getErrors(bvps_win, fps, median_bpmES, bpmGT, timesES, timesGT)
 
                 # -- save results
                 res.newDataSerie()
@@ -742,11 +1028,9 @@ class DeepPipeline(Pipeline):
             print("      dataset: " + self.datasetdict['dataset'].upper())
             print("      methods: " + str(self.methods))
 
-
 class TestResult():
     """ 
-    This class is used by :py:class:`pyVHR.analysis.newsuite.NewSuite` to manage the results
-    of a test for a given video dataset on multiple rPPG methods
+    This class manages the results on a given dataset using multiple rPPG methods.
     """
 
     def __init__(self, filename=None):
@@ -760,8 +1044,7 @@ class TestResult():
     def addDataSerie(self):
         # -- store serie
         if self.dict != None:
-            self.dataFrame = self.dataFrame.append(
-                 self.dict, ignore_index=True)
+            self.dataFrame = self.dataFrame.append(self.dict, ignore_index=True)
 
     def newDataSerie(self):
         # -- new dict
@@ -777,7 +1060,8 @@ class TestResult():
         D['CCC'] = ''
         D['SNR'] = ''
         D['MAX'] = ''
-        D['bpmGT'] = ''          # GT bpm
+        D['MAD'] = ''
+        D['bpmGT'] = ''             # GT bpm
         D['bpmES'] = ''
         D['bpmES_mad'] = ''
         D['timeGT'] = ''            # GT bpm
@@ -801,4 +1085,4 @@ class TestResult():
             self.outFilename = outFilename
 
         # -- save data
-        self.dataFrame.to_hdf(outFilename, key='df', mode='w')
+        self.dataFrame.to_hdf(outFilename, key='self.dataFrame', mode='w')

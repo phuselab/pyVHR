@@ -1,13 +1,8 @@
 import numpy as np
 import scipy.sparse
-import time
-import os
-import matplotlib.pyplot as plt
 from numba import prange, jit
 from scipy import stats
-import statistics
 from scipy.signal import butter, filtfilt, savgol_filter
-from scipy.sparse import spdiags
 
 """
 This module contains a collection of filter methods.
@@ -54,11 +49,9 @@ def apply_filter(windowed_sig, filter_func, fps=None, params={}):
 
     return filtered_windowed_sig
 
-
 # ------------------------------------------------------------------------------------- #
 #                                     FILTER METHODS                                    #
 # ------------------------------------------------------------------------------------- #
-
 
 def BPfilter(sig, **kargs):
     """
@@ -73,7 +66,6 @@ def BPfilter(sig, **kargs):
     y = np.swapaxes(y, 1, 2)
     return y
 
-
 def zscore(sig):
     """
     Z-score filter for RGB signal and BVP signal.
@@ -82,7 +74,6 @@ def zscore(sig):
     y = stats.zscore(x, axis=2)
     y = np.swapaxes(y, 1, 2)
     return y
-
  
 def detrend(X, **kargs):
     """
@@ -137,7 +128,6 @@ def sg_detrend(X, **kargs):
     trend = savgol_filter(X, window_length=kargs['window_length'], polyorder=kargs['polyorder'], axis=2)
     return X - trend
 
-
 @jit(["int32[:](float32[:,:,:], int32, int32)", "int32[:](float64[:,:,:], int32, int32)", "int32[:](int32[:,:,:], int32, int32)"], nopython=True, nogil=True, parallel=True, fastmath=True)
 def kernel_rgb_filter_th(sig, RGB_LOW_TH, RGB_HIGH_TH):
     """
@@ -154,7 +144,6 @@ def kernel_rgb_filter_th(sig, RGB_LOW_TH, RGB_HIGH_TH):
         goodidx[idx] = b_in
     return goodidx
 
-
 def rgb_filter_th(sig, **kargs):
     """
     Color Threshold filter for RGB signal only.
@@ -165,8 +154,7 @@ def rgb_filter_th(sig, **kargs):
     The dictionary parameters are: {'RGB_LOW_TH':int, 'RGB_HIGH_TH':int}.
     Where 'RGB_LOW_TH' and 'RGB_HIGH_TH' are RGB values ([0,255]) representing the filter thresholds.
     """
-    goodidx = kernel_rgb_filter_th(
-        sig, np.int32(kargs['RGB_LOW_TH']), np.int32(kargs['RGB_HIGH_TH']))
+    goodidx = kernel_rgb_filter_th(sig, np.int32(kargs['RGB_LOW_TH']), np.int32(kargs['RGB_HIGH_TH']))
     if np.sum(goodidx) == 0:
         raise Exception(f"Too tight thresholds {(kargs['RGB_LOW_TH'], kargs['RGB_HIGH_TH'])} for pixel colors, blank face mask!")
     return np.copy(sig[np.argwhere(goodidx).flatten()])

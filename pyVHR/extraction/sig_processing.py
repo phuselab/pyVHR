@@ -10,7 +10,6 @@ from pyVHR.utils.cuda_utils import *
 This module defines classes or methods used for Signal extraction and processing.
 """
 
-
 class SignalProcessing():
     """
         This class performs offline signal extraction with different methods:
@@ -133,8 +132,6 @@ class SignalProcessing():
                 frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))   # convert to RGB
 
         return np.array(frames)
-
-
 
     ### HOLISTIC METHODS ###
 
