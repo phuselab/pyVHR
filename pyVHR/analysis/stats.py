@@ -1,12 +1,10 @@
 import pandas as pd
 import numpy as np
 import os
-import re
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import scipy.stats as ss
 import scikit_posthocs as sp
-import math
 from autorank import autorank, plot_stats, create_report
 from matplotlib.colors import ListedColormap
 from matplotlib.colorbar import ColorbarBase, Colorbar
@@ -240,12 +238,6 @@ class StatAnalysis:
                 raise ValueError("Some method is wrong!")
             else:
                 self.methods = methods
-
-        if sorted(list(set(self.methods))) != sorted(self.methods):
-            methods = self.datasetsList
-        else:
-            methods = self.methods
-
 
         # -- set metric
         self.metric = metric
@@ -509,6 +501,5 @@ class StatAnalysis:
             if sorted(list(set(methods))) != sorted(methods):
                 raise ("Found multiple methods with the same name... Please ensure using different names for each method when 'join_data=True'")
 
-        methods.sort()
         self.methods = methods
         self.dataFrame = dataFrame
