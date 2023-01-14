@@ -57,7 +57,7 @@ conda activate pyvhr
 (pyvhr) pip install pyvhr
 ```
 
-## Basic usage and Notebooks
+## Basic usage
 Run the following code to obtain BPM estimates over time for a single video:
 
 ```python
@@ -74,7 +74,15 @@ plt.show()
 ```
 The full documentation of `run_on_video` method, with all the possible parameters, can be found here: [https://phuselab.github.io/pyVHR/](https://phuselab.github.io/pyVHR/pyVHR.analysis.html?highlight=run_on_video#pyVHR.analysis.pipeline.Pipeline.run_on_video)
 
-The `notebooks` folder contains useful Jupyter notebooks.
+
+## Notebooks
+
+Some demonstration jupyter notebooks that help to better understand the many features of the framework are contained in the `notebooks` folder.
+
+* `pyVHR_demo.ipynb`: Basic demo with individual steps explained step by step.
+* `pyVHR_run_on_video.ipynb`: Show execution on a single video by deriving HRVs and error values from the reference signal.
+* `pyVHR_run_on_dataset.ipynb`: Show execution on a single dataset by deriving HRVs and error values from the reference signals. It is also possible to make some basic statistics, boxplots and ranking tests for comparative purposes.
+
 
 ## Documentation
 
