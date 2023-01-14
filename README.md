@@ -79,9 +79,11 @@ The full documentation of `run_on_video` method, with all the possible parameter
 
 Some demonstration jupyter notebooks that help to better understand the many features of the framework are contained in the `notebooks` folder.
 
-* `pyVHR_demo.ipynb`: Basic demo with individual steps explained step by step.
-* `pyVHR_run_on_video.ipynb`: Show execution on a single video by deriving HRVs and error values from the reference signal.
-* `pyVHR_run_on_dataset.ipynb`: Show execution on a single dataset by deriving HRVs and error values from the reference signals. It is also possible to make some basic statistics, boxplots and ranking tests for comparative purposes.
+* [`pyVHR_demo.ipynb`](https://github.com/phuselab/pyVHR/blob/master/notebooks/pyVHR_demo.ipynb): Basic demo with individual steps explained step by step.
+* [`pyVHR_run_on_video.ipynb`](https://github.com/phuselab/pyVHR/blob/master/notebooks/pyVHR_run_on_video.ipynb): Show execution on a single video by deriving HRVs and error values from the reference signal.
+* [`pyVHR_run_on_dataset.ipynb`](https://github.com/phuselab/pyVHR/blob/master/notebooks/pyVHR_run_on_dataset.ipynb): Show execution on a single dataset by deriving HRVs and error values from the reference signals. It is also possible to make some basic statistics, boxplots and ranking tests for comparative purposes.
+* [`pyVHR_demo_deep.ipynb`](https://github.com/phuselab/pyVHR/blob/master/notebooks/pyVHR_demo_deep.ipynb): Show execution of deep methods on a single dataset by deriving HRV and error values from reference signals.
+
 
 
 ## Documentation
