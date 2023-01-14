@@ -167,15 +167,18 @@ Currently supported datasets are:
 
 **VIPL-HR** *https://arxiv.org/abs/1810.04927*
 
-## Reference
 
-If you use this code, please cite the paper:
 
-```
+
+
 ## RESULTS
 
-https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_PURE.html
+[PURE](https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_PURE.html)
 
+
+## Reference
+
+If you use this code, please cite the papers:
 
 ```
 @article{boccignone2022pyvhr,
