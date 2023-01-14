@@ -173,7 +173,7 @@ Currently supported datasets are:
 
 ## RESULTS
 
-[PURE](https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_PURE.html)
+[PURE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_PURE.html)
 
 
 ## Reference
