@@ -120,65 +120,60 @@ If you want to create your environment from scratch you should follow these step
 
 The framework contains the implementation of many common methods for remote-PPG measurement. Currently implemented methods with reference publications are:
 
-**Green** / *Verkruysse, W., Svaasand, L. O., & Nelson, J. S. (2008). Remote plethysmographic imaging using ambient light. Optics express, 16(26), 21434-21445.*
-
-**CHROM** / *De Haan, G., & Jeanne, V. (2013). Robust pulse rate from chrominance-based rPPG. IEEE Transactions on Biomedical Engineering, 60(10), 2878-2886.*
-
-**ICA** / *Poh, M. Z., McDuff, D. J., & Picard, R. W. (2010). Non-contact, automated cardiac pulse measurements using video imaging and blind source separation. Optics express, 18(10), 10762-10774.*
-
-**LGI** / *Pilz, C. S., Zaunseder, S., Krajewski, J., & Blazek, V. (2018). Local group invariance for heart rate estimation from face videos in the wild. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition Workshops (pp. 1254-1262).*
-
-**PBV** / *De Haan, G., & Van Leest, A. (2014). Improved motion robustness of remote-PPG by using the blood volume pulse signature. Physiological measurement, 35(9), 1913.*
-
-**PCA** / *Lewandowska, M., Rumiński, J., Kocejko, T., & Nowak, J. (2011, September). Measuring pulse rate with a webcam—a non-contact method for evaluating cardiac activity. In 2011 federated conference on computer science and information systems (FedCSIS) (pp. 405-410). IEEE.*
-
-**POS** / *Wang, W., den Brinker, A. C., Stuijk, S., & de Haan, G. (2016). Algorithmic principles of remote PPG. IEEE Transactions on Biomedical Engineering, 64(7), 1479-1491.*
-
-**SSR** / *Wang, W., Stuijk, S., & De Haan, G. (2015). A novel algorithm for remote photoplethysmography: Spatial subspace rotation. IEEE transactions on biomedical engineering, 63(9), 1974-1984.*
-
-**OMIT** / *Álvarez Casado, C., Bordallo López, M. (2022). Face2PPG: An unsupervised pipeline for blood volume pulse extraction from faces. arXiv (eprint 2202.04101).*
-
-**MTTS-CAN** / *Liu, X., Fromm, J., Patel, S., & McDuff, D. (2020). Multi-task temporal shift attention networks for on-device contactless vitals measurement. Advances in Neural Information Processing Systems, 33, 19400-19411.*
+| Method name    |  Reference paper |
+| ------------ | ---------------------------------------------------------------------- |
+|Green    | Verkruysse, W., Svaasand, L. O., & Nelson, J. S. (2008). Remote plethysmographic imaging using ambient light. Optics express, 16(26), 21434-21445.|
+|CHROM    | De Haan, G., & Jeanne, V. (2013). Robust pulse rate from chrominance-based rPPG. IEEE Transactions on Biomedical Engineering, 60(10), 2878-2886.|
+|ICA      | Poh, M. Z., McDuff, D. J., & Picard, R. W. (2010). Non-contact, automated cardiac pulse measurements using video imaging and blind source separation. Optics express, 18(10), 10762-10774.|
+|LGI      | Pilz, C. S., Zaunseder, S., Krajewski, J., & Blazek, V. (2018). Local group invariance for heart rate estimation from face videos in the wild. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition Workshops (pp. 1254-1262).|
+|PBV      | De Haan, G., & Van Leest, A. (2014). Improved motion robustness of remote-PPG by using the blood volume pulse signature. Physiological measurement, 35(9), 1913.|
+|PCA      | Lewandowska, M., Rumiński, J., Kocejko, T., & Nowak, J. (2011, September). Measuring pulse rate with a webcam—a non-contact method for evaluating cardiac activity. In 2011 federated conference on computer science and information systems (FedCSIS) (pp. 405-410). IEEE.|
+|POS      | Wang, W., den Brinker, A. C., Stuijk, S., & de Haan, G. (2016). Algorithmic principles of remote PPG. IEEE Transactions on Biomedical Engineering, 64(7), 1479-1491.|
+|SSR      | Wang, W., Stuijk, S., & De Haan, G. (2015). A novel algorithm for remote photoplethysmography: Spatial subspace rotation. IEEE transactions on biomedical engineering, 63(9), 1974-1984.|
+|OMIT     | Álvarez Casado, C., Bordallo López, M. (2022). Face2PPG: An unsupervised pipeline for blood volume pulse extraction from faces. arXiv (eprint 2202.04101).|
+|MTTS-CAN | Liu, X., Fromm, J., Patel, S., & McDuff, D. (2020). Multi-task temporal shift attention networks for on-device contactless vitals measurement. Advances in Neural Information Processing Systems, 33, 19400-19411.|
+|HR-CNN   | Spetlik, R., Franc, V., Cech, J. and Matas, J. (2018). Visual Heart Rate Estimation with Convolutional Neural Network. In Proceedings of British Machine Vision Conference|
 
 ## Datasets
 
 Interfaces for 10 different datasets are provided in the `datasets` folder. Once the datasets are obtained, the respective files must be edited to match the correct path.  
 Currently supported datasets are:
 
-**COHFACE** / *https://www.idiap.ch/dataset/cohface*
-
-**LGI-PPGI** / *https://github.com/partofthestars/LGI-PPGI-DB*
-
-**MAHNOB-HCI** / *https://mahnob-db.eu/hci-tagging/*
-
-**PURE** / *https://www.tu-ilmenau.de/neurob/data-sets-code/pulse-rate-detection-dataset-pure*
-
-**UBFC1** / *https://sites.google.com/view/ybenezeth/ubfcrppg*
-
-**UBFC2** / *https://sites.google.com/view/ybenezeth/ubfcrppg*
-
-**UBFC-Phys** / *https://sites.google.com/view/ybenezeth/ubfc-phys*
-
-**ECG-Fitness** / *https://cmp.felk.cvut.cz/~spetlrad/ecg-fitness/*
-
-**Vicar-PPG-2** / *https://docs.google.com/forms/d/e/1FAIpQLScwnW_D5M4JVovPzpxA0Bf1ZCTaG5vh7sYu48I0MVSpgltvdw/viewform*
-
-**V4V** / *https://vision4vitals.github.io/*
-
-**VIPL-HR** *https://arxiv.org/abs/1810.04927*
-
-
+| Dataset name |                              Link                                      |
+| ------------ | ---------------------------------------------------------------------- |
+| COHFACE    | https://www.idiap.ch/dataset/cohface |
+| LGI-PPGI   | https://github.com/partofthestars/LGI-PPGI-DB |
+| MAHNOB-HCI | https://mahnob-db.eu/hci-tagging/ |
+| PURE       | https://www.tu-ilmenau.de/neurob/data-sets-code/pulse-rate-detection-dataset-pure|
+| UBFC1      | https://sites.google.com/view/ybenezeth/ubfcrppg|
+|UBFC2       | https://sites.google.com/view/ybenezeth/ubfcrppg|
+|UBFC-Phys   | https://sites.google.com/view/ybenezeth/ubfc-phys|
+|ECG-Fitness | https://cmp.felk.cvut.cz/~spetlrad/ecg-fitness/*
+|Vicar-PPG-2 | https://docs.google.com/forms/d/e/1FAIpQLScwnW_D5M4JVovPzpxA0Bf1ZCTaG5vh7sYu48I0MVSpgltvdw/viewform*
+|V4V         | https://vision4vitals.github.io/ |
+|VIPL-HR     |https://arxiv.org/abs/1810.04927 |
 
 
 
 ## RESULTS
-Here are the results obtained (holistic vs median vs clustering) by applying the `pyVHR_run_on_dataset` notebook to the datasets listed above:
+Here are the results obtained (holistic vs median vs clustering) by applying the `pyVHR_run_on_dataset` notebook to some datasets listed above:
 
 * [PURE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_PURE.html)
 * [UBFC1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_UBFC1.html)
 * [UBFC2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_UBFC2.html)
-
-
+* [LGI-PPGI](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_LGI-PPGI.html)
+* [ECG_Fitness_01-1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_01-1.html)
+* [ECG_Fitness_01-2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_01-2.html)
+* [ECG_Fitness_02-1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_02-1.html)
+* [ECG_Fitness_02-2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_02-2.html)
+* [ECG_Fitness_03-1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_03-1.html)
+* [ECG_Fitness_03-2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_03-2.html)
+* [ECG_Fitness_04-1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_04-1.html)
+* [ECG_Fitness_04-2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_04-2.html)
+* [ECG_Fitness_05-1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_05-1.html)
+* [ECG_Fitness_05-2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_05-2.html)
+* [ECG_Fitness_06-1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_06-1.html)
+* [ECG_Fitness_06-2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_06-2.html)
 
 
 ## Reference
