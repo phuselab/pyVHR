@@ -174,6 +174,10 @@ Currently supported datasets are:
 ## RESULTS
 
 [PURE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_PURE.html)
+[UBFC1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_UBFC1.html)
+[UBFC2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_UBFC2.html)
+
+
 
 
 ## Reference
