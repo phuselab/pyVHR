@@ -80,21 +80,6 @@ The `notebooks` folder contains useful Jupyter notebooks.
 
 The full documentation of the pyVHR framework is available at [https://phuselab.github.io/pyVHR/](https://phuselab.github.io/pyVHR/).
 
-## GUI
-In the folder `realtime` you can find an example of a simple GUI created using the pyVHR package.
-You can launch it by going into the path `pyVHR/realtime/` and using the command 
-
-```bash
-python GUI.py
-```
-
-If you want to use a specific rPPG method and pre-post filterings, you must set them in the last lines of `GUI.py`. 
-
-Below is a video showing the use of the GUI.
-
-https://user-images.githubusercontent.com/34277835/136981161-8799051a-ca0d-45c6-b4dd-e146457c7bdd.mp4
-
-
 ## Developing
 
 The latest unstable development build of pyVHR is available on GitHub, and can be obtained downloading from source and installing via:
@@ -176,6 +161,20 @@ Here are the results obtained (holistic vs median vs clustering) by applying the
 |ECG_Fitness_05-2| [ECG_Fitness_05-2_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_05-2.html)|[ECG_Fitness_05-2_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_05-2.html)
 |ECG_Fitness_06-1| [ECG_Fitness_06-1_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_06-1.html)|[ECG_Fitness_06-1_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_06-1.html)|
 |ECG_Fitness_06-2| [ECG_Fitness_06-2_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_06-2.html)|[ECG_Fitness_06-2_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_06-2.html)|
+
+## GUI
+In the folder `realtime` you can find an example of a simple GUI created using the pyVHR package.
+You can launch it by going into the path `pyVHR/realtime/` and using the command 
+
+```bash
+python GUI.py
+```
+
+If you want to use a specific rPPG method and pre-post filterings, you must set them in the last lines of `GUI.py`. 
+
+Below is a video showing the use of the GUI.
+
+https://user-images.githubusercontent.com/34277835/136981161-8799051a-ca0d-45c6-b4dd-e146457c7bdd.mp4
 
 
 ## Reference
