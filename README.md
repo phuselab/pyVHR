@@ -172,10 +172,11 @@ Currently supported datasets are:
 
 
 ## RESULTS
+Here are the results obtained (holistic vs median vs clustering) by applying the `pyVHR_run_on_dataset` notebook to the datasets listed above:
 
-[PURE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_PURE.html)
-[UBFC1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_UBFC1.html)
-[UBFC2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_UBFC2.html)
+* [PURE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_PURE.html)
+* [UBFC1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_UBFC1.html)
+* [UBFC2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_UBFC2.html)
 
 
 
