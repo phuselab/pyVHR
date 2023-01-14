@@ -158,22 +158,24 @@ Currently supported datasets are:
 ## RESULTS
 Here are the results obtained (holistic vs median vs clustering) by applying the `pyVHR_run_on_dataset` notebook to some datasets listed above:
 
-* [PURE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_PURE.html)
-* [UBFC1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_UBFC1.html)
-* [UBFC2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_UBFC2.html)
-* [LGI-PPGI](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_LGI-PPGI.html)
-* [ECG_Fitness_01-1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_01-1.html)
-* [ECG_Fitness_01-2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_01-2.html)
-* [ECG_Fitness_02-1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_02-1.html)
-* [ECG_Fitness_02-2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_02-2.html)
-* [ECG_Fitness_03-1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_03-1.html)
-* [ECG_Fitness_03-2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_03-2.html)
-* [ECG_Fitness_04-1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_04-1.html)
-* [ECG_Fitness_04-2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_04-2.html)
-* [ECG_Fitness_05-1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_05-1.html)
-* [ECG_Fitness_05-2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_05-2.html)
-* [ECG_Fitness_06-1](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_06-1.html)
-* [ECG_Fitness_06-2](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_ECG_Fitness_06-2.html)
+| Dataset | MAE Error | PCC Error |
+|--------|-----|------|
+|PURE | [PURE_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_PURE.html)|[PURE_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_PURE.html)|
+| UBFC1 | [UBFC1_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_UBFC1.html)|[UBFC1_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_UBFC1.html)|
+| UBFC2 | [UBFC2_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_UBFC2.html)|[UBFC2_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_UBFC2.html)|
+|LGI-PPGI| [LGI-PPGI_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_LGI-PPGI.html)|[LGI-PPGI_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_LGI-PPGI.html)|
+|ECG_Fitness_01-1| [ECG_Fitness_01-1_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_01-1.html)|[ECG_Fitness_01-1_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_01-1.html)|
+|ECG_Fitness_01-2|  [ECG_Fitness_01-2_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_01-2.html)|  [ECG_Fitness_01-2_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_01-2.html)|
+|ECG_Fitness_02-1| [ECG_Fitness_02-1_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_02-1.html)|[ECG_Fitness_02-1_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_02-1.html)|
+|ECG_Fitness_02-2| [ECG_Fitness_02-2_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_02-2.html)|[ECG_Fitness_02-2_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_02-2.html)|
+|ECG_Fitness_03-1| [ECG_Fitness_03-1_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_03-1.html)|[ECG_Fitness_03-1_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_03-1.html)|
+|ECG_Fitness_03-2| [ECG_Fitness_03-2_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_03-2.html)|[ECG_Fitness_03-2_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_03-2.html)|
+|ECG_Fitness_04-1| [ECG_Fitness_04-1_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_04-1.html)|[ECG_Fitness_04-1_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_04-1.html)|
+|ECG_Fitness_04-2| [ECG_Fitness_04-2_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_04-2.html)|[ECG_Fitness_04-2_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_04-2.html)|
+|ECG_Fitness_05-1| [ECG_Fitness_05-1_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_05-1.html)|[ECG_Fitness_05-1_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_05-1.html)|
+|ECG_Fitness_05-2| [ECG_Fitness_05-2_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_05-2.html)|[ECG_Fitness_05-2_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_05-2.html)
+|ECG_Fitness_06-1| [ECG_Fitness_06-1_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_06-1.html)|[ECG_Fitness_06-1_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_06-1.html)|
+|ECG_Fitness_06-2| [ECG_Fitness_06-2_MAE](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/MAE_run_on_dataset_ECG_Fitness_06-2.html)|[ECG_Fitness_06-2_PCC](https://htmlpreview.github.io/?https://github.com/phuselab/pyVHR/blob/master/results/html/PCC_run_on_dataset_ECG_Fitness_06-2.html)|
 
 
 ## Reference
