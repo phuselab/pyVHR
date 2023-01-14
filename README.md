@@ -172,6 +172,12 @@ Currently supported datasets are:
 If you use this code, please cite the paper:
 
 ```
+## RESULTS
+
+https://github.com/phuselab/pyVHR/blob/master/results/html/run_on_dataset_PURE.html
+
+
+```
 @article{boccignone2022pyvhr,
   title={pyVHR: a Python framework for remote photoplethysmography},
   author={Boccignone, Giuseppe and Conte, Donatello and Cuculo, Vittorio and D’Amelio, Alessandro and Grossi, Giuliano and Lanzarotti, Raffaella and Mortara, Edoardo},
