@@ -231,7 +231,7 @@ def visualize_landmarks_list(image_file_name=None, landmarks_list=None):
     PRESENCE_THRESHOLD = 0.5
     VISIBILITY_THRESHOLD = 0.5
     if image_file_name is None:
-        image_file_name = pyVHR.__path__[0] + '/resources/img/face.png' 
+        image_file_name = pyVHR.__path__[0] + '/../img/face.png' 
     imag = cv2.imread(image_file_name, cv2.COLOR_RGB2BGR)
     imag = cv2.cvtColor(imag, cv2.COLOR_BGR2RGB)
     mp_drawing = mp.solutions.drawing_utils
