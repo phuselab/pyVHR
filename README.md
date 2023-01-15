@@ -61,16 +61,39 @@ conda activate pyvhr
 Run the following code to obtain BPM estimates over time for a single video:
 
 ```python
+import pyVHR as vhr
+import numpy as np
 from pyVHR.analysis.pipeline import Pipeline
-import matplotlib.pyplot as plt
+from pyVHR.plot.visualize import *
+import plotly.express as px
+from pyVHR.utils.errors import getErrors, printErrors, displayErrors
 
-pipe = Pipeline()
-time, BPM, uncertainty = pipe.run_on_video('/path/to/video', roi_approach="patches", roi_method="faceparsing")
+# params
+wsize = 6                  # window size in seconds
+roi_approach = 'patches'   # 'holistic' or 'patches'
+bpm_est = 'clustering'     # BPM final estimate, if patches choose 'medians' or 'clustering'
+method = 'cpu_CHROM'       # one of the methods implemented in pyVHR
 
-plt.figure()
-plt.plot(time, BPM)
-plt.fill_between(time, BPM-uncertainty, BPM+uncertainty, alpha=0.2)
-plt.show()
+# run
+pipe = Pipeline()          # object to execute the pipeline
+bvps, timesES, bpmES = pipe.run_on_video(videoFileName,
+                                        winsize=wsize, 
+                                        roi_method='convexhull',
+                                        roi_approach=roi_approach,
+                                        method=method,
+                                        estimate=bpm_est,
+                                        patch_size=0, 
+                                        RGB_LOW_HIGH_TH=(5,230),
+                                        Skin_LOW_HIGH_TH=(5,230),
+                                        pre_filt=True,
+                                        post_filt=True,
+                                        cuda=True, 
+                                        verb=True)
+
+# ERRORS
+RMSE, MAE, MAX, PCC, CCC, SNR = getErrors(bvps, fps, bpmES, bpmGT, timesES, timesGT)
+printErrors(RMSE, MAE, MAX, PCC, CCC, SNR)
+displayErrors(bpmES, bpmGT, timesES, timesGT)
 ```
 The full documentation of `run_on_video` method, with all the possible parameters, can be found here: [https://phuselab.github.io/pyVHR/](https://phuselab.github.io/pyVHR/pyVHR.analysis.html?highlight=run_on_video#pyVHR.analysis.pipeline.Pipeline.run_on_video)
 
