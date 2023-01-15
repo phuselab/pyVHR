@@ -87,8 +87,7 @@ class SkinExtractionFaceParsing():
         if self.device == 'GPU':
             self.net.cuda()
             self.kernel_cuda_skin_copy_and_filter = kernel_cuda_skin_copy_and_filter()
-        save_pth = os.path.dirname(
-            pyVHR.resources.faceparsing.model.__file__) + "/79999_iter.pth"
+        save_pth = os.path.dirname(pyVHR.resources.faceparsing.model.__file__) + "/79999_iter.pth"
         if not os.path.isfile(save_pth):
             url = "https://github.com/phuselab/pyVHR/raw/master/pyVHR/resources/faceparsing/79999_iter.pth"
             print('Downloading faceparsing model...')
