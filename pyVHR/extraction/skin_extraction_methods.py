@@ -89,7 +89,7 @@ class SkinExtractionFaceParsing():
             self.kernel_cuda_skin_copy_and_filter = kernel_cuda_skin_copy_and_filter()
         save_pth = os.path.dirname(pyVHR.resources.faceparsing.model.__file__) + "/79999_iter.pth"
         if not os.path.isfile(save_pth):
-            url = "https://github.com/phuselab/pyVHR/raw/master/pyVHR/resources/faceparsing/79999_iter.pth"
+            url = "https://github.com/phuselab/pyVHR/raw/master/resources/faceparsing/79999_iter.pth"
             print('Downloading faceparsing model...')
             r = requests.get(url, allow_redirects=True)
             open(save_pth, 'wb').write(r.content)    

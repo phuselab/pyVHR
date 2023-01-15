@@ -13,7 +13,13 @@ from .HR_CNN.FaceHRNet09V4ELU import FaceHRNet09V4ELU
 def HR_CNN_bvp_pred(frames):
     print("initialize model...")
 
-    model_path = pyVHR.__path__[0] + '/deepRPPG/HR_CNN/extractor_model.pth'
+    model_path = pyVHR.__path__[0] + '/deepRPPG/HR_CNN/hr_cnn_model.pth'
+    if not os.path.isfile(model_path):
+      url = "https://github.com/phuselab/pyVHR/raw/master/resources/deepRPPG/hr_cnn_model.pth"
+      print('Downloading MTTS_CAN model...')
+      r = requests.get(url, allow_redirects=True)
+      open(model_path, 'wb').write(r.content)   
+
     model = FaceHRNet09V4ELU(rgb=True)
 
     model = torch.nn.DataParallel(model)

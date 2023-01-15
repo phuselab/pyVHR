@@ -85,7 +85,12 @@ def MTTS_CAN_deep(frames, fs, model_checkpoint=None, batch_size=100, dim=36, img
         tf.config.experimental.set_memory_growth(gpu,True)
 
   if model_checkpoint is None:
-    model_checkpoint = pyVHR.__path__[0] +  '/deepRPPG/MTTS_CAN/checkpoint.hdf5'
+    model_checkpoint = pyVHR.__path__[0] +  '/deepRPPG/MTTS_CAN/mtts_can_model.hdf5'
+    if not os.path.isfile(model_checkpoint):
+      url = "https://github.com/phuselab/pyVHR/raw/master/resources/deepRPPG/mtts_can_model.hdf5"
+      print('Downloading MTTS_CAN model...')
+      r = requests.get(url, allow_redirects=True)
+      open(model_checkpoint, 'wb').write(r.content)   
 
   # frame preprocessing
   dXsub = preprocess_raw_video(frames, fs=fs, dim=dim)
