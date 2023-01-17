@@ -61,11 +61,8 @@ conda activate pyvhr
 Run the following code to obtain BPM estimates over time for a single video:
 
 ```python
-import pyVHR as vhr
-import numpy as np
 from pyVHR.analysis.pipeline import Pipeline
 from pyVHR.plot.visualize import *
-import plotly.express as px
 from pyVHR.utils.errors import getErrors, printErrors, displayErrors
 
 # params
