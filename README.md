@@ -30,12 +30,12 @@ The quickest way to get started is to install the [miniconda](http://conda.pydat
 
 Once installed, create a new `conda` environment and automatically fetch all the dependencies based on your architecture (with or without GPU), using one of the following commands:
 
-**CPU-only version**
+**CPU-only version** (v. 1.2.0 - previous version)
 ```bash
 conda env create --file https://raw.githubusercontent.com/phuselab/pyVHR/pyVHR_CPU/pyVHR_CPU_env.yml
 ```
 
-**CPU+GPU version**  
+**CPU+GPU version** (v. 2.0.0 - current version)
 This yml environment is for cudatoolkit=11.3 and python=3.9.
 ```bash
 conda env create --file https://raw.githubusercontent.com/phuselab/pyVHR/master/pyVHR_env.yml
@@ -45,13 +45,13 @@ conda env create --file https://raw.githubusercontent.com/phuselab/pyVHR/master/
 
 Enter the newly created conda environment and install the latest stable release build of pyVHR with:
 
-**CPU-only version**
+**CPU-only version** (v. 1.2.0 - previous version)
 ```bash
 conda activate pyvhr
 (pyvhr) pip install pyvhr-cpu
 ```
 
-**CPU+GPU version**  
+**CPU+GPU version** (v. 2.0.0 - current version)
 ```bash
 conda activate pyvhr
 (pyvhr) pip install pyvhr
