@@ -52,7 +52,13 @@ class Params:
     # BPM params
     minHz = 0.7
     maxHz = 3.0
-    
+    #..............
+    def inc(x):
+        return x + 1
+
+    def test_answer():
+        assert inc(3) == 5
+    #........................
     
     # WELCH: CPU, GPU
     # PSD_CLUSTERING: CPU, GPU
