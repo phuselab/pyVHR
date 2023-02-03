@@ -52,6 +52,8 @@ class Params:
     # BPM params
     minHz = 0.7
     maxHz = 3.0
+    
+    
     # WELCH: CPU, GPU
     # PSD_CLUSTERING: CPU, GPU
     # USE psd_clustering only with patches!
