@@ -393,8 +393,8 @@ class Pipeline():
                                                             'maxHz':Pipeline.maxHz, 
                                                             'fps':'adaptive', 
                                                             'order':6})
-        if verb:
-            print(f' - Pre-filter applied: {method_to_call.__name__}')
+            if verb:
+                print(f' - Pre-filter applied: {method_to_call.__name__}')
 
         ## 6. BVP extraction
         if verb:
