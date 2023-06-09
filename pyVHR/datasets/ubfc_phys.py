@@ -22,7 +22,7 @@ class UBFC_PHYS(Dataset):
     numLevels = 2        # depth of the filesystem collecting video and BVP files
     numSubjects = 56     # number of subjects
     video_EXT = 'avi'    # extension of the video files
-    frameRate = 35       # vieo frame rate
+    frameRate = 35       # video frame rate
     VIDEO_SUBSTRING = ''  # substring contained in the filename
     SIG_EXT = 'csv'     # extension of the BVP files
     SIG_SUBSTRING = 'bvp'  # substring contained in the filename

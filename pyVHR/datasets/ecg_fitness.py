@@ -34,8 +34,8 @@ class ECG_FITNESS(Dataset):
     frameRate = 20       # video frame rate
     VIDEO_SUBSTRING = ''  # substring contained in the filename
     SIG_EXT = 'csv'     # extension of the ECG files
-    SIG_SUBSTRING = 'viatom' # substring contained in the filename
-    SIG_SampleRate = 120 # sample rate of the ECG files
+    SIG_SUBSTRING = 'viatom'  # substring contained in the filename
+    SIG_SampleRate = 120  # sample rate of the ECG files
 
     def readSigfile(self, filename):
         """ Load ECG signal.
