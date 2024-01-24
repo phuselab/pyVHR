@@ -16,6 +16,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 def PULSEGAN_bvp_pred(frames):
     print("initialize model...")
     model_path = pyVHR.__path__[0] + '/deepRPPG/PULSEGAN/pulsegan_pureubfclgi.dct'
+    print(model_path)
     if not os.path.isfile(model_path):
         url = "https://github.com/Keasys/pyVHR/blob/pulsegan/resources/deepRPPG/pulsegan_pureubfclgi.dct"
         print("Downloading PulseGAN model...")
@@ -58,6 +59,6 @@ def PULSEGAN_bvp_pred(frames):
 
     # rearrange output unbatched
     filtered_outputs = np.array(filtered_outputs)
-    filtered_outputs = np.concatenate(np.concatenate(bvp_pred, axis=0), axis=0)
+    filtered_outputs = np.concatenate(np.concatenate(filtered_outputs, axis=0), axis=0)
 
     return filtered_outputs
