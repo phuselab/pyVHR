@@ -263,11 +263,11 @@ class BPM:
 
     BVP signal must be a float32 numpy.ndarray with shape [num_estimators, num_frames].
     """
-    def __init__(self, data, fps, startTime=0, minHz=0.65, maxHz=4., verb=False):
+    def __init__(self, data, fps, startTime=0, minHz=0.65, maxHz=4.0, verb=False):
         """
         Input 'data' is a BVP signal defined as a float32 Numpy.ndarray with shape [num_estimators, num_frames]
         """
-        self.nFFT = 2048//1  # freq. resolution for STFTs
+        self.nFFT = 2048  # freq. resolution for STFTs
         if len(data.shape) == 1:
             self.data = data.reshape(1, -1)  # 2D array raw-wise
         else:
@@ -289,7 +289,7 @@ class BPM:
         """
         if self.data.shape[0] == 0:
             return np.float32(0.0)
-        Pfreqs, Power = Welch(self.data, self.fps, self.minHz, self.maxHz, self.nFFT)
+        Pfreqs, Power = Welch(self.data, self.fps)
         # -- BPM estimate
         Pmax = np.argmax(Power, axis=1)  # power max
         return Pfreqs[Pmax.squeeze()]
