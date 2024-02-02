@@ -200,7 +200,7 @@ def get_SNR(bvps, fps, reference_hrs, timesES):
     nfft = np.ceil((60*2*NyquistF)/FResBPM)
     SNRs = []
     for idx, bvp in enumerate(bvps):
-        curr_ref = reference_hrs[int(timesES[idx])]
+        curr_ref = reference_hrs[idx]
         pfreqs, power = Welch(bvp, fps, nfft=nfft)
         GTMask1 = np.logical_and(pfreqs>=curr_ref-interv1, pfreqs<=curr_ref+interv1)
         GTMask2 = np.logical_and(pfreqs>=(curr_ref*2)-interv2, pfreqs<=(curr_ref*2)+interv2)
