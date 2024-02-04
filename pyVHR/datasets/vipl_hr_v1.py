@@ -22,7 +22,7 @@ class VIPL_HR_V1(Dataset):
     numLevels = 2  # depth of the filesystem collecting video and BVP files
     numSubjects = 107  # number of subjects
     video_EXT = 'avi'  # extension of the video files
-    frameRate = 30  # vieo frame rate
+    frameRate = 30  # video frame rate
     VIDEO_SUBSTRING = 'video'  # substring contained in the filename
     SIG_EXT = 'csv'  # extension of the BVP files
     SIG_SUBSTRING = 'wave'  # substring contained in the filename

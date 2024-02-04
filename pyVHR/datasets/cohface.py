@@ -31,7 +31,7 @@ class COHFACE(Dataset):
     numLevels = 2            # depth of the filesystem collecting video and BVP files
     numSubjects = 40         # number of subjects
     video_EXT = 'avi'        # extension of the video files
-    frameRate = 20           # vieo frame rate
+    frameRate = 20           # video frame rate
     VIDEO_SUBSTRING = 'data'  # substring contained in the filename
     SIG_EXT = 'hdf5'         # extension of the BVP files
     SIG_SUBSTRING = 'data'   # substring contained in the filename

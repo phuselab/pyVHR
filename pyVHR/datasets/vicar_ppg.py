@@ -22,7 +22,7 @@ class VICAR_PPG(Dataset):
     numLevels = 2        # depth of the filesystem collecting video and BVP files
     numSubjects = 40     # number of subjects
     video_EXT = 'mp4'    # extension of the video files
-    frameRate = 60       # vieo frame rate
+    frameRate = 60       # video frame rate
     VIDEO_SUBSTRING = ''  # substring contained in the filename
     SIG_EXT = 'csv'     # extension of the BVP files
     SIG_SUBSTRING = ''  # substring contained in the filename

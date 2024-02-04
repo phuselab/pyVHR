@@ -146,7 +146,7 @@ The framework contains the implementation of many common methods for remote-PPG 
 |PCA      | Lewandowska, M., Rumiński, J., Kocejko, T., & Nowak, J. (2011, September). Measuring pulse rate with a webcam—a non-contact method for evaluating cardiac activity. In 2011 federated conference on computer science and information systems (FedCSIS) (pp. 405-410). IEEE.|
 |POS      | Wang, W., den Brinker, A. C., Stuijk, S., & de Haan, G. (2016). Algorithmic principles of remote PPG. IEEE Transactions on Biomedical Engineering, 64(7), 1479-1491.|
 |SSR      | Wang, W., Stuijk, S., & De Haan, G. (2015). A novel algorithm for remote photoplethysmography: Spatial subspace rotation. IEEE transactions on biomedical engineering, 63(9), 1974-1984.|
-|OMIT     | Álvarez Casado, C., Bordallo López, M. (2022). Face2PPG: An unsupervised pipeline for blood volume pulse extraction from faces. arXiv (eprint 2202.04101).|
+|OMIT     | Álvarez Casado, C., & Bordallo López, M. (2023). Face2PPG: An unsupervised pipeline for blood volume pulse extraction from faces. IEEE Journal of Biomedical and Health Informatics, doi: 10.1109/JBHI.2023.3307942.|
 |MTTS-CAN | Liu, X., Fromm, J., Patel, S., & McDuff, D. (2020). Multi-task temporal shift attention networks for on-device contactless vitals measurement. Advances in Neural Information Processing Systems, 33, 19400-19411.|
 |HR-CNN   | Spetlik, R., Franc, V., Cech, J. and Matas, J. (2018). Visual Heart Rate Estimation with Convolutional Neural Network. In Proceedings of British Machine Vision Conference|
 
@@ -157,17 +157,17 @@ Currently supported datasets are:
 
 | Dataset name |                              Link                                      |
 | ------------ | ---------------------------------------------------------------------- |
-| COHFACE    | https://www.idiap.ch/dataset/cohface |
-| LGI-PPGI   | https://github.com/partofthestars/LGI-PPGI-DB |
-| MAHNOB-HCI | https://mahnob-db.eu/hci-tagging/ |
-| PURE       | https://www.tu-ilmenau.de/neurob/data-sets-code/pulse-rate-detection-dataset-pure|
-| UBFC1      | https://sites.google.com/view/ybenezeth/ubfcrppg|
-|UBFC2       | https://sites.google.com/view/ybenezeth/ubfcrppg|
-|UBFC-Phys   | https://sites.google.com/view/ybenezeth/ubfc-phys|
-|ECG-Fitness | https://cmp.felk.cvut.cz/~spetlrad/ecg-fitness/*
-|Vicar-PPG-2 | https://docs.google.com/forms/d/e/1FAIpQLScwnW_D5M4JVovPzpxA0Bf1ZCTaG5vh7sYu48I0MVSpgltvdw/viewform*
-|V4V         | https://vision4vitals.github.io/ |
-|VIPL-HR     |https://arxiv.org/abs/1810.04927 |
+| COHFACE     | https://www.idiap.ch/dataset/cohface |
+| LGI-PPGI    | https://github.com/partofthestars/LGI-PPGI-DB |
+| MAHNOB-HCI  | https://mahnob-db.eu/hci-tagging/ |
+| PURE        | https://www.tu-ilmenau.de/neurob/data-sets-code/pulse-rate-detection-dataset-pure|
+| UBFC1       | https://sites.google.com/view/ybenezeth/ubfcrppg|
+| UBFC2       | https://sites.google.com/view/ybenezeth/ubfcrppg|
+| UBFC-Phys   | https://sites.google.com/view/ybenezeth/ubfc-phys|
+| ECG-Fitness | https://cmp.felk.cvut.cz/~spetlrad/ecg-fitness/*
+| Vicar-PPG-2 | https://docs.google.com/forms/d/e/1FAIpQLScwnW_D5M4JVovPzpxA0Bf1ZCTaG5vh7sYu48I0MVSpgltvdw/viewform*
+| V4V         | https://vision4vitals.github.io/ |
+| VIPL-HR     |https://arxiv.org/abs/1810.04927 |
 
 
 
