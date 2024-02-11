@@ -275,7 +275,7 @@ class MultiMethodSuite():
                 median_bpmES, mad_bpmES = BPM_median(bpmES)
 
                 # -- error metrics
-                RMSE, MAE, MAX, PCC, CCC = getErrors(median_bpmES, bpmGT, timesES, timesGT)
+                RMSE, MAE, MAX, PCC, CCC, SNR = getErrors(bvps,fps,median_bpmES, bpmGT, timesES, timesGT)
 
                 # -- save results
                 method_name = methods_collection[i]
@@ -296,7 +296,7 @@ class MultiMethodSuite():
 
                 if '1' in str(verb):
                     print("## Results for method: %s" % (str(method_name)))
-                    printErrors(RMSE, MAE, MAX, PCC)
+                    printErrors(RMSE, MAE, MAX, PCC, CCC, SNR)
 
         return res
 
