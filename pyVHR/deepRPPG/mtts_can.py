@@ -8,6 +8,8 @@ from skimage.util import img_as_float
 import scipy.io
 from scipy.sparse import spdiags
 import h5py
+import os
+import requests
 
 def preprocess_raw_video(frames, fs=30, dim=36):
   """A slightly different version from the original: 
