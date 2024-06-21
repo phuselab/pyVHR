@@ -3,6 +3,8 @@ import numpy as np
 import torch
 import torchvision.transforms as transforms
 import time
+import os
+import requests
 from collections import OrderedDict
 from torch.utils.data import DataLoader
 from .HR_CNN.utils import butter_bandpass_filter
