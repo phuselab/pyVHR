@@ -22,7 +22,7 @@ class V4V(Dataset):
     numLevels = 2        # depth of the filesystem collecting video and BVP files
     numSubjects = 56     # number of subjects
     video_EXT = 'mkv'    # extension of the video files
-    frameRate = 25       # vieo frame rate
+    frameRate = 25       # video frame rate
     VIDEO_SUBSTRING = ''  # substring contained in the filename
     SIG_EXT = 'txt'     # extension of the BVP files
     SIG_SUBSTRING = 'BP'  # substring contained in the filename

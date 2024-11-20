@@ -26,7 +26,7 @@ class LGI_PPGI(Dataset):
     numLevels = 2             # depth of the filesystem collecting video and BVP files
     numSubjects = 4           # number of subjects
     video_EXT = 'avi'         # extension of the video files
-    frameRate = 25            # vieo frame rate
+    frameRate = 25            # video frame rate
     VIDEO_SUBSTRING = 'cv_camera'  # substring contained in the filename
     SIG_EXT = 'xml'           # extension of the BVP files
     SIG_SUBSTRING = 'cms50'   # substring contained in the filename
