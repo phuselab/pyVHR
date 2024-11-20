@@ -213,6 +213,21 @@ https://user-images.githubusercontent.com/34277835/136981161-8799051a-ca0d-45c6-
 If you use this code, please cite the papers:
 
 ```
+@article{BOCCIGNONE2025107158,
+title = {Enhancing rPPG pulse-signal recovery by facial sampling and PSD Clustering},
+journal = {Biomedical Signal Processing and Control},
+volume = {101},
+pages = {107158},
+year = {2025},
+issn = {1746-8094},
+doi = {https://doi.org/10.1016/j.bspc.2024.107158},
+url = {https://www.sciencedirect.com/science/article/pii/S1746809424012163},
+author = {Giuseppe Boccignone and Donatello Conte and Vittorio Cuculo and Alessandro D’Amelio and Giuliano Grossi and Raffaella Lanzarotti},
+keywords = {Remote photoplethysmography (rPPG), Heart rate variability, Pulse rate estimation, PSD analysis, Face mesh landmarks, Unsupervised circle clustering, Nonlinear dynamical systems}
+}
+```
+
+```
 @article{boccignone2022pyvhr,
   title={pyVHR: a Python framework for remote photoplethysmography},
   author={Boccignone, Giuseppe and Conte, Donatello and Cuculo, Vittorio and D’Amelio, Alessandro and Grossi, Giuliano and Lanzarotti, Raffaella and Mortara, Edoardo},
