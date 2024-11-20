@@ -213,7 +213,7 @@ https://user-images.githubusercontent.com/34277835/136981161-8799051a-ca0d-45c6-
 If you use this code, please cite the papers:
 
 ```
-@article{BOCCIGNONE2025107158,
+@article{Boccignone2025,
   title = {Enhancing rPPG pulse-signal recovery by facial sampling and PSD Clustering},
   author = {Giuseppe Boccignone and Donatello Conte and Vittorio Cuculo and Alessandro D’Amelio and Giuliano Grossi and Raffaella Lanzarotti},
   journal = {Biomedical Signal Processing and Control},
@@ -227,7 +227,7 @@ If you use this code, please cite the papers:
 ```
 
 ```
-@article{boccignone2022pyvhr,
+@article{boccignone2022,
   title={pyVHR: a Python framework for remote photoplethysmography},
   author={Boccignone, Giuseppe and Conte, Donatello and Cuculo, Vittorio and D’Amelio, Alessandro and Grossi, Giuliano and Lanzarotti, Raffaella and Mortara, Edoardo},
   journal={PeerJ Computer Science},
